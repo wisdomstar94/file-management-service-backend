@@ -13,20 +13,25 @@ const helmet = require('helmet');
 require('dotenv').config();
 
 // my librarys
-const wrapper = require('./routes/librarys/myAsyncWrapper');
 const myLogger = require('./routes/librarys/myLogger');
-const myGetMakeToken = require('./routes/librarys/myGetMakeToken').myGetMakeToken;
 
 // my middlewares
 const setRequestUnique = require('./routes/middlewares/setRequestUnique');
 const setRequestInfoLogging = require('./routes/middlewares/setRequestInfoLogging');
 const errorHandler = require('./routes/middlewares/errorHandler');
+const sequelizeTest = require('./routes/middlewares/sequelizeTest');
+
+// sequelize
+const sequelize = require('./models').sequelize;
 
 // router declare
 const apiUserRouter = require('./routes/api/user/user');
 
 // express declare
 const app = express();
+
+// sequelize sync
+sequelize.sync();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -37,6 +42,7 @@ app.set('port', process.env.PORT);
 
 // middlewares setup
 app.use(setRequestUnique);
+app.use(sequelizeTest);
 app.use(compression());
 // app.use(logger('dev'));
 app.use(express.json({ limit: '50mb' }));
