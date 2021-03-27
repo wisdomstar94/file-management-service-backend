@@ -3,7 +3,7 @@ const {
   Model
 } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class FmsCodeGroups extends Model {
+  class FmsUsers extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,21 +13,27 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
   };
-  FmsCodeGroups.init({
+  FmsUsers.init({
     seq: DataTypes.BIGINT,
-    codeGroup: {
+    userKey: {
       type: DataTypes.STRING,
       primaryKey: true,
     },
-    codeGroupName: DataTypes.STRING,
-    codeGroupDescription: DataTypes.STRING,
+    companyKey: DataTypes.STRING,
+    permissionGroupKey: DataTypes.STRING,
+    userId: DataTypes.STRING,
+    userName: DataTypes.STRING,
+    userPhone: DataTypes.STRING,
+    userMemo: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
+    createdIp: DataTypes.STRING,
     updatedAt: DataTypes.DATE,
-    status: DataTypes.TINYINT,
+    updatedIp: DataTypes.STRING,
+    userStatus: DataTypes.STRING,
     isDeletedRow: DataTypes.ENUM
   }, {
     sequelize,
-    modelName: 'FmsCodeGroups',
+    modelName: 'FmsUsers',
   });
-  return FmsCodeGroups;
+  return FmsUsers;
 };

@@ -1,4 +1,5 @@
 'use strict';
+const FmsCodes = require('./FmsCodes');
 const {
   Model
 } = require('sequelize');
@@ -11,6 +12,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.hasMany(FmsCodes, { as: 'codeGroup' });
+    }
+
+    static async getCodeGroupAllList() {
+      const list = await FmsCodeGroups.findAll();
+      return list.map((x) => { return x.dataValues });
     }
   };
   FmsCodeGroups.init({
@@ -24,7 +31,6 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
     status: DataTypes.TINYINT,
-    isDeletedRow: DataTypes.ENUM
   }, {
     sequelize,
     modelName: 'FmsCodeGroups',

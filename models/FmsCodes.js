@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   FmsCodes.init({
-    seq: DataTypes.INTEGER,
+    seq: DataTypes.BIGINT,
     codeGroup: DataTypes.STRING,
     code: {
       type: DataTypes.STRING,
@@ -26,7 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     codeValue2: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
-    status: DataTypes.INTEGER
+    status: DataTypes.TINYINT,
+    isDeletedRow: DataTypes.ENUM
   }, {
     sequelize,
     modelName: 'FmsCodes',
