@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
 const FmsCodeGroups = require('./FmsCodeGroups');
+const FmsCodes = require('./FmsCodes');
+const FmsUser = require('./FmsUser');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -37,5 +39,7 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.FmsCodeGroups = FmsCodeGroups(sequelize, Sequelize);
+db.FmsCodes = FmsCodes(sequelize, Sequelize);
+db.FmsUsers = FmsUser(sequelize, Sequelize);
 
 module.exports = db;
