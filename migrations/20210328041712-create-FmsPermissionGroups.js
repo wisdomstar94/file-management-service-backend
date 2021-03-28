@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FmsUsers', {
+    await queryInterface.createTable('FmsPermissionGroups', {
       seq: {
         type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
@@ -9,44 +9,27 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
-      userKey: {
+      permissionGroupKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
         allowNull: false,
-        comment: '회원 고유 식별키',
-      },
-      companyKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '회사 고유 식별키',
-        // FK
-      },
-      permissionGroupKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
         comment: '권한 그룹 고유 식별키',
-        // FK
       },
-      userId: {
-        type: Sequelize.STRING(50),
-        unique: true,
+      permissionGroupName: {
+        type: Sequelize.STRING(100),
         allowNull: false,
-        comment: '회원 ID',
+        comment: '권한 그룹명',
       },
-      userName: {
-        type: Sequelize.STRING(50),
+      permissionGroupDescription: {
+        type: Sequelize.STRING(255),
+        allowNull: true,
+        comment: '권한 그룹 설명',
+      },
+      sortNo: {
+        type: Sequelize.INTEGER,
         allowNull: false,
-        comment: '회원명',
-      },
-      userPhone: {
-        type: Sequelize.STRING(15),
-        allowNull: true,
-        comment: '회원 휴대폰번호',
-      },
-      userMemo: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: '회원 메모',
+        defaultValue: 1,
+        comment: '권한 그룹 순서',
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -69,11 +52,11 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      userStatus: {
+      permissionGroupStatus: {
         type: Sequelize.STRING(13),
         allowNull: false,
-        comment: '회원 상태 코드',
-        // FK 설정
+        comment: '권한 그룹 상태',
+        // FK
       },
       isDeletedRow: {
         type: Sequelize.ENUM(['Y', 'N']),
@@ -82,11 +65,11 @@ module.exports = {
         comment: '행 삭제 여부',
       },
     }, {
-      comment: '회원 테이블',
+      comment: '권한 그룹 테이블',
     });
-    await queryInterface.addIndex('FmsUsers', ['isDeletedRow']);
+    await queryInterface.addIndex('FmsPermissionGroups', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FmsUsers');
+    await queryInterface.dropTable('FmsPermissionGroups');
   }
 };

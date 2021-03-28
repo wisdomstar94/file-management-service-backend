@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FmsUsers', {
+    await queryInterface.createTable('FmsPermissionGroupUploads', {
       seq: {
         type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
@@ -9,17 +9,11 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
-      userKey: {
+      permissionGroupUploadKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
         allowNull: false,
-        comment: '회원 고유 식별키',
-      },
-      companyKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '회사 고유 식별키',
-        // FK
+        comment: '권한 등록 정보 고유 식별키',
       },
       permissionGroupKey: {
         type: Sequelize.STRING(20),
@@ -27,26 +21,10 @@ module.exports = {
         comment: '권한 그룹 고유 식별키',
         // FK
       },
-      userId: {
-        type: Sequelize.STRING(50),
-        unique: true,
+      permissionKey: {
+        type: Sequelize.STRING(20),
         allowNull: false,
-        comment: '회원 ID',
-      },
-      userName: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        comment: '회원명',
-      },
-      userPhone: {
-        type: Sequelize.STRING(15),
-        allowNull: true,
-        comment: '회원 휴대폰번호',
-      },
-      userMemo: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: '회원 메모',
+        comment: '권한 고유 식별키',
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -69,11 +47,11 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      userStatus: {
-        type: Sequelize.STRING(13),
+      isActive: {
+        type: Sequelize.ENUM(['Y', 'N']),
         allowNull: false,
-        comment: '회원 상태 코드',
-        // FK 설정
+        defaultValue: 'Y',
+        comment: '활성(체크)여부 (Y:활성(체크), N:미활성(미체크))',
       },
       isDeletedRow: {
         type: Sequelize.ENUM(['Y', 'N']),
@@ -82,11 +60,12 @@ module.exports = {
         comment: '행 삭제 여부',
       },
     }, {
-      comment: '회원 테이블',
+      comment: `그룹 권한별 활성화된 권한 정보 테이블 
+(행이 존재하지 않으면 비활성(미체크)으로 인식하여 백엔드에서 처리)`,
     });
-    await queryInterface.addIndex('FmsUsers', ['isDeletedRow']);
+    await queryInterface.addIndex('FmsPermissionGroupUploads', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FmsUsers');
+    await queryInterface.dropTable('FmsPermissionGroupUploads');
   }
 };

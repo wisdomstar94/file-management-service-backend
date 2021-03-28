@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('FmsCodes', {
       seq: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.BIGINT.UNSIGNED,
         allowNull: false,
         autoIncrement: true,
         unique: true,
@@ -14,18 +14,18 @@ module.exports = {
         allowNull: false,
         comment: '코드 그룹',
         // FK 설정
-        references: {
-          // This is a reference to another model
-          model: 'FmsCodeGroups',
-          // This is the column name of the referenced model
-          key: 'codeGroup',
-          // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
-          // deferrable: Deferrable.INITIALLY_IMMEDIATE
-          // Options:
-          // - `Deferrable.INITIALLY_IMMEDIATE` - Immediately check the foreign key constraints
-          // - `Deferrable.INITIALLY_DEFERRED` - Defer all foreign key constraint check to the end of a transaction
-          // - `Deferrable.NOT` - Don't defer the checks at all (default) - This won't allow you to dynamically change the rule in a transaction
-        }
+        // references: {
+        //   // This is a reference to another model
+        //   model: 'FmsCodeGroups',
+        //   // This is the column name of the referenced model
+        //   key: 'codeGroup',
+        //   // With PostgreSQL, it is optionally possible to declare when to check the foreign key constraint, passing the Deferrable type.
+        //   // deferrable: Deferrable.INITIALLY_IMMEDIATE
+        //   // Options:
+        //   // - `Deferrable.INITIALLY_IMMEDIATE` - Immediately check the foreign key constraints
+        //   // - `Deferrable.INITIALLY_DEFERRED` - Defer all foreign key constraint check to the end of a transaction
+        //   // - `Deferrable.NOT` - Don't defer the checks at all (default) - This won't allow you to dynamically change the rule in a transaction
+        // }
       },
       code: {
         type: Sequelize.STRING(13),
@@ -76,8 +76,11 @@ module.exports = {
         defaultValue: 'N',
         comment: '행 삭제 여부',
       },
+    }, {
+      comment: '코드 테이블',
     });
-    await queryInterface.addIndex('FmsCodes', ['status', 'isDeletedRow']);
+    await queryInterface.addIndex('FmsCodes', ['status']);
+    await queryInterface.addIndex('FmsCodes', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('FmsCodes');

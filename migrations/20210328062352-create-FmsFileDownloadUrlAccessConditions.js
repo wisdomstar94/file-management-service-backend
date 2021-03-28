@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FmsUsers', {
+    await queryInterface.createTable('FmsFileDownloadUrlAccessConditions', {
       seq: {
         type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
@@ -9,44 +9,33 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
-      userKey: {
+      fileAccessConditionKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
         allowNull: false,
-        comment: '회원 고유 식별키',
+        comment: '파일 다운로드 URL 접근 조건 고유 식별키',
       },
-      companyKey: {
+      fileDownloadUrlKey: {
         type: Sequelize.STRING(20),
         allowNull: false,
-        comment: '회사 고유 식별키',
+        comment: '파일 다운로드 URL 고유 식별키',
         // FK
       },
-      permissionGroupKey: {
-        type: Sequelize.STRING(20),
+      conditionType: {
+        type: Sequelize.STRING(13),
         allowNull: false,
-        comment: '권한 그룹 고유 식별키',
+        comment: '접근 조건 종류 코드',
         // FK
       },
-      userId: {
-        type: Sequelize.STRING(50),
-        unique: true,
-        allowNull: false,
-        comment: '회원 ID',
-      },
-      userName: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        comment: '회원명',
-      },
-      userPhone: {
-        type: Sequelize.STRING(15),
+      key: {
+        type: Sequelize.STRING(100),
         allowNull: true,
-        comment: '회원 휴대폰번호',
+        comment: '조건에 해당하는 키',
       },
-      userMemo: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: '회원 메모',
+      value: {
+        type: Sequelize.STRING(500),
+        allowNull: false,
+        comment: '조건에 해당하는 값',
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -59,6 +48,12 @@ module.exports = {
         allowNull: false,
         comment: '생성시 요청 IP',
       },
+      createrUserKey: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        comment: '생성자 회원 고유 식별키',
+        // FK
+      },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -69,11 +64,17 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      userStatus: {
+      updaterUserKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '수정자 회원 고유 식별키',
+        // FK
+      },
+      conditionStatus: {
         type: Sequelize.STRING(13),
         allowNull: false,
-        comment: '회원 상태 코드',
-        // FK 설정
+        comment: '조건 상태',
+        // FK
       },
       isDeletedRow: {
         type: Sequelize.ENUM(['Y', 'N']),
@@ -82,11 +83,11 @@ module.exports = {
         comment: '행 삭제 여부',
       },
     }, {
-      comment: '회원 테이블',
+      comment: '파일 다운로드 URL 접근 조건 테이블',
     });
-    await queryInterface.addIndex('FmsUsers', ['isDeletedRow']);
+    await queryInterface.addIndex('FmsFileDownloadUrlAccessConditions', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FmsUsers');
+    await queryInterface.dropTable('FmsFileDownloadUrlAccessConditions');
   }
 };

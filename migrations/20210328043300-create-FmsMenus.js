@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FmsUsers', {
+    await queryInterface.createTable('FmsMenus', {
       seq: {
         type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
@@ -9,44 +9,39 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
-      userKey: {
+      parentMenuKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '부모 메뉴 고유 식별키',
+        // FK
+      },
+      menuCategoryKey: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        comment: '메뉴 카테고리 고유 식별키',
+        // FK
+      },
+      menuKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
         allowNull: false,
-        comment: '회원 고유 식별키',
+        comment: '메뉴 고유 식별키',
       },
-      companyKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '회사 고유 식별키',
-        // FK
-      },
-      permissionGroupKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '권한 그룹 고유 식별키',
-        // FK
-      },
-      userId: {
-        type: Sequelize.STRING(50),
-        unique: true,
-        allowNull: false,
-        comment: '회원 ID',
-      },
-      userName: {
+      menuName: {
         type: Sequelize.STRING(50),
         allowNull: false,
-        comment: '회원명',
+        comment: '메뉴명',
       },
-      userPhone: {
-        type: Sequelize.STRING(15),
+      menuDescription: {
+        type: Sequelize.STRING(255),
         allowNull: true,
-        comment: '회원 휴대폰번호',
+        comment: '메뉴 설명',
       },
-      userMemo: {
-        type: Sequelize.TEXT,
-        allowNull: true,
-        comment: '회원 메모',
+      sortNo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        comment: '메뉴 순서',
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -69,11 +64,11 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      userStatus: {
+      menuStatus: {
         type: Sequelize.STRING(13),
         allowNull: false,
-        comment: '회원 상태 코드',
-        // FK 설정
+        comment: '메뉴 상태',
+        // FK
       },
       isDeletedRow: {
         type: Sequelize.ENUM(['Y', 'N']),
@@ -82,11 +77,11 @@ module.exports = {
         comment: '행 삭제 여부',
       },
     }, {
-      comment: '회원 테이블',
+      comment: '관리자 메뉴 테이블',
     });
-    await queryInterface.addIndex('FmsUsers', ['isDeletedRow']);
+    await queryInterface.addIndex('FmsMenus', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FmsUsers');
+    await queryInterface.dropTable('FmsMenus');
   }
 };

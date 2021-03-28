@@ -1,7 +1,7 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('FmsUsers', {
+    await queryInterface.createTable('FmsCompanys', {
       seq: {
         type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
@@ -9,44 +9,41 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
-      userKey: {
+      companyKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
         allowNull: false,
-        comment: '회원 고유 식별키',
-      },
-      companyKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
         comment: '회사 고유 식별키',
-        // FK
       },
-      permissionGroupKey: {
-        type: Sequelize.STRING(20),
+      companyName: {
+        type: Sequelize.STRING(100),
         allowNull: false,
-        comment: '권한 그룹 고유 식별키',
-        // FK
+        comment: '회사명',
       },
-      userId: {
-        type: Sequelize.STRING(50),
-        unique: true,
-        allowNull: false,
-        comment: '회원 ID',
+      companyCEOName: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+        comment: '회사 대표자명',
       },
-      userName: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-        comment: '회원명',
-      },
-      userPhone: {
+      companyCEOTel: {
         type: Sequelize.STRING(15),
         allowNull: true,
-        comment: '회원 휴대폰번호',
+        comment: '회사 대표자의 연락처',
       },
-      userMemo: {
-        type: Sequelize.TEXT,
+      companyTel: {
+        type: Sequelize.STRING(15),
         allowNull: true,
-        comment: '회원 메모',
+        comment: '회사대표번호',
+      },
+      companyBusinessNumber: {
+        type: Sequelize.STRING(15),
+        allowNull: true,
+        comment: '사업자번호',
+      },
+      companyAddress: {
+        type: Sequelize.STRING(150),
+        allowNull: true,
+        comment: '사업장주소',
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -59,6 +56,12 @@ module.exports = {
         allowNull: false,
         comment: '생성시 요청 IP',
       },
+      createrUserKey: {
+        type: Sequelize.STRING(20),
+        allowNull: false,
+        comment: '생성자 회원 고유 식별키',
+        // FK 설정
+      },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -69,10 +72,16 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      userStatus: {
+      updaterUserKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '수정자 회원 고유 식별키',
+        // FK 설정
+      },
+      companyStatus: {
         type: Sequelize.STRING(13),
         allowNull: false,
-        comment: '회원 상태 코드',
+        comment: '회사 상태',
         // FK 설정
       },
       isDeletedRow: {
@@ -82,11 +91,11 @@ module.exports = {
         comment: '행 삭제 여부',
       },
     }, {
-      comment: '회원 테이블',
+      comment: '회사 테이블',
     });
-    await queryInterface.addIndex('FmsUsers', ['isDeletedRow']);
+    await queryInterface.addIndex('FmsCompanys', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('FmsUsers');
+    await queryInterface.dropTable('FmsCompanys');
   }
 };

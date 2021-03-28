@@ -3,7 +3,7 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('FmsCodeGroups', {
       seq: {
-        type: Sequelize.BIGINT,
+        type: Sequelize.BIGINT.UNSIGNED,
         unique: true,
         allowNull: false,
         autoIncrement: true,
@@ -48,8 +48,11 @@ module.exports = {
         defaultValue: 'N',
         comment: '행 삭제 여부',
       },
+    }, {
+      comment: '코드 그룹 테이블',
     });
-    await queryInterface.addIndex('FmsCodeGroups', ['status', 'isDeletedRow']);
+    await queryInterface.addIndex('FmsCodeGroups', ['status']);
+    await queryInterface.addIndex('FmsCodeGroups', ['isDeletedRow']);
   },
   down: async (queryInterface, Sequelize) => {
     await queryInterface.dropTable('FmsCodeGroups');
