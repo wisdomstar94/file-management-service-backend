@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
     endLineDateTime: DataTypes.DATE,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsJwtRefreshTokens',

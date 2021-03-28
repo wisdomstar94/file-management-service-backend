@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     fileLabelName: DataTypes.STRING,
     fileMemo: DataTypes.TEXT,
     fileDescription: DataTypes.TEXT,
-    fileStoreVersionHistoryOpen: DataTypes.ENUM,
-    fileStoreDescriptionOpen: DataTypes.ENUM,
+    fileStoreVersionHistoryOpen: DataTypes.ENUM(['Y', 'N']),
+    fileStoreDescriptionOpen: DataTypes.ENUM(['Y', 'N']),
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
     createrUserKey: DataTypes.STRING,
@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedIp: DataTypes.STRING,
     updaterUserKey: DataTypes.STRING,
     fileStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsFiles',

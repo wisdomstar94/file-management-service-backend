@@ -29,10 +29,11 @@ module.exports = (sequelize, DataTypes) => {
     fileDownloadNameLogAt: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsFileDownloadLogsYYYYMM',
+    tableName: 'FmsFileDownloadLogsYYYYMM',
   });
   return FmsFileDownloadLogsYYYYMM;
 };

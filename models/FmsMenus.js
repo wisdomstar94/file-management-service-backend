@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
     updatedIp: DataTypes.STRING,
     menuStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsMenus',

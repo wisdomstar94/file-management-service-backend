@@ -33,6 +33,11 @@ module.exports = {
         allowNull: false,
         comment: '회원 ID',
       },
+      userPassword: {
+        type: Sequelize.TEXT,
+        allowNull: false,
+        comment: '회원 비밀번호',
+      },
       userName: {
         type: Sequelize.STRING(50),
         allowNull: false,

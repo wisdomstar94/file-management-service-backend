@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
     updatedIp: DataTypes.STRING,
     menuCategoryStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsMenuCategorys',

@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
     updatedIp: DataTypes.STRING,
     permissionGroupStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsPermissionGroups',

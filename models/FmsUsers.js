@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     companyKey: DataTypes.STRING,
     permissionGroupKey: DataTypes.STRING,
     userId: DataTypes.STRING,
+    userPassword: DataTypes.TEXT,
     userName: DataTypes.STRING,
     userPhone: DataTypes.STRING,
     userMemo: DataTypes.TEXT,
@@ -30,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedAt: DataTypes.DATE,
     updatedIp: DataTypes.STRING,
     userStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsUsers',

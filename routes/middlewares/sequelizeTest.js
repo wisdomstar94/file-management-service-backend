@@ -11,14 +11,14 @@ const sequelizeTest = async(req, res, next) => {
   });
   try {
     await sequelize.authenticate();
-    const list = await db.FmsCodeGroups.findAll();
-    console.log('list', list);
-    // for (let i = 0; i < list.length; i++) {
-    //   console.log('list[' + i + ']', list[i]);
-    //   console.log('list[' + i + '].dataValues', list[i].dataValues);
-    // }
-    const list_custom = await db.FmsCodeGroups.getCodeGroupAllList();
-    console.log('list_custom', list_custom);
+    // const list = await db.FmsCodeGroups.findAll();
+    // console.log('list', list);
+    // // for (let i = 0; i < list.length; i++) {
+    // //   console.log('list[' + i + ']', list[i]);
+    // //   console.log('list[' + i + '].dataValues', list[i].dataValues);
+    // // }
+    // const list_custom = await db.FmsCodeGroups.getCodeGroupAllList();
+    // console.log('list_custom', list_custom);
     myLogger.info(req.logHeadTail + 'Connection has been established successfully.');
   } catch (error) {
     myLogger.error(req.logHeadTail + 'Unable to connect to the database:');

@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
     updatedIp: DataTypes.STRING,
     updaterUserKey: DataTypes.STRING,
     conditionStatus: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsFileDownloadUrlAccessConditions',

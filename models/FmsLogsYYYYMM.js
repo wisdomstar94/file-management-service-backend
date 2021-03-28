@@ -26,10 +26,11 @@ module.exports = (sequelize, DataTypes) => {
     value2: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
-    isDeletedRow: DataTypes.ENUM
+    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {
     sequelize,
     modelName: 'FmsLogsYYYYMM',
+    tableName: 'FmsLogsYYYYMM',
   });
   return FmsLogsYYYYMM;
 };
