@@ -30,6 +30,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsPermissionGroupUploads',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsPermissionGroupUploads;
 };

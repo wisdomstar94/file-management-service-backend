@@ -35,6 +35,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsFiles',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsFiles;
 };

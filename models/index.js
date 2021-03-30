@@ -6,6 +6,8 @@ const Sequelize = require('sequelize');
 const FmsCodeGroups = require('./FmsCodeGroups');
 const FmsCodes = require('./FmsCodes');
 const FmsUsers = require('./FmsUsers');
+const FmsJwtRefreshTokens = require('./FmsJwtRefreshTokens');
+const FmsPermissionGroups = require('./FmsPermissionGroups');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -41,5 +43,11 @@ db.Sequelize = Sequelize;
 db.FmsCodeGroups = FmsCodeGroups(sequelize, Sequelize);
 db.FmsCodes = FmsCodes(sequelize, Sequelize);
 db.FmsUsers = FmsUsers(sequelize, Sequelize);
+db.FmsJwtRefreshTokens = FmsJwtRefreshTokens(sequelize, Sequelize);
+db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
+
+
+db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
+db.FmsCodeGroups.belongsTo(db.FmsCodes);
 
 module.exports = db;

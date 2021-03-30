@@ -12,6 +12,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    static async findUserKey(userKey) {
+      const result = await this.findOne({
+        where: { 
+          userKey: userKey,
+        },  
+      });
+      return result;
+    }
   };
   FmsUsers.init({
     seq: DataTypes.BIGINT,
@@ -35,6 +44,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsUsers',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsUsers;
 };

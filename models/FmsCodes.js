@@ -11,6 +11,21 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // this.hasMany(models.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
+    }
+
+    static async isExist(code) {
+      const result = await this.findOne({
+        where: {
+          code: code,
+        },
+      });
+
+      if (result === null) {
+        return false;
+      }
+
+      return true;
     }
   };
   FmsCodes.init({
@@ -24,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     codeDescription: DataTypes.STRING,
     codeValue1: DataTypes.STRING,
     codeValue2: DataTypes.STRING,
+    sortNo: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     updatedAt: DataTypes.DATE,
     status: DataTypes.TINYINT,
@@ -31,6 +47,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsCodes',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsCodes;
 };

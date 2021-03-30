@@ -38,6 +38,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsFileVersions',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsFileVersions;
 };

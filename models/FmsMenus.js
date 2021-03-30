@@ -33,6 +33,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsMenus',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsMenus;
 };

@@ -17,7 +17,7 @@ module.exports = {
       },
       companyKey: {
         type: Sequelize.STRING(20),
-        allowNull: false,
+        allowNull: true,
         comment: '회사 고유 식별키',
         // FK
       },

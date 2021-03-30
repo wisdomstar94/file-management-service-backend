@@ -1,7 +1,8 @@
 'use strict';
 const {
-  Model
+  Model, Op
 } = require('sequelize');
+const myDate = require('../routes/librarys/myDate');
 module.exports = (sequelize, DataTypes) => {
   class FmsJwtRefreshTokens extends Model {
     /**
@@ -11,6 +12,19 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    static async getKeyInfo(jwtRefreshTokenKey) {
+      const result = await this.findOne({ 
+        where: { 
+          jwtRefreshTokenKey: jwtRefreshTokenKey, 
+          endLineDateTime: {
+            [Op.gt]: myDate().format('YYYY-MM-DD HH:mm:ss'),
+          },
+          isDeletedRow: 'N',
+        }, 
+      });
+      return result;
     }
   };
   FmsJwtRefreshTokens.init({
@@ -28,6 +42,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsJwtRefreshTokens',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsJwtRefreshTokens;
 };

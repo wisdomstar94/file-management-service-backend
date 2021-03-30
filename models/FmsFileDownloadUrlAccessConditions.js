@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsFileDownloadUrlAccessConditions',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsFileDownloadUrlAccessConditions;
 };

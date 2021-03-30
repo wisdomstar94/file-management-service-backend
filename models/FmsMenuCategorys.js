@@ -31,6 +31,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsMenuCategorys',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsMenuCategorys;
 };

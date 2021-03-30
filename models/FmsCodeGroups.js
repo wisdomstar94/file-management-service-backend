@@ -2,6 +2,7 @@
 const {
   Model
 } = require('sequelize');
+// const db = require('./index');
 module.exports = (sequelize, DataTypes) => {
   class FmsCodeGroups extends Model {
     /**
@@ -11,6 +12,20 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+    }
+
+    static async isExist(codeGroup) {
+      const result = await this.findOne({
+        where: {
+          codeGroup: codeGroup,
+        },
+      });
+
+      if (result === null) {
+        return false;
+      }
+
+      return true;
     }
   };
   FmsCodeGroups.init({
@@ -28,6 +43,8 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsCodeGroups',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsCodeGroups;
 };

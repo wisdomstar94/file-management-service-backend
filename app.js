@@ -29,7 +29,8 @@ const fmsLogsTableCreateCron = require('./crons/fms_logs_table_create');
 const sequelize = require('./models').sequelize;
 
 // router declare
-const apiUserRouter = require('./routes/api/user/user');
+const apiCodeRouter = require('./routes/api/code/index');
+const apiUserRouter = require('./routes/api/user/index');
 
 // express declare
 const app = express();
@@ -68,6 +69,7 @@ app.use(cors());
 // app.use(csrf());
 
 // router match
+app.use('/api/code', apiCodeRouter);
 app.use('/api/user', apiUserRouter);
 
 // static path setup

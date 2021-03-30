@@ -40,7 +40,7 @@ module.exports = {
       },
       codeDescription: {
         type: Sequelize.STRING(100),
-        allowNull: false,
+        allowNull: true,
         comment: '코드 설명',
       },
       codeValue1: {
@@ -52,6 +52,12 @@ module.exports = {
         type: Sequelize.STRING(100),
         allowNull: true,
         comment: '코드 필요값 2',
+      },
+      sortNo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 1,
+        comment: '코드 표시 순서',
       },
       createdAt: {
         type: Sequelize.DATE,

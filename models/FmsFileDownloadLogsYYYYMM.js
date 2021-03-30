@@ -34,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'FmsFileDownloadLogsYYYYMM',
     tableName: 'FmsFileDownloadLogsYYYYMM',
+    updatedAt: false,
+    createdAt: false,
   });
   return FmsFileDownloadLogsYYYYMM;
 };
