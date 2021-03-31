@@ -8,7 +8,10 @@ const getCodeGroup = wrapper(async(req, res, next) => {
   // 조회
   const list = await db.FmsCodeGroups.findAll({
     attributes: [
-      'seq', 'codeGroup', 'codeGroupName', 'codeGroupDescription', 'createdAt', 'updatedAt', 'status',
+      'seq', 'codeGroup', 'codeGroupName', 'codeGroupDescription', 
+      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
+      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'], 
+      'status',
     ],
     where: {
       isDeletedRow: 'N',
@@ -17,7 +20,6 @@ const getCodeGroup = wrapper(async(req, res, next) => {
       ['createdAt', 'ASC'],
     ],
   });
-
   
   res.status(200).json(myValueLog({
     req: req,

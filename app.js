@@ -31,6 +31,7 @@ const sequelize = require('./models').sequelize;
 // router declare
 const apiCodeRouter = require('./routes/api/code/index');
 const apiUserRouter = require('./routes/api/user/index');
+const apiMenuRouter = require('./routes/api/menu/index');
 
 // express declare
 const app = express();
@@ -71,6 +72,7 @@ app.use(cors());
 // router match
 app.use('/api/code', apiCodeRouter);
 app.use('/api/user', apiUserRouter);
+app.use('/api/menu', apiMenuRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));

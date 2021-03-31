@@ -16,7 +16,7 @@ const child_route__getCode = require('./child_routes/getCode');
 
 
 /*
-  /api/user
+  /api/code
 */
 router.post('/createCodeGroup', child_route__createCodeGroup);
 router.post('/modifyCodeGroup', child_route__modifyCodeGroup);

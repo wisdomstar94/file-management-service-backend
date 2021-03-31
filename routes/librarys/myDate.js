@@ -86,6 +86,11 @@ class myDateClass {
         return false;
       }
 
+      const test = new Date(t._dateValue);
+      if (isNaN(test.getDay())) {
+        return false;
+      }
+
       return true;
     }
 

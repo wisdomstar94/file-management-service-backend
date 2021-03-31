@@ -28,6 +28,7 @@ module.exports = {
       sortNo: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 1,
         comment: '순서',
       },
       createdAt: {
