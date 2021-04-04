@@ -9,6 +9,7 @@ const FmsUsers = require('./FmsUsers');
 const FmsJwtRefreshTokens = require('./FmsJwtRefreshTokens');
 const FmsPermissionGroups = require('./FmsPermissionGroups');
 const FmsMenuCategorys = require('./FmsMenuCategorys');
+const FmsMenus = require('./FmsMenus');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -47,12 +48,21 @@ db.FmsUsers = FmsUsers(sequelize, Sequelize);
 db.FmsJwtRefreshTokens = FmsJwtRefreshTokens(sequelize, Sequelize);
 db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 db.FmsMenuCategorys = FmsMenuCategorys(sequelize, Sequelize);
-
+db.FmsMenus = FmsMenus(sequelize, Sequelize);
 
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
 db.FmsCodeGroups.belongsTo(db.FmsCodes, { foreignKey: 'codeGroup', targetKey: 'codeGroup' });
 
 db.FmsCodes.hasMany(db.FmsMenuCategorys, { foreignKey: 'menuCategoryStatus', sourceKey: 'code' });
 db.FmsMenuCategorys.belongsTo(db.FmsCodes, { foreignKey: 'menuCategoryStatus', targetKey: 'code' });
+
+db.FmsCodes.hasMany(db.FmsMenus, { foreignKey: 'menuStatus', sourceKey: 'code' });
+db.FmsMenus.belongsTo(db.FmsCodes, { as: 'fc1', foreignKey: 'menuStatus', targetKey: 'code' });
+
+db.FmsMenus.hasMany(db.FmsMenus, { foreignKey: 'parentMenuKey', sourceKey: 'menuKey' });
+db.FmsMenus.belongsTo(db.FmsMenus, { as: 'parentMenu', foreignKey: 'parentMenuKey', targetKey: 'menuKey' });
+
+db.FmsMenuCategorys.hasMany(db.FmsMenus, { foreignKey: 'menuCategoryKey', sourceKey: 'menuCategoryKey' });
+db.FmsMenus.belongsTo(db.FmsMenuCategorys, { foreignKey: 'menuCategoryKey', targetKey: 'menuCategoryKey' });
 
 module.exports = db;

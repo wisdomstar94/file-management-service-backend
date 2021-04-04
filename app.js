@@ -33,6 +33,7 @@ const apiCodeRouter = require('./routes/api/code/index');
 const apiCodeGroupRouter = require('./routes/api/codeGroup/index');
 const apiUserRouter = require('./routes/api/user/index');
 const apiMenuCategoryRouter = require('./routes/api/menuCategory/index');
+const apiMenuRouter = require('./routes/api/menu/index');
 
 // express declare
 const app = express();
@@ -75,6 +76,7 @@ app.use('/api/code', apiCodeRouter);
 app.use('/api/codeGroup', apiCodeGroupRouter);
 app.use('/api/user', apiUserRouter);
 app.use('/api/menuCategory', apiMenuCategoryRouter);
+app.use('/api/menu', apiMenuRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
