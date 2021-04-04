@@ -27,6 +27,21 @@ module.exports = (sequelize, DataTypes) => {
 
       return true;
     }
+
+    static async isValidCode(codeGroup, code) {
+      const result = await this.findOne({
+        where: {
+          codeGroup: codeGroup,
+          code: code,
+        },
+      });
+
+      if (result === null) {
+        return false;
+      }
+
+      return true;
+    }
   };
   FmsCodes.init({
     seq: DataTypes.BIGINT,

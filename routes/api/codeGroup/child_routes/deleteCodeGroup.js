@@ -4,10 +4,11 @@ const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
-const getCode = wrapper(async(req, res, next) => {
+const deleteCodeGroup = wrapper(async(req, res, next) => {
   const {
-    codeGroup, // 조회할 코드그룹 (문자열 또는 배열)
+    codeGroup, // 삭제할 코드 그룹 (string 또는 string[])
   } = req.body;
+
 
   if (typeof codeGroup === 'string') {
     if (codeGroup.trim() === '') {
@@ -16,12 +17,12 @@ const getCode = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20004010,
-          msg: myResultCode[20004010].msg,
+          code: 20005010,
+          msg: myResultCode[20005010].msg,
         },
       }));
       return;
-    }  
+    }
 
     if (codeGroup.length !== 5) {
       res.status(200).json(myValueLog({
@@ -29,12 +30,12 @@ const getCode = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20004020,
-          msg: myResultCode[20004020].msg,
+          code: 20005020,
+          msg: myResultCode[20005020].msg,
         },
       }));
       return;
-    }  
+    }
   } else if (Array.isArray(codeGroup)) {
     if (codeGroup.length === 0) {
       res.status(200).json(myValueLog({
@@ -42,8 +43,8 @@ const getCode = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20004030,
-          msg: myResultCode[20004030].msg,
+          code: 20005030,
+          msg: myResultCode[20005030].msg,
         },
       }));
       return;
@@ -56,8 +57,8 @@ const getCode = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004040,
-            msg: myResultCode[20004040].msg,
+            code: 20005040,
+            msg: myResultCode[20005040].msg,
           },
         }));
         return;
@@ -69,8 +70,8 @@ const getCode = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004050,
-            msg: myResultCode[20004050].msg,
+            code: 20005050,
+            msg: myResultCode[20005050].msg,
           },
         }));
         return;
@@ -82,8 +83,8 @@ const getCode = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004060,
-            msg: myResultCode[20004060].msg,
+            code: 20005060,
+            msg: myResultCode[20005060].msg,
           },
         }));
         return;
@@ -95,49 +96,33 @@ const getCode = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20004070,
-        msg: myResultCode[20004070].msg,
+        code: 20005070,
+        msg: myResultCode[20005070].msg,
       },
     }));
     return;
   }
 
   
-  // 조회
-  const list = await db.FmsCodes.findAll({
-    attributes: [
-      'seq', 'codeGroup', 'code', 'codeName', 'codeDescription', 'codeValue1', 'codeValue2', 'sortNo', 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'],
-    ],
+  // 코드 그룹 삭제 처리
+  const deleteResult = await db.FmsCodeGroups.update({
+    isDeletedRow: 'Y',
+    updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+  }, {
     where: {
       codeGroup: codeGroup,
-      isDeletedRow: 'N',
     },
-    order: [
-      ['codeGroup', 'ASC'],
-      ['sortNo', 'ASC'],
-      ['createdAt', 'ASC'],
-    ],
-    include: [
-      {
-        model: db.FmsCodeGroups,
-        attributes: ['codeGroupName'],
-      },
-    ],
   });
 
-  
   res.status(200).json(myValueLog({
     req: req,
     obj: {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      list: list,
     },
   }));
   return;
 });
 
-module.exports = getCode;
+module.exports = deleteCodeGroup;

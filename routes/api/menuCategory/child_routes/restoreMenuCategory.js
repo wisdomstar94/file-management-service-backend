@@ -4,86 +4,88 @@ const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
-const getCode = wrapper(async(req, res, next) => {
+const restoreMenuCategory = wrapper(async(req, res, next) => {
   const {
-    codeGroup, // 조회할 코드그룹 (문자열 또는 배열)
+    menuCategoryKey, // 복구 처리할 메뉴 카테고리 고유 식별키 (string 또는 string[])
   } = req.body;
 
-  if (typeof codeGroup === 'string') {
-    if (codeGroup.trim() === '') {
+  
+  // menuCategoryKey 체크
+  if (typeof menuCategoryKey === 'string') {
+    if (menuCategoryKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20004010,
-          msg: myResultCode[20004010].msg,
-        },
-      }));
-      return;
-    }  
-
-    if (codeGroup.length !== 5) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20004020,
-          msg: myResultCode[20004020].msg,
-        },
-      }));
-      return;
-    }  
-  } else if (Array.isArray(codeGroup)) {
-    if (codeGroup.length === 0) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20004030,
-          msg: myResultCode[20004030].msg,
+          code: 20008010,
+          msg: myResultCode[20008010].msg,
         },
       }));
       return;
     }
 
-    for (let i = 0; i < codeGroup.length; i++) {
-      if (typeof codeGroup[i] !== 'string') {
+    if (menuCategoryKey.length !== 20) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20008020,
+          msg: myResultCode[20008020].msg,
+        },
+      }));
+      return;
+    }
+  } else if (Array.isArray(menuCategoryKey)) {
+    if (menuCategoryKey.length === 0) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20008030,
+          msg: myResultCode[20008030].msg,
+        },
+      }));
+      return;
+    }
+
+    for (let i = 0; i < menuCategoryKey.length; i++) {
+      if (typeof menuCategoryKey[i] !== 'string') {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004040,
-            msg: myResultCode[20004040].msg,
+            code: 20008040,
+            msg: myResultCode[20008040].msg,
           },
         }));
         return;
       }
 
-      if (codeGroup[i].trim() === '') {
+      if (menuCategoryKey[i].trim() === '') {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004050,
-            msg: myResultCode[20004050].msg,
+            code: 20008050,
+            msg: myResultCode[20008050].msg,
           },
         }));
         return;
       }
 
-      if (codeGroup[i].length !== 5) {
+      if (menuCategoryKey[i].length !== 20) {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20004060,
-            msg: myResultCode[20004060].msg,
+            code: 20008060,
+            msg: myResultCode[20008060].msg,
           },
         }));
         return;
@@ -95,49 +97,34 @@ const getCode = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20004070,
-        msg: myResultCode[20004070].msg,
+        code: 20008070,
+        msg: myResultCode[20008070].msg,
       },
     }));
     return;
   }
 
   
-  // 조회
-  const list = await db.FmsCodes.findAll({
-    attributes: [
-      'seq', 'codeGroup', 'code', 'codeName', 'codeDescription', 'codeValue1', 'codeValue2', 'sortNo', 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'],
-    ],
+  // 메뉴 카테고리 복구 처리
+  const deleteResult = await db.FmsMenuCategorys.update({
+    isDeletedRow: 'N',
+    updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+    updatedIp: req.real_ip,
+  }, {
     where: {
-      codeGroup: codeGroup,
-      isDeletedRow: 'N',
+      menuCategoryKey: menuCategoryKey,
     },
-    order: [
-      ['codeGroup', 'ASC'],
-      ['sortNo', 'ASC'],
-      ['createdAt', 'ASC'],
-    ],
-    include: [
-      {
-        model: db.FmsCodeGroups,
-        attributes: ['codeGroupName'],
-      },
-    ],
   });
 
-  
   res.status(200).json(myValueLog({
     req: req,
     obj: {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      list: list,
     },
   }));
   return;
 });
 
-module.exports = getCode;
+module.exports = restoreMenuCategory;

@@ -4,87 +4,88 @@ const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
-const deleteCodeGroup = wrapper(async(req, res, next) => {
+const deleteMenuCategory = wrapper(async(req, res, next) => {
   const {
-    codeGroup, // 삭제할 코드 그룹 (문자열 또는 배열)
+    menuCategoryKey, // 삭제 처리할 메뉴 카테고리 고유 식별키 (string 또는 string[])
   } = req.body;
 
-
-  if (typeof codeGroup === 'string') {
-    if (codeGroup.trim() === '') {
+  
+  // menuCategoryKey 체크
+  if (typeof menuCategoryKey === 'string') {
+    if (menuCategoryKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20005010,
-          msg: myResultCode[20005010].msg,
+          code: 20007510,
+          msg: myResultCode[20007510].msg,
         },
       }));
       return;
     }
 
-    if (codeGroup.length !== 5) {
+    if (menuCategoryKey.length !== 20) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20005020,
-          msg: myResultCode[20005020].msg,
+          code: 20007520,
+          msg: myResultCode[20007520].msg,
         },
       }));
       return;
     }
-  } else if (Array.isArray(codeGroup)) {
-    if (codeGroup.length === 0) {
+  } else if (Array.isArray(menuCategoryKey)) {
+    if (menuCategoryKey.length === 0) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20005030,
-          msg: myResultCode[20005030].msg,
+          code: 20007530,
+          msg: myResultCode[20007530].msg,
         },
       }));
       return;
     }
 
-    for (let i = 0; i < codeGroup.length; i++) {
-      if (typeof codeGroup[i] !== 'string') {
+    for (let i = 0; i < menuCategoryKey.length; i++) {
+      if (typeof menuCategoryKey[i] !== 'string') {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20005040,
-            msg: myResultCode[20005040].msg,
+            code: 20007540,
+            msg: myResultCode[20007540].msg,
           },
         }));
         return;
       }
 
-      if (codeGroup[i].trim() === '') {
+      if (menuCategoryKey[i].trim() === '') {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20005050,
-            msg: myResultCode[20005050].msg,
+            code: 20007550,
+            msg: myResultCode[20007550].msg,
           },
         }));
         return;
       }
 
-      if (codeGroup[i].length !== 5) {
+      if (menuCategoryKey[i].length !== 20) {
         res.status(200).json(myValueLog({
           req: req,
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20005060,
-            msg: myResultCode[20005060].msg,
+            code: 20007560,
+            msg: myResultCode[20007560].msg,
           },
         }));
         return;
@@ -96,21 +97,22 @@ const deleteCodeGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20005070,
-        msg: myResultCode[20005070].msg,
+        code: 20007570,
+        msg: myResultCode[20007570].msg,
       },
     }));
     return;
   }
 
   
-  // 코드 그룹 삭제 처리
-  const deleteResult = await db.FmsCodeGroups.update({
+  // 메뉴 카테고리 삭제 처리
+  const deleteResult = await db.FmsMenuCategorys.update({
     isDeletedRow: 'Y',
     updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+    updatedIp: req.real_ip,
   }, {
     where: {
-      codeGroup: codeGroup,
+      menuCategoryKey: menuCategoryKey,
     },
   });
 
@@ -125,4 +127,4 @@ const deleteCodeGroup = wrapper(async(req, res, next) => {
   return;
 });
 
-module.exports = deleteCodeGroup;
+module.exports = deleteMenuCategory;

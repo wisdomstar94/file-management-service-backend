@@ -83,7 +83,6 @@ const getMenuCategory = wrapper(async(req, res, next) => {
   });
 
   const where = {
-    // isDeletedRow: 'N',
     [Op.and]: OpAndArray,
   };
   const list = await db.FmsMenuCategorys.findAll({
