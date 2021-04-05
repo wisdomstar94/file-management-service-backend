@@ -646,14 +646,14 @@ const getMenu = wrapper(async(req, res, next) => {
     include: [
       {
         model: db.FmsCodes,
-        as: 'fc1',
+        as: 'FmsCodesMenuStatus',
         attributes: [
           ['codeName', 'menuStatusString'],
         ],
       },
       {
         model: db.FmsMenus,
-        as: 'parentMenu',
+        as: 'FmsMenusParent',
         attributes: [
           'menuName',
         ],

@@ -57,10 +57,10 @@ db.FmsCodes.hasMany(db.FmsMenuCategorys, { foreignKey: 'menuCategoryStatus', sou
 db.FmsMenuCategorys.belongsTo(db.FmsCodes, { foreignKey: 'menuCategoryStatus', targetKey: 'code' });
 
 db.FmsCodes.hasMany(db.FmsMenus, { foreignKey: 'menuStatus', sourceKey: 'code' });
-db.FmsMenus.belongsTo(db.FmsCodes, { as: 'fc1', foreignKey: 'menuStatus', targetKey: 'code' });
+db.FmsMenus.belongsTo(db.FmsCodes, { as: 'FmsCodesMenuStatus', foreignKey: 'menuStatus', targetKey: 'code' });
 
 db.FmsMenus.hasMany(db.FmsMenus, { foreignKey: 'parentMenuKey', sourceKey: 'menuKey' });
-db.FmsMenus.belongsTo(db.FmsMenus, { as: 'parentMenu', foreignKey: 'parentMenuKey', targetKey: 'menuKey' });
+db.FmsMenus.belongsTo(db.FmsMenus, { as: 'FmsMenusParent', foreignKey: 'parentMenuKey', targetKey: 'menuKey' });
 
 db.FmsMenuCategorys.hasMany(db.FmsMenus, { foreignKey: 'menuCategoryKey', sourceKey: 'menuCategoryKey' });
 db.FmsMenus.belongsTo(db.FmsMenuCategorys, { foreignKey: 'menuCategoryKey', targetKey: 'menuCategoryKey' });
