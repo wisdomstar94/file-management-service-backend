@@ -42,8 +42,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009010,
+          msg: myResultCode[20009010].msg,
         },
       }));
       return;
@@ -55,8 +55,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009020,
+          msg: myResultCode[20009020].msg,
         },
       }));
       return;
@@ -74,8 +74,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009030,
+          msg: myResultCode[20009030].msg,
         },
       }));
       return;
@@ -88,8 +88,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009040,
+            msg: myResultCode[20009040].msg,
           },
         }));
         return;
@@ -101,8 +101,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009050,
+            msg: myResultCode[20009050].msg,
           },
         }));
         return;
@@ -114,8 +114,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009060,
+            msg: myResultCode[20009060].msg,
           },
         }));
         return;
@@ -143,8 +143,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009070,
+          msg: myResultCode[20009070].msg,
         },
       }));
       return;
@@ -157,8 +157,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009080,
+            msg: myResultCode[20009080].msg,
           },
         }));
         return;
@@ -180,8 +180,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009090,
+          msg: myResultCode[20009090].msg,
         },
       }));
       return;
@@ -193,8 +193,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009100,
+          msg: myResultCode[20009100].msg,
         },
       }));
       return;
@@ -212,8 +212,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009110,
+          msg: myResultCode[20009110].msg,
         },
       }));
       return;
@@ -226,8 +226,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009120,
+            msg: myResultCode[20009120].msg,
           },
         }));
         return;
@@ -239,8 +239,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009130,
+            msg: myResultCode[20009130].msg,
           },
         }));
         return;
@@ -252,8 +252,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009140,
+            msg: myResultCode[20009140].msg,
           },
         }));
         return;
@@ -281,8 +281,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009150,
+          msg: myResultCode[20009150].msg,
         },
       }));
       return;
@@ -295,8 +295,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009160,
+            msg: myResultCode[20009160].msg,
           },
         }));
         return;
@@ -318,8 +318,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009170,
+          msg: myResultCode[20009170].msg,
         },
       }));
       return;
@@ -331,8 +331,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009180,
+          msg: myResultCode[20009180].msg,
         },
       }));
       return;
@@ -350,8 +350,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009190,
+          msg: myResultCode[20009190].msg,
         },
       }));
       return;
@@ -364,8 +364,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009200,
+            msg: myResultCode[20009200].msg,
           },
         }));
         return;
@@ -377,8 +377,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009210,
+            msg: myResultCode[20009210].msg,
           },
         }));
         return;
@@ -390,8 +390,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009220,
+            msg: myResultCode[20009220].msg,
           },
         }));
         return;
@@ -419,8 +419,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009230,
+          msg: myResultCode[20009230].msg,
         },
       }));
       return;
@@ -433,8 +433,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009240,
+            msg: myResultCode[20009240].msg,
           },
         }));
         return;
@@ -462,8 +462,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009250,
+          msg: myResultCode[20009250].msg,
         },
       }));
       return;
@@ -476,8 +476,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009260,
+            msg: myResultCode[20009260].msg,
           },
         }));
         return;
@@ -505,8 +505,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009270,
+          msg: myResultCode[20009270].msg,
         },
       }));
       return;
@@ -527,8 +527,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009280,
+          msg: myResultCode[20009280].msg,
         },
       }));
       return;
@@ -549,8 +549,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009290,
+          msg: myResultCode[20009290].msg,
         },
       }));
       return;
@@ -571,8 +571,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009300,
+          msg: myResultCode[20009300].msg,
         },
       }));
       return;
@@ -593,8 +593,8 @@ const getMenu = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 20006520,
-          msg: myResultCode[20006520].msg,
+          code: 20009310,
+          msg: myResultCode[20009310].msg,
         },
       }));
       return;
@@ -607,8 +607,8 @@ const getMenu = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 20006520,
-            msg: myResultCode[20006520].msg,
+            code: 20009320,
+            msg: myResultCode[20009320].msg,
           },
         }));
         return;

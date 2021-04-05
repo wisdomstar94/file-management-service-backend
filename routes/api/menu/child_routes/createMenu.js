@@ -14,7 +14,7 @@ const createMenu = wrapper(async(req, res, next) => {
     sortNo,
   } = req.body;
 
-  // parentMenuKey 체크
+  // parentMenuKey 체크 : optional
   if (typeof parentMenuKey === 'string') {
     if (parentMenuKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -201,6 +201,7 @@ const createMenu = wrapper(async(req, res, next) => {
           msg: myResultCode[20008630].msg,
         },
       }));
+      return;
     }
 
     if (typeof sortNo === 'string') {
@@ -214,6 +215,7 @@ const createMenu = wrapper(async(req, res, next) => {
             msg: myResultCode[20008640].msg,
           },
         }));
+        return;
       }
     }
 
@@ -227,6 +229,7 @@ const createMenu = wrapper(async(req, res, next) => {
           msg: myResultCode[20008650].msg,
         },
       }));
+      return;
     }
   }
 
