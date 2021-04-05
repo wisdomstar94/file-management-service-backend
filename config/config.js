@@ -8,6 +8,10 @@ const config = {
     host: process.env.MAIN_DB_IP,
     port: process.env.MAIN_DB_PORT,
     dialect: process.env.MAIN_DB_TYPE,
+    dialectOptions: {
+      dateStrings: true,
+      typeCast: true,
+    },
     timezone: '+09:00',
   },
   test: {
@@ -17,6 +21,10 @@ const config = {
     host: process.env.MAIN_DB_IP,
     port: process.env.MAIN_DB_PORT,
     dialect: process.env.MAIN_DB_TYPE,
+    dialectOptions: {
+      dateStrings: true,
+      typeCast: true,
+    },
     timezone: '+09:00',
   },
   production: {
@@ -26,6 +34,10 @@ const config = {
     host: process.env.MAIN_DB_IP,
     port: process.env.MAIN_DB_PORT,
     dialect: process.env.MAIN_DB_TYPE,
+    dialectOptions: {
+      dateStrings: true,
+      typeCast: true,
+    },
     timezone: '+09:00',
   }
 };

@@ -9,8 +9,10 @@ const getCodeGroup = wrapper(async(req, res, next) => {
   const list = await db.FmsCodeGroups.findAll({
     attributes: [
       'seq', 'codeGroup', 'codeGroupName', 'codeGroupDescription', 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'], 
+      // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
+      'createdAt',
+      // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodeGroups.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'], 
+      'updatedAt',
       'status',
     ],
     where: {

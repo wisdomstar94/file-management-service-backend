@@ -633,8 +633,12 @@ const getMenu = wrapper(async(req, res, next) => {
   const list = await db.FmsMenus.findAll({
     attributes: [
       'seq', 'parentMenuKey', 'menuCategoryKey', 'menuKey', 'menuName', 'menuDescription', 'sortNo',
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsMenus.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 'createdIp',
-      [db.Sequelize.fn('date_format', db.Sequelize.col('FmsMenus.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'], 'updatedIp',
+      // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsMenus.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'], 
+      'createdAt',
+      'createdIp',
+      // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsMenus.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'], 
+      'updatedAt',
+      'updatedIp',
       'menuStatus',
     ],
     where: where,
