@@ -12,6 +12,24 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    static async getCurrentMaxSortNo(menuKey) {
+      const result = await this.findOne({
+        where: {
+          menuKey: menuKey,
+        },
+        limit: 1,
+        order: [
+          ['sortNo', 'DESC'],
+        ],
+      });
+
+      if (result === null) {
+        return 0;
+      }
+
+      return result.sortNo;
+    }
   };
   FmsPermissions.init({
     seq: DataTypes.BIGINT,
@@ -21,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
     },
     permissionName: DataTypes.STRING,
-    permissionDescription: DataTypes.STRING,
+    permissionDescription: DataTypes.TEXT,
     sortNo: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,

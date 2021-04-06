@@ -25,6 +25,7 @@ module.exports = (sequelize, DataTypes) => {
     companyTel: DataTypes.STRING,
     companyBusinessNumber: DataTypes.STRING,
     companyAddress: DataTypes.STRING,
+    memo: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
     createrUserKey: DataTypes.STRING,

@@ -27,13 +27,14 @@ module.exports = {
         comment: '권한명',
       },
       permissionDescription: {
-        type: Sequelize.STRING(255),
+        type: Sequelize.TEXT,
         allowNull: true,
         comment: '권한 설명',
       },
       sortNo: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        defaultValue: 1,
         comment: '권한 순서',
       },
       createdAt: {

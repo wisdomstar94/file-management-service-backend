@@ -45,6 +45,11 @@ module.exports = {
         allowNull: true,
         comment: '사업장주소',
       },
+      memo: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        comment: '회사 메모',
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
