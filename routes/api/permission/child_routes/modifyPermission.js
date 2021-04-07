@@ -14,9 +14,20 @@ const modifyPermission = wrapper(async(req, res, next) => {
     sortNo,
   } = req.body;
 
-  const update = {};
-
   // menuKey 체크 : optional
+  if (typeof menuKey !== 'string' && menuKey !== null && menuKey !== undefined) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20012509,
+        msg: myResultCode[20012509].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuKey === 'string') {
     if (menuKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -61,9 +72,7 @@ const modifyPermission = wrapper(async(req, res, next) => {
       }));
       return;
     }
-
-    update.menuKey = menuKey;
-  }
+  } 
 
   // permissionKey 체크 : require
   if (typeof permissionKey !== 'string') {
@@ -124,6 +133,19 @@ const modifyPermission = wrapper(async(req, res, next) => {
   }
 
   // permissionName 체크 : optional
+  if (permissionName !== undefined && typeof permissionName !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20012579,
+        msg: myResultCode[20012579].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof permissionName === 'string') {
     if (permissionName.trim() === '') {
       res.status(200).json(myValueLog({
@@ -150,13 +172,20 @@ const modifyPermission = wrapper(async(req, res, next) => {
       }));
       return;
     }
-
-    update.permissionName = permissionName;
   }
 
   // permissionDescription 체크 : optinoal
-  if (typeof permissionDescription === 'string') {
-    update.permissionDescription = permissionDescription;
+  if (typeof permissionDescription !== 'string' && permissionDescription !== null) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20012599,
+        msg: myResultCode[20012599].msg,
+      },
+    }));
+    return;
   }
 
   // sortNo 체크 : optional
@@ -201,17 +230,19 @@ const modifyPermission = wrapper(async(req, res, next) => {
       }));
       return;
     }
-
-    update.sortNo = sortNo;
   }
 
 
-  update.updatedAt = myDate().format('YYYY-MM-DD HH:mm:ss');
-  update.updatedIp = req.real_ip;
-
 
   // 권한 정보 업데이트
-  const modifyResult = await db.FmsPermissions.update(update, {
+  const modifyResult = await db.FmsPermissions.update({
+    menuKey: menuKey,
+    permissionName: permissionName,
+    permissionDescription: permissionDescription,
+    sortNo: sortNo,
+    updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+    updatedIp: req.real_ip,
+  }, {
     where: {
       permissionKey: permissionKey,
     },
