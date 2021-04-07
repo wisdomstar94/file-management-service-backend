@@ -53,6 +53,7 @@ db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 db.FmsMenuCategorys = FmsMenuCategorys(sequelize, Sequelize);
 db.FmsMenus = FmsMenus(sequelize, Sequelize);
 db.FmsPermissions = FmsPermissions(sequelize, Sequelize);
+db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
@@ -72,6 +73,9 @@ db.FmsMenus.belongsTo(db.FmsMenuCategorys, { foreignKey: 'menuCategoryKey', targ
 
 db.FmsMenus.hasMany(db.FmsPermissions, { foreignKey: 'menuKey', sourceKey: 'menuKey' });
 db.FmsPermissions.belongsTo(db.FmsMenus, { foreignKey: 'menuKey', sourceKey: 'menuKey' });
+
+db.FmsCodes.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
+db.FmsPermissionGroups.belongsTo(db.FmsCodes, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 
 // export module
 module.exports = db;

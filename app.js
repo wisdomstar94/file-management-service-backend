@@ -35,6 +35,7 @@ const apiUserRouter = require('./routes/api/user/index');
 const apiMenuCategoryRouter = require('./routes/api/menuCategory/index');
 const apiMenuRouter = require('./routes/api/menu/index');
 const apiPermissionRouter = require('./routes/api/permission/index');
+const apiPermissionGroupRouter = require('./routes/api/permissionGroup/index');
 
 // express declare
 const app = express();
@@ -79,6 +80,7 @@ app.use('/api/user', apiUserRouter);
 app.use('/api/menuCategory', apiMenuCategoryRouter);
 app.use('/api/menu', apiMenuRouter);
 app.use('/api/permission', apiPermissionRouter);
+app.use('/api/permissionGroup', apiPermissionGroupRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
