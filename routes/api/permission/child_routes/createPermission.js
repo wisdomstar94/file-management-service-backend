@@ -113,6 +113,19 @@ const createPermission = wrapper(async(req, res, next) => {
   }
 
   // permissionDescription 체크 : optional
+  if (permissionDescription !== undefined && permissionDescription !== null && typeof permissionDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011579,
+        msg: myResultCode[20011579].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof permissionDescription === 'string') {
     if (permissionDescription.trim() === '') {
       res.status(200).json(myValueLog({

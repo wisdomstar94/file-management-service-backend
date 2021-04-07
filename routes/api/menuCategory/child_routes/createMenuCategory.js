@@ -13,7 +13,7 @@ const createMenuCategory = wrapper(async(req, res, next) => {
   } = req.body;
 
 
-  // menuCategoryName 체크
+  // menuCategoryName 체크 : required
   if (typeof menuCategoryName !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
@@ -54,7 +54,19 @@ const createMenuCategory = wrapper(async(req, res, next) => {
   }
 
 
-  // menuCategoryDescription 체크
+  // menuCategoryDescription 체크 : optional
+  if (menuCategoryDescription !== undefined && menuCategoryDescription !== null && typeof menuCategoryDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20006039,
+        msg: myResultCode[20006039].msg,
+      },
+    }));
+  }
+
   if (typeof menuCategoryDescription === 'string') {
     if (menuCategoryDescription.trim() === '') {
       res.status(200).json(myValueLog({

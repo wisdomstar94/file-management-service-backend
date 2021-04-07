@@ -175,7 +175,7 @@ const modifyPermission = wrapper(async(req, res, next) => {
   }
 
   // permissionDescription 체크 : optinoal
-  if (typeof permissionDescription !== 'string' && permissionDescription !== null) {
+  if (typeof permissionDescription !== 'string' && permissionDescription !== null && permissionDescription !== undefined) {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
