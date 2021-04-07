@@ -34,8 +34,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012010,
+          msg: myResultCode[20012010].msg,
         },
       }));
       return;
@@ -47,8 +47,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012020,
+          msg: myResultCode[20012020].msg,
         },
       }));
       return;
@@ -66,8 +66,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012030,
+          msg: myResultCode[20012030].msg,
         },
       }));
       return;
@@ -80,8 +80,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012040,
+            msg: myResultCode[20012040].msg,
           },
         }));
         return;
@@ -93,8 +93,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012050,
+            msg: myResultCode[20012050].msg,
           },
         }));
         return;
@@ -106,8 +106,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012060,
+            msg: myResultCode[20012060].msg,
           },
         }));
         return;
@@ -135,8 +135,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012070,
+          msg: myResultCode[20012070].msg,
         },
       }));
       return;
@@ -149,8 +149,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012080,
+            msg: myResultCode[20012080].msg,
           },
         }));
         return;
@@ -176,8 +176,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012090,
+          msg: myResultCode[20012090].msg,
         },
       }));
       return;
@@ -189,8 +189,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012100,
+          msg: myResultCode[20012100].msg,
         },
       }));
       return;
@@ -208,8 +208,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012110,
+          msg: myResultCode[20012110].msg,
         },
       }));
       return;
@@ -222,8 +222,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012120,
+            msg: myResultCode[20012120].msg,
           },
         }));
         return;
@@ -235,8 +235,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012130,
+            msg: myResultCode[20012130].msg,
           },
         }));
         return;
@@ -248,8 +248,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012140,
+            msg: myResultCode[20012140].msg,
           },
         }));
         return;
@@ -277,8 +277,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012150,
+          msg: myResultCode[20012150].msg,
         },
       }));
       return;
@@ -291,8 +291,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012160,
+            msg: myResultCode[20012160].msg,
           },
         }));
         return;
@@ -324,8 +324,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012170,
+          msg: myResultCode[20012170].msg,
         },
       }));
       return;
@@ -338,8 +338,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012180,
+            msg: myResultCode[20012180].msg,
           },
         }));
         return;
@@ -371,8 +371,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012190,
+          msg: myResultCode[20012190].msg,
         },
       }));
       return;
@@ -393,8 +393,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012200,
+          msg: myResultCode[20012200].msg,
         },
       }));
       return;
@@ -415,8 +415,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012210,
+          msg: myResultCode[20012210].msg,
         },
       }));
       return;
@@ -429,8 +429,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012220,
+            msg: myResultCode[20012220].msg,
           },
         }));
         return;
@@ -462,8 +462,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012230,
+          msg: myResultCode[20012230].msg,
         },
       }));
       return;
@@ -484,8 +484,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012240,
+          msg: myResultCode[20012240].msg,
         },
       }));
       return;
@@ -506,8 +506,8 @@ const getPermission = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20012250,
+          msg: myResultCode[20012250].msg,
         },
       }));
       return;
@@ -520,8 +520,8 @@ const getPermission = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20012260,
+            msg: myResultCode[20012260].msg,
           },
         }));
         return;
