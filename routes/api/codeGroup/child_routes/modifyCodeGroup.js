@@ -11,7 +11,7 @@ const modifyCodeGroup = wrapper(async(req, res, next) => {
     codeGroupDescription, // 코드 그룹 설명을 codeGroupDescription 으로 수정
   } = req.body;
 
-  // codeGroup 유효성 검사
+  // codeGroup 체크 : required
   if (typeof codeGroup !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
@@ -70,45 +70,78 @@ const modifyCodeGroup = wrapper(async(req, res, next) => {
 
   // 존재하지 않는 codeGroup 이면
 
-  // codeGroupName 유효성 검사
-  if (typeof codeGroupName !== 'string') {
+  
+  // codeGroupName 체크 : optional
+  if (codeGroupName !== undefined && typeof codeGroupName !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20004550,
-        msg: myResultCode[20004550].msg,
+        code: 20004559,
+        msg: myResultCode[20004559].msg,
       },
     }));
     return;
   }
 
-  if (codeGroupName.trim() === '') {
+  if (codeGroupName === 'string') {
+    if (codeGroupName.trim() === '') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20004560,
+          msg: myResultCode[20004560].msg,
+        },
+      }));
+      return;
+    }
+
+    if (codeGroupName.length > 100) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20004570,
+          msg: myResultCode[20004570].msg,
+        },
+      }));
+      return;
+    }
+  }
+
+  // codeGroupDescription 체크 : optional
+  if (codeGroupDescription !== null && codeGroupDescription !== undefined && typeof codeGroupDescription !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20004560,
-        msg: myResultCode[20004560].msg,
+        code: 20004580,
+        msg: myResultCode[20004580].msg,
       },
     }));
     return;
   }
 
-  if (codeGroupName.length > 100) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20004570,
-        msg: myResultCode[20004570].msg,
-      },
-    }));
-    return;
+  if (typeof codeGroupDescription === 'string') {
+    if (codeGroupDescription.length > 100) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20004590,
+          msg: myResultCode[20004590].msg,
+        },
+      }));
+      return;
+    }
   }
+
 
 
   // 코드 그룹 데이터 수정

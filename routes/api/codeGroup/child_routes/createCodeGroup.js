@@ -2,6 +2,7 @@ const db = require('../../../../models');
 const wrapper = require('../../../librarys/myAsyncWrapper');
 const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
+const myDate = require('../../../librarys/myDate');
 
 const createCodeGroup = wrapper(async(req, res, next) => {
   const {
@@ -10,6 +11,7 @@ const createCodeGroup = wrapper(async(req, res, next) => {
     codeGroupDescription,
   } = req.body;
 
+  // codeGroup 체크 : required
   // codeGroup 유효성 검사
   if (typeof codeGroup !== 'string') {
     res.status(200).json(myValueLog({
@@ -69,6 +71,8 @@ const createCodeGroup = wrapper(async(req, res, next) => {
 
   // 존재하지 않는 codeGroup 이면
 
+
+  // codeGroupName 체크 : required
   // codeGroupName 유효성 검사
   if (typeof codeGroupName !== 'string') {
     res.status(200).json(myValueLog({
@@ -109,13 +113,28 @@ const createCodeGroup = wrapper(async(req, res, next) => {
     return;
   }
 
+  // codeGroupDescription 체크
+  if (codeGroupDescription !== null && codeGroupDescription !== undefined && typeof codeGroupDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20001550,
+        msg: myResultCode[20001550].msg,
+      },
+    }));
+    return;
+  }
+
+
 
   // 새로운 코드 그룹 생성
   const createResult = await db.FmsCodeGroups.create({
     codeGroup: codeGroup,
     codeGroupName: codeGroupName,
     codeGroupDescription: codeGroupDescription,
-    updatedAt: null,
+    createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
   });
 
   res.status(200).json(myValueLog({
