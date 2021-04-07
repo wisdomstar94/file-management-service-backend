@@ -46,7 +46,7 @@ const modifyCode = wrapper(async(req, res, next) => {
   //   return;
   // }
 
-  // code 유효성 검사
+  // code 체크 : required
   if (typeof code !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
@@ -102,47 +102,62 @@ const modifyCode = wrapper(async(req, res, next) => {
     return;
   }
 
-  // codeName 유효성 검사
-  if (typeof codeName !== 'string') {
+  // codeName 체크 : optional
+  if (codeName !== undefined && typeof codeName !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20002550,
-        msg: myResultCode[20002550].msg,
+        code: 20002559,
+        msg: myResultCode[20002559].msg,
       },
     }));
     return;
   }
 
-  if (codeName.trim() === '') {
+  if (typeof codeName === 'string') {
+    if (codeName.trim() === '') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20002560,
+          msg: myResultCode[20002560].msg,
+        },
+      }));
+      return;
+    }
+
+    if (codeName.length > 50) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20002570,
+          msg: myResultCode[20002570].msg,
+        },
+      }));
+      return;
+    }
+  }
+
+  // codeDescription 체크 : optional
+  if (codeDescription !== null && codeDescription !== undefined && typeof codeDescription !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20002560,
-        msg: myResultCode[20002560].msg,
+        code: 20002579,
+        msg: myResultCode[20002579].msg,
       },
     }));
     return;
   }
 
-  if (codeName.length > 50) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20002570,
-        msg: myResultCode[20002570].msg,
-      },
-    }));
-    return;
-  }
-
-  // codeDescription 유효성 검사
   if (typeof codeDescription === 'string') {
     if (codeDescription.trim() === '') {
       res.status(200).json(myValueLog({
@@ -171,7 +186,20 @@ const modifyCode = wrapper(async(req, res, next) => {
     }
   }
 
-  // codeValue1 유효성 검사
+  // codeValue1 유효성 검사 : optional
+  if (codeValue1 !== null && codeValue1 !== undefined && typeof codeValue1 !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20002659,
+        msg: myResultCode[20002659].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof codeValue1 === 'string') {
     if (codeValue1.trim() === '') {
       res.status(200).json(myValueLog({
@@ -200,7 +228,20 @@ const modifyCode = wrapper(async(req, res, next) => {
     }
   }
 
-  // codeValue2 유효성 검사
+  // codeValue2 체크 : optional
+  if (codeValue2 !== null && codeValue2 !== undefined && typeof codeValue2 !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20002619,
+        msg: myResultCode[20002619].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof codeValue2 === 'string') {
     if (codeValue2.trim() === '') {
       res.status(200).json(myValueLog({

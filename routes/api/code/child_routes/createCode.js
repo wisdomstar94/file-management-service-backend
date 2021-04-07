@@ -15,6 +15,8 @@ const createCode = wrapper(async(req, res, next) => {
     sortNo,
   } = req.body;
 
+  // codeGroup 체크 : required
+
   // codeGroup 유효성 검사
   if (typeof codeGroup !== 'string') {
     res.status(200).json(myValueLog({
@@ -103,6 +105,9 @@ const createCode = wrapper(async(req, res, next) => {
     return;
   }
 
+
+  // codeName 체크 : required
+
   // codeName 유효성 검사
   if (typeof codeName !== 'string') {
     res.status(200).json(myValueLog({
@@ -143,7 +148,22 @@ const createCode = wrapper(async(req, res, next) => {
     return;
   }
 
-  // codeDescription 유효성 검사
+  
+
+  // codeDescription 체크
+  if (codeDescription !== null && codeDescription !== undefined && typeof codeDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20002089,
+        msg: myResultCode[20002089].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof codeDescription === 'string') {
     if (codeDescription.trim() === '') {
       res.status(200).json(myValueLog({
@@ -172,7 +192,20 @@ const createCode = wrapper(async(req, res, next) => {
     }
   }
 
-  // codeValue1 유효성 검사
+  // codeValue1 체크 : optional
+  if (codeValue1 !== null && codeValue1 !== undefined && typeof codeValue1 !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20002109,
+        msg: myResultCode[20002109].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof codeValue1 === 'string') {
     if (codeValue1.trim() === '') {
       res.status(200).json(myValueLog({
@@ -201,7 +234,20 @@ const createCode = wrapper(async(req, res, next) => {
     }
   }
 
-  // codeValue2 유효성 검사
+  // codeValue2 체크 : optional
+  if (codeValue2 !== null && codeValue2 !== undefined && typeof codeValue2 !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20002129,
+        msg: myResultCode[20002129].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof codeValue2 === 'string') {
     if (codeValue2.trim() === '') {
       res.status(200).json(myValueLog({
