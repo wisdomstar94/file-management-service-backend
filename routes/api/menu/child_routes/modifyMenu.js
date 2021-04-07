@@ -17,6 +17,19 @@ const modifyMenu = wrapper(async(req, res, next) => {
   } = req.body;
 
   // parentMenuKey 체크 : optional
+  if (parentMenuKey !== null && parentMenuKey !== undefined && typeof parentMenuKey !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011009,
+        msg: myResultCode[20011009].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof parentMenuKey === 'string') {
     if (parentMenuKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -64,7 +77,7 @@ const modifyMenu = wrapper(async(req, res, next) => {
     }
   }
 
-  // menuKey : require
+  // menuKey : required
   if (typeof menuKey === 'string') {
     if (menuKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -159,6 +172,19 @@ const modifyMenu = wrapper(async(req, res, next) => {
   }
 
   // menuCategoryKey 체크 : optional
+  if (menuCategoryKey !== undefined && typeof menuCategoryKey !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011109,
+        msg: myResultCode[20011109].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuCategoryKey === 'string') {
     if (menuCategoryKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -206,6 +232,19 @@ const modifyMenu = wrapper(async(req, res, next) => {
   }
 
   // menuName 체크 : optional
+  if (menuName !== undefined && typeof menuName !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011139,
+        msg: myResultCode[20011139].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuName === 'string') {
     if (menuName.trim() === '') {
       res.status(200).json(myValueLog({
@@ -235,6 +274,19 @@ const modifyMenu = wrapper(async(req, res, next) => {
   }
 
   // menuDescription 체크 : optional
+  if (menuDescription !== null && menuDescription !== undefined && typeof menuDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011159,
+        msg: myResultCode[20011159].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuDescription === 'string') {
     if (menuDescription.trim() === '') {
       res.status(200).json(myValueLog({
@@ -308,6 +360,19 @@ const modifyMenu = wrapper(async(req, res, next) => {
   }
 
   // menuStatus 체크 : optional
+  if (menuStatus !== undefined && typeof menuStatus !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20011209,
+        msg: myResultCode[20011209].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuStatus === 'string') {
     if (menuStatus.trim() === '') {
       res.status(200).json(myValueLog({

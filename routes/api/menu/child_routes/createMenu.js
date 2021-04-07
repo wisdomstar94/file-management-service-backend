@@ -15,6 +15,19 @@ const createMenu = wrapper(async(req, res, next) => {
   } = req.body;
 
   // parentMenuKey 체크 : optional
+  if (parentMenuKey !== null && parentMenuKey !== undefined && typeof parentMenuKey !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20008509,
+        msg: myResultCode[20008509].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof parentMenuKey === 'string') {
     if (parentMenuKey.trim() === '') {
       res.status(200).json(myValueLog({
@@ -62,7 +75,7 @@ const createMenu = wrapper(async(req, res, next) => {
     }
   }
   
-  // menuCategoryKey 체크
+  // menuCategoryKey 체크 : required
   if (typeof menuCategoryKey !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
@@ -120,7 +133,7 @@ const createMenu = wrapper(async(req, res, next) => {
     return;
   }
 
-  // menuName 체크
+  // menuName 체크 : required
   if (typeof menuName !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
@@ -160,7 +173,20 @@ const createMenu = wrapper(async(req, res, next) => {
     return;
   }
 
-  // menuDescription 체크
+  // menuDescription 체크 : optional
+  if (menuDescription !== null && menuDescription !== undefined && typeof menuDescription !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20008609,
+        msg: myResultCode[20008609].msg,
+      },
+    }));
+    return;
+  }
+
   if (typeof menuDescription === 'string') {
     if (menuDescription.trim() === '') {
       res.status(200).json(myValueLog({
@@ -189,7 +215,7 @@ const createMenu = wrapper(async(req, res, next) => {
     }
   }
 
-  // sortNo 체크 
+  // sortNo 체크 : optional
   if (sortNo !== undefined) {
     if (sortNo === null) {
       res.status(200).json(myValueLog({
