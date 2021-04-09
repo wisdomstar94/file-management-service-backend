@@ -4,8 +4,9 @@ const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 const myGetMakeToken = require('../../../librarys/myGetMakeToken').myGetMakeToken;
+const myCommon = require('../../../librarys/myCommon');
 const myBoard = require('../../../librarys/myBoard');
-const { Op } = require('sequelize');
+const { Op, Sequelize } = require('sequelize');
 
 const getPermissionGroup = wrapper(async(req, res, next) => {
   const {
@@ -67,11 +68,13 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
   // permissionGroupName 체크
   if (typeof permissionGroupName === 'string') {
-    OpAndArray.push({
-      permissionGroupName: {
-        [Op.substring]: permissionGroupName,
-      },
-    });
+    if (permissionGroupName.trim() !== '') {
+      OpAndArray.push({
+        permissionGroupName: {
+          [Op.substring]: myCommon.specialCharEscape(permissionGroupName),
+        },
+      });
+    }
   }
 
   if (Array.isArray(permissionGroupName)) {
@@ -79,6 +82,10 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
     for (let i = 0; i < permissionGroupName.length; i++) {
       if (typeof permissionGroupName[i] !== 'string') {
+        continue;
+      }
+
+      if (permissionGroupName[i].trim() === '') {
         continue;
       }
 
@@ -90,7 +97,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
         [Op.or]: permissionGroupNameReal.map((x) => {
           return {
             permissionGroupName: {
-              [Op.substring]: x
+              [Op.substring]: myCommon.specialCharEscape(x),
             },
           };
         }),
@@ -100,11 +107,13 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
   // permissionGroupDescription 체크
   if (typeof permissionGroupDescription === 'string') {
-    OpAndArray.push({
-      permissionGroupDescription: {
-        [Op.substring]: permissionGroupDescription,
-      },
-    });
+    if (permissionGroupDescription.trim() !== '') {
+      OpAndArray.push({
+        permissionGroupDescription: {
+          [Op.substring]: myCommon.specialCharEscape(permissionGroupDescription),
+        },
+      });
+    }
   }
 
   if (Array.isArray(permissionGroupDescription)) {
@@ -112,6 +121,10 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
     for (let i = 0; i < permissionGroupDescription.length; i++) {
       if (typeof permissionGroupDescription[i] !== 'string') {
+        continue;
+      }
+
+      if (permissionGroupDescription[i].trim() === '') {
         continue;
       }
 
@@ -123,7 +136,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
         [Op.or]: permissionGroupDescriptionReal.map((x) => {
           return {
             permissionGroupDescription: {
-              [Op.substring]: x
+              [Op.substring]: myCommon.specialCharEscape(x),
             },
           };
         }),
@@ -155,11 +168,13 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
   // createdIp 체크
   if (typeof createdIp === 'string') {
-    OpAndArray.push({
-      createdIp: {
-        [Op.substring]: createdIp,
-      },
-    });
+    if (createdIp.trim() !== '') {
+      OpAndArray.push({
+        createdIp: {
+          [Op.substring]: myCommon.specialCharEscape(createdIp),
+        },
+      });
+    }
   }
 
   if (Array.isArray(createdIp)) {
@@ -167,6 +182,10 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
     for (let i = 0; i < createdIp.length; i++) {
       if (typeof createdIp[i] !== 'string') {
+        continue;
+      }
+
+      if (createdIp[i].trim() === '') {
         continue;
       }
 
@@ -178,7 +197,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
         [Op.or]: createdIpReal.map((x) => {
           return {
             createdIp: {
-              [Op.substring]: x
+              [Op.substring]: myCommon.specialCharEscape(x),
             },
           };
         }),
@@ -210,11 +229,13 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
   // updatedIp 체크
   if (typeof updatedIp === 'string') {
-    OpAndArray.push({
-      updatedIp: {
-        [Op.substring]: updatedIp,
-      },
-    });
+    if (updatedIp.trim() !== '') {
+      OpAndArray.push({
+        updatedIp: {
+          [Op.substring]: myCommon.specialCharEscape(updatedIp),
+        },
+      });
+    }
   }
 
   if (Array.isArray(updatedIp)) {
@@ -222,6 +243,10 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
     for (let i = 0; i < updatedIp.length; i++) {
       if (typeof updatedIp[i] !== 'string') {
+        continue;
+      }
+
+      if (updatedIp[i].trim() === '') {
         continue;
       }
 
@@ -233,7 +258,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
         [Op.or]: updatedIpReal.map((x) => {
           return {
             updatedIp: {
-              [Op.substring]: x
+              [Op.substring]: myCommon.specialCharEscape(x),
             },
           };
         }),
