@@ -376,6 +376,18 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
 
   // 리스트 가져오기
   const list = await db.FmsPermissionGroups.findAll({
+    attributes: [
+      'permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription', 'sortNo',
+      'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'permissionGroupStatus', 
+    ],
+    include: [
+      {
+        model: db.FmsCodes,
+        attributes: [
+          ['codeName', 'permissionGroupStatusString'],
+        ],
+      },
+    ],
     where: where,
     order: order,
     offset: getPageInfo.startIndex,
