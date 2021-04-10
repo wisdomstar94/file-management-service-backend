@@ -235,6 +235,19 @@ const createUser = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (userPassword.length < 6) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017151,
+        msg: myResultCode[20017151].msg,
+      },
+    }));
+    return;
+  }
+
   // userName 체크 : required
   if (typeof userName !== 'string') {
     res.status(200).json(myValueLog({
