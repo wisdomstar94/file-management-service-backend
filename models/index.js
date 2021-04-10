@@ -11,6 +11,7 @@ const FmsPermissionGroups = require('./FmsPermissionGroups');
 const FmsMenuCategorys = require('./FmsMenuCategorys');
 const FmsMenus = require('./FmsMenus');
 const FmsPermissions = require('./FmsPermissions');
+const FmsPermissionGroupsUploads = require('./FmsPermissionGroupUploads');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -54,6 +55,7 @@ db.FmsMenuCategorys = FmsMenuCategorys(sequelize, Sequelize);
 db.FmsMenus = FmsMenus(sequelize, Sequelize);
 db.FmsPermissions = FmsPermissions(sequelize, Sequelize);
 db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
+db.FmsPermissionGroupUploads = FmsPermissionGroupsUploads(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
@@ -76,6 +78,12 @@ db.FmsPermissions.belongsTo(db.FmsMenus, { foreignKey: 'menuKey', sourceKey: 'me
 
 db.FmsCodes.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 db.FmsPermissionGroups.belongsTo(db.FmsCodes, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
+
+db.FmsPermissionGroups.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
+db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' })
+
+db.FmsPermissions.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
+db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissions, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
 
 // export module
 module.exports = db;
