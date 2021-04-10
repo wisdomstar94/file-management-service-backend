@@ -12,6 +12,7 @@ const FmsMenuCategorys = require('./FmsMenuCategorys');
 const FmsMenus = require('./FmsMenus');
 const FmsPermissions = require('./FmsPermissions');
 const FmsPermissionGroupsUploads = require('./FmsPermissionGroupUploads');
+const FmsCompanys = require('./FmsCompanys');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -56,6 +57,7 @@ db.FmsMenus = FmsMenus(sequelize, Sequelize);
 db.FmsPermissions = FmsPermissions(sequelize, Sequelize);
 db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 db.FmsPermissionGroupUploads = FmsPermissionGroupsUploads(sequelize, Sequelize);
+db.FmsCompanys = FmsCompanys(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
