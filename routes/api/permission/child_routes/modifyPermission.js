@@ -58,6 +58,7 @@ const modifyPermission = wrapper(async(req, res, next) => {
     const menuKeyResult = await db.FmsMenus.findOne({
       where: {
         menuKey: menuKey,
+        isDeletedRow: 'N',
       },
     });
     if (menuKeyResult === null) {
@@ -116,7 +117,8 @@ const modifyPermission = wrapper(async(req, res, next) => {
 
   const permissionKeyResult = await db.FmsPermissions.findOne({
     where: {
-      permissionKey: permissionKey
+      permissionKey: permissionKey,
+      isDeletedRow: 'N',
     },
   });
   if (permissionKeyResult === null) {

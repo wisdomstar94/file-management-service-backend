@@ -57,6 +57,7 @@ const createPermission = wrapper(async(req, res, next) => {
   const menuKeyResult = await db.FmsMenus.findOne({
     where: {
       menuKey: menuKey,
+      isDeletedRow: 'N',
     },
   });
   if (menuKeyResult === null) {

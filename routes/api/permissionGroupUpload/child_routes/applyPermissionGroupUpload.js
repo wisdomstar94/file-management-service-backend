@@ -288,6 +288,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
       const permissionGroupKeyResult = await db.FmsPermissionGroups.findOne({
         where: {
           permissionGroupKey: permissionGroupKeyReal,
+          isDeletedRow: 'N',
         },
       }, {
         transaction: transaction,
@@ -354,6 +355,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
         where: {
           permissionGroupKey: permissionGroupKeyReal,
           permissionKey: item.permissionKey,
+          isDeletedRow: 'N',
         },
         transaction: transaction,
       });

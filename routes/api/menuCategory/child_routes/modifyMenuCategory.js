@@ -44,6 +44,7 @@ const modifyMenuCategory = wrapper(async(req, res, next) => {
   const menuCategoryKeyInfo = await db.FmsMenuCategorys.findOne({
     where: {
       menuCategoryKey: menuCategoryKey,
+      isDeletedRow: 'N',
     },
   });
 
