@@ -22,8 +22,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014510,
+        msg: myResultCode[20014510].msg,
       },
     }));
     return;
@@ -35,8 +35,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014520,
+        msg: myResultCode[20014520].msg,
       },
     }));
     return;
@@ -48,8 +48,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014530,
+        msg: myResultCode[20014530].msg,
       },
     }));
     return;
@@ -62,8 +62,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014540,
+        msg: myResultCode[20014540].msg,
       },
     }));
     return;
@@ -76,8 +76,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014550,
+          msg: myResultCode[20014550].msg,
         },
       }));
       return;
@@ -89,8 +89,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014560,
+          msg: myResultCode[20014560].msg,
         },
       }));
       return;
@@ -104,8 +104,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014570,
+        msg: myResultCode[20014570].msg,
       },
     }));
     return;
@@ -118,8 +118,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014580,
+          msg: myResultCode[20014580].msg,
         },
       }));
       return;
@@ -134,8 +134,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014590,
+          msg: myResultCode[20014590].msg,
         },
       }));
       return;
@@ -149,8 +149,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20014600,
+        msg: myResultCode[20014600].msg,
       },
     }));
     return;
@@ -163,8 +163,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014610,
+          msg: myResultCode[20014610].msg,
         },
       }));
       return;
@@ -176,8 +176,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014620,
+          msg: myResultCode[20014620].msg,
         },
       }));
       return;
@@ -190,8 +190,8 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20014630,
+          msg: myResultCode[20014630].msg,
         },
       }));
       return;
