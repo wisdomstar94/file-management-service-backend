@@ -11,6 +11,14 @@ const myRegularExpressCheck = require('../../../librarys/myRegularExpressCheck')
 const { Op, Sequelize } = require('sequelize');
 
 const getUser = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
   const {
     companyKey, // string 또는 string[]
     companyName, // string 또는 string[]

@@ -136,13 +136,23 @@ const login = wrapper(async(req, res, next) => {
     issuer: process.env.PROJECT_NAME,
   });
 
-  // create refresh toekn
+  // create refresh token
   const newJwtRefreshTokenKey = myGetMakeToken({ strlength: 20 });
   const newRefreshToken = jwt.sign({
     a: myCrypto.encrypt({ originalValue: newJwtRefreshTokenKey }), // jwt refresh token key
   }, process.env.JWT_SECRET, {
     expiresIn: process.env.JWT_REFRESH_TOKEN_EXPIRE_MINUTE, 
     issuer: process.env.PROJECT_NAME,
+  });
+
+  // logging refresh token
+  await db.FmsJwtRefreshTokens.create({
+    jwtRefreshTokenKey: newJwtRefreshTokenKey,
+    userKey: userInfo.userKey,
+    agent: req.headers['user-agent'],
+    createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+    createdIp: req.real_ip,
+    endLineDateTime: myDate().add(540, 'minute').format('YYYY-MM-DD HH:mm:ss'),
   });
 
   res.status(200).json(myValueLog({
