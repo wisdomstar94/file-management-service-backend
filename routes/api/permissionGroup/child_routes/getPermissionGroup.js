@@ -346,7 +346,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
   where.isDeletedRow = 'N';
   order.push(['createdAt', 'DESC']);
 
-  // 권한 그룹 리스트 가져오기 (전체 갯수)
+  // 전체 리스트 가져오기 (전체 갯수)
   const totalResult = await db.FmsPermissionGroups.findAndCountAll({
     where: where,
     order: order,
