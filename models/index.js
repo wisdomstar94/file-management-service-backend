@@ -15,6 +15,7 @@ const FmsPermissionGroupsUploads = require('./FmsPermissionGroupUploads');
 const FmsCompanys = require('./FmsCompanys');
 const FmsFiles = require('./FmsFiles');
 const FmsFileImages = require('./FmsFileImages');
+const FmsFileVersions = require('./FmsFileVersions');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -62,6 +63,7 @@ db.FmsPermissionGroupUploads = FmsPermissionGroupsUploads(sequelize, Sequelize);
 db.FmsCompanys = FmsCompanys(sequelize, Sequelize);
 db.FmsFiles = FmsFiles(sequelize, Sequelize);
 db.FmsFileImages = FmsFileImages(sequelize, Sequelize);
+db.FmsFileVersions = FmsFileVersions(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
@@ -126,6 +128,18 @@ db.FmsFileImages.belongsTo(db.FmsFiles, { as: 'FmsFiles', foreignKey: 'fileKey',
 
 db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageStatus', sourceKey: 'code' });
 db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageStatusCodes', foreignKey: 'fileImageStatus', sourceKey: 'code' });
+
+db.FmsFiles.hasMany(db.FmsFileVersions, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
+db.FmsFileVersions.belongsTo(db.FmsFiles, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
+
+db.FmsUsers.hasMany(db.FmsFileVersions, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+db.FmsFileVersions.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+
+db.FmsUsers.hasMany(db.FmsFileVersions, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsFileVersions.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
+db.FmsCodes.hasMany(db.FmsFileVersions, { foreignKey: 'fileVersionStatus', sourceKey: 'code' });
+db.FmsFileVersions.belongsTo(db.FmsCodes, { as: 'FmsFileVersionStatusCodes', foreignKey: 'fileVersionStatus', sourceKey: 'code' });
 
 // export module
 module.exports = db;

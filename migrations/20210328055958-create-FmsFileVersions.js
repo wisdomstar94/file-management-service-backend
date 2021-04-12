@@ -56,6 +56,16 @@ module.exports = {
         allowNull: false,
         comment: '저장된 파일 경로',
       },
+      fileSize: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: '저장된 파일 용량 (byte)',
+      },
+      fileMimeType: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+        comment: '저장된 파일 종류',
+      },
       createrUserKey: {
         type: Sequelize.STRING(20),
         allowNull: false,

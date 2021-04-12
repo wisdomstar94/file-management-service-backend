@@ -27,6 +27,8 @@ module.exports = (sequelize, DataTypes) => {
     fileVersionMemo: DataTypes.TEXT,
     fileVersionDescription: DataTypes.TEXT,
     filePath: DataTypes.STRING,
+    fileSize: DataTypes.INTEGER,
+    fileMimeType: DataTypes.STRING,
     createrUserKey: DataTypes.STRING,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,

@@ -14,8 +14,16 @@ const { Op, Sequelize } = require('sequelize');
 require('dotenv').config();
 
 /*
-  upload.array('fileScreenShot')
-  upload.single('fileRepresentImage')
+  upload.fields([
+    {
+      name: 'fileScreenShot',
+      maxCount: 50,
+    },
+    {
+      name: 'fileRepresentImage',
+      maxCount: 1,
+    },
+  ])
 */
 const uploadFile = wrapper(async(req, res, next) => {
   console.log('req.files', req.files);
@@ -100,8 +108,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023010,
+        msg: myResultCode[20023010].msg,
       },
     }));
     return;
@@ -113,8 +121,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023020,
+        msg: myResultCode[20023020].msg,
       },
     }));
     return;
@@ -126,8 +134,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023030,
+        msg: myResultCode[20023030].msg,
       },
     }));
     return;
@@ -140,8 +148,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023040,
+        msg: myResultCode[20023040].msg,
       },
     }));
     return;
@@ -154,8 +162,8 @@ const uploadFile = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20023050,
+          msg: myResultCode[20023050].msg,
         },
       }));
       return;
@@ -169,8 +177,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023060,
+        msg: myResultCode[20023060].msg,
       },
     }));
     return;
@@ -183,8 +191,8 @@ const uploadFile = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20023070,
+          msg: myResultCode[20023070].msg,
         },
       }));
       return;
@@ -198,8 +206,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023080,
+        msg: myResultCode[20023080].msg,
       },
     }));
     return;
@@ -212,8 +220,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023090,
+        msg: myResultCode[20023090].msg,
       },
     }));
     return;
@@ -226,8 +234,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023100,
+        msg: myResultCode[20023100].msg,
       },
     }));
     return;
@@ -239,8 +247,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023110,
+        msg: myResultCode[20023110].msg,
       },
     }));
     return;
@@ -252,8 +260,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023120,
+        msg: myResultCode[20023120].msg,
       },
     }));
     return;
@@ -266,8 +274,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023130,
+        msg: myResultCode[20023130].msg,
       },
     }));
     return;
@@ -372,8 +380,8 @@ const uploadFile = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20023140,
+        msg: myResultCode[20023140].msg,
       },
     }));
     return;
