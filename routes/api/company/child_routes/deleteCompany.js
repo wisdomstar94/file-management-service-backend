@@ -176,7 +176,7 @@ const deleteCompany = wrapper(async(req, res, next) => {
   const modifyResult = await db.FmsCompanys.update({
     updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     updatedIp: req.real_ip,
-    updaterUserKey: loginInfo.userKey,
+    // updaterUserKey: loginInfo.userKey,
     isDeletedRow: 'Y',
   }, {
     where: {

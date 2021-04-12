@@ -13,6 +13,8 @@ const FmsMenus = require('./FmsMenus');
 const FmsPermissions = require('./FmsPermissions');
 const FmsPermissionGroupsUploads = require('./FmsPermissionGroupUploads');
 const FmsCompanys = require('./FmsCompanys');
+const FmsFiles = require('./FmsFiles');
+const FmsFileImages = require('./FmsFileImages');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -58,6 +60,8 @@ db.FmsPermissions = FmsPermissions(sequelize, Sequelize);
 db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 db.FmsPermissionGroupUploads = FmsPermissionGroupsUploads(sequelize, Sequelize);
 db.FmsCompanys = FmsCompanys(sequelize, Sequelize);
+db.FmsFiles = FmsFiles(sequelize, Sequelize);
+db.FmsFileImages = FmsFileImages(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
@@ -96,14 +100,32 @@ db.FmsUsers.belongsTo(db.FmsCompanys, { foreignKey: 'companyKey', sourceKey: 'co
 db.FmsPermissionGroups.hasMany(db.FmsUsers, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
 db.FmsUsers.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
 
-db.FmsUsers.hasMany(db.FmsCompanys, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
-db.FmsCompanys.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+// db.FmsUsers.hasMany(db.FmsCompanys, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+// db.FmsCompanys.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
 
-db.FmsUsers.hasMany(db.FmsCompanys, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
-db.FmsCompanys.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+// db.FmsUsers.hasMany(db.FmsCompanys, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+// db.FmsCompanys.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
 
 db.FmsCodes.hasMany(db.FmsCompanys, { foreignKey: 'companyStatus', sourceKey: 'code' });
 db.FmsCompanys.belongsTo(db.FmsCodes, { as: 'FmsCompanyStatusCodes', foreignKey: 'companyStatus', sourceKey: 'code' });
+
+db.FmsUsers.hasMany(db.FmsFiles, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsFiles.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
+db.FmsUsers.hasMany(db.FmsFiles, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+db.FmsFiles.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+
+db.FmsCodes.hasMany(db.FmsFiles, { foreignKey: 'fileStatus', sourceKey: 'code' });
+db.FmsFiles.belongsTo(db.FmsCodes, { as: 'FmsFileStatusCodes', foreignKey: 'fileStatus', sourceKey: 'code' });
+
+db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageType', sourceKey: 'code' });
+db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageTypeCodes', foreignKey: 'fileImageType', sourceKey: 'code' });
+
+db.FmsFiles.hasMany(db.FmsFileImages, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
+db.FmsFileImages.belongsTo(db.FmsFiles, { as: 'FmsFiles', foreignKey: 'fileKey', sourceKey: 'fileKey' });
+
+db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageStatus', sourceKey: 'code' });
+db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageStatusCodes', foreignKey: 'fileImageStatus', sourceKey: 'code' });
 
 // export module
 module.exports = db;

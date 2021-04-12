@@ -61,12 +61,12 @@ module.exports = {
         allowNull: false,
         comment: '생성시 요청 IP',
       },
-      createrUserKey: {
-        type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '생성자 회원 고유 식별키',
-        // FK 설정
-      },
+      // createrUserKey: {
+      //   type: Sequelize.STRING(20),
+      //   allowNull: false,
+      //   comment: '생성자 회원 고유 식별키',
+      //   // FK 설정
+      // },
       updatedAt: {
         type: Sequelize.DATE,
         allowNull: true,
@@ -77,12 +77,12 @@ module.exports = {
         allowNull: true,
         comment: '수정시 요청 IP',
       },
-      updaterUserKey: {
-        type: Sequelize.STRING(20),
-        allowNull: true,
-        comment: '수정자 회원 고유 식별키',
-        // FK 설정
-      },
+      // updaterUserKey: {
+      //   type: Sequelize.STRING(20),
+      //   allowNull: true,
+      //   comment: '수정자 회원 고유 식별키',
+      //   // FK 설정
+      // },
       companyStatus: {
         type: Sequelize.STRING(13),
         allowNull: false,

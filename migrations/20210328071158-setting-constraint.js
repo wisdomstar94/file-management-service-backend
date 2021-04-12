@@ -42,24 +42,24 @@ module.exports = {
     });
 
     // FmsCompanys
-    await queryInterface.addConstraint('FmsCompanys', {
-      fields: ['createrUserKey'],
-      type: 'foreign key',
-      name: 'fcp_createrUserKey_fk',
-      references: { // Required field
-        table: 'FmsUsers',
-        field: 'userKey',
-      },
-    });
-    await queryInterface.addConstraint('FmsCompanys', {
-      fields: ['updaterUserKey'],
-      type: 'foreign key',
-      name: 'fcp_updaterUserKey_fk',
-      references: { // Required field
-        table: 'FmsUsers',
-        field: 'userKey',
-      },
-    });
+    // await queryInterface.addConstraint('FmsCompanys', {
+    //   fields: ['createrUserKey'],
+    //   type: 'foreign key',
+    //   name: 'fcp_createrUserKey_fk',
+    //   references: { // Required field
+    //     table: 'FmsUsers',
+    //     field: 'userKey',
+    //   },
+    // });
+    // await queryInterface.addConstraint('FmsCompanys', {
+    //   fields: ['updaterUserKey'],
+    //   type: 'foreign key',
+    //   name: 'fcp_updaterUserKey_fk',
+    //   references: { // Required field
+    //     table: 'FmsUsers',
+    //     field: 'userKey',
+    //   },
+    // });
     await queryInterface.addConstraint('FmsCompanys', {
       fields: ['companyStatus'],
       type: 'foreign key',
@@ -189,6 +189,15 @@ module.exports = {
       references: { // Required field
         table: 'FmsFiles',
         field: 'fileKey',
+      },
+    });
+    await queryInterface.addConstraint('FmsFileImages', {
+      fields: ['fileImageType'],
+      type: 'foreign key',
+      name: 'ffimg_fileImageType_fk',
+      references: { // Required field
+        table: 'FmsCodes',
+        field: 'code',
       },
     });
     await queryInterface.addConstraint('FmsFileImages', {

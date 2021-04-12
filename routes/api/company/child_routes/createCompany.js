@@ -377,7 +377,7 @@ const createCompany = wrapper(async(req, res, next) => {
     memo: memo,
     createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     createdIp: req.real_ip,
-    createrUserKey: loginInfo.userKey,
+    // createrUserKey: loginInfo.userKey,
     companyStatus: companyStatus,
   });
 

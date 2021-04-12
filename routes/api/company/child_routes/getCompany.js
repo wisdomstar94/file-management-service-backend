@@ -31,13 +31,13 @@ const getCompany = wrapper(async(req, res, next) => {
     createdAtStart, // string 또는 string[]
     createdAtEnd, // string 또는 string[]
     createdIp, // string 또는 string[]
-    createrUserKey, // string 또는 string[]
-    createrUserName, // string 또는 string[]
+    // createrUserKey, // string 또는 string[]
+    // createrUserName, // string 또는 string[]
     updatedAtStart, // string 또는 string[]
     updatedAtEnd, // string 또는 string[]
     updatedIp, // string 또는 string[]
-    updaterUserKey, // string 또는 string[]
-    updaterUserName, // string 또는 string[]
+    // updaterUserKey, // string 또는 string[]
+    // updaterUserName, // string 또는 string[]
     companyStatus, // string 또는 string[]
 
     page, // 요청온 페이지 숫자
@@ -422,81 +422,81 @@ const getCompany = wrapper(async(req, res, next) => {
     }
   }
 
-  // createrUserKey 체크 : optional
-  if (typeof createrUserKey === 'string') {
-    if (createrUserKey.trim() !== '' && createrUserKey.length === 20) {
-      OpAndArray.push({
-        createrUserKey: {
-          [Op.eq]: createrUserKey,
-        },
-      });
-    }
-  }
+  // // createrUserKey 체크 : optional
+  // if (typeof createrUserKey === 'string') {
+  //   if (createrUserKey.trim() !== '' && createrUserKey.length === 20) {
+  //     OpAndArray.push({
+  //       createrUserKey: {
+  //         [Op.eq]: createrUserKey,
+  //       },
+  //     });
+  //   }
+  // }
 
-  if (Array.isArray(createrUserKey)) {
-    const createrUserKeyReal = [];
-    for (let i = 0; i < createrUserKey.length; i++) {
-      if (typeof createrUserKey[i] !== 'string') {
-        continue;
-      }
+  // if (Array.isArray(createrUserKey)) {
+  //   const createrUserKeyReal = [];
+  //   for (let i = 0; i < createrUserKey.length; i++) {
+  //     if (typeof createrUserKey[i] !== 'string') {
+  //       continue;
+  //     }
 
-      if (createrUserKey[i].trim() === '') {
-        continue;
-      }
+  //     if (createrUserKey[i].trim() === '') {
+  //       continue;
+  //     }
 
-      if (createrUserKey[i].length !== 20) {
-        continue;
-      }
+  //     if (createrUserKey[i].length !== 20) {
+  //       continue;
+  //     }
 
-      createrUserKeyReal.push(createrUserKey[i]);
-    }
+  //     createrUserKeyReal.push(createrUserKey[i]);
+  //   }
 
-    if (createrUserKeyReal.length > 0) {
-      OpAndArray.push({
-        createrUserKey: {
-          [Op.in]: createrUserKeyReal,
-        },
-      });
-    }
-  }
+  //   if (createrUserKeyReal.length > 0) {
+  //     OpAndArray.push({
+  //       createrUserKey: {
+  //         [Op.in]: createrUserKeyReal,
+  //       },
+  //     });
+  //   }
+  // }
 
-  // createrUserName 체크 : optional
-  if (typeof createrUserName === 'string') {
-    if (createrUserName.trim() !== '') {
-      createrUserWhereOpAndArray.push({
-        userName: {
-          [Op.substring]: myCommon.specialCharEscape(createrUserName),
-        },
-      });
-    }
-  }
+  // // createrUserName 체크 : optional
+  // if (typeof createrUserName === 'string') {
+  //   if (createrUserName.trim() !== '') {
+  //     createrUserWhereOpAndArray.push({
+  //       userName: {
+  //         [Op.substring]: myCommon.specialCharEscape(createrUserName),
+  //       },
+  //     });
+  //   }
+  // }
 
-  if (Array.isArray(createrUserName)) {
-    const createrUserNameReal = [];
-    for (let i = 0; i < createrUserName.length; i++) {
-      if (typeof createrUserName[i] !== 'string') {
-        continue;
-      }
+  // if (Array.isArray(createrUserName)) {
+  //   const createrUserNameReal = [];
+  //   for (let i = 0; i < createrUserName.length; i++) {
+  //     if (typeof createrUserName[i] !== 'string') {
+  //       continue;
+  //     }
 
-      if (createrUserName[i].trim() === '') {
-        continue;
-      }
+  //     if (createrUserName[i].trim() === '') {
+  //       continue;
+  //     }
 
-      createrUserNameReal.push(createrUserName[i]);
-    }
+  //     createrUserNameReal.push(createrUserName[i]);
+  //   }
 
-    if (createrUserNameReal.length > 0) {
-      createrUserWhereOpAndArray.push({
-        [Op.or]: createrUserNameReal.map((x) => {
-          return {
-            userName: {
-              [Op.substring]: myCommon.specialCharEscape(x),
-            },
-          };
-        }),
-      });
-    }
-  }
+  //   if (createrUserNameReal.length > 0) {
+  //     createrUserWhereOpAndArray.push({
+  //       [Op.or]: createrUserNameReal.map((x) => {
+  //         return {
+  //           userName: {
+  //             [Op.substring]: myCommon.specialCharEscape(x),
+  //           },
+  //         };
+  //       }),
+  //     });
+  //   }
+  // }
 
   // updatedAtStart 체크 : optional
   if (typeof updatedAtStart === 'string') {
@@ -558,81 +558,81 @@ const getCompany = wrapper(async(req, res, next) => {
     }
   }
 
-  // updaterUserKey 체크 : optional
-  if (typeof updaterUserKey === 'string') {
-    if (updaterUserKey.trim() !== '' && updaterUserKey.length === 20) {
-      OpAndArray.push({
-        updaterUserKey: {
-          [Op.eq]: updaterUserKey,
-        },
-      });
-    }
-  }
+  // // updaterUserKey 체크 : optional
+  // if (typeof updaterUserKey === 'string') {
+  //   if (updaterUserKey.trim() !== '' && updaterUserKey.length === 20) {
+  //     OpAndArray.push({
+  //       updaterUserKey: {
+  //         [Op.eq]: updaterUserKey,
+  //       },
+  //     });
+  //   }
+  // }
 
-  if (Array.isArray(updaterUserKey)) {
-    const updaterUserKeyReal = [];
-    for (let i = 0; i < updaterUserKey.length; i++) {
-      if (typeof updaterUserKey[i] !== 'string') {
-        continue;
-      }
+  // if (Array.isArray(updaterUserKey)) {
+  //   const updaterUserKeyReal = [];
+  //   for (let i = 0; i < updaterUserKey.length; i++) {
+  //     if (typeof updaterUserKey[i] !== 'string') {
+  //       continue;
+  //     }
 
-      if (updaterUserKey[i].trim() === '') {
-        continue;
-      }
+  //     if (updaterUserKey[i].trim() === '') {
+  //       continue;
+  //     }
 
-      if (updaterUserKey[i].length !== 20) {
-        continue;
-      }
+  //     if (updaterUserKey[i].length !== 20) {
+  //       continue;
+  //     }
 
-      updaterUserKeyReal.push(updaterUserKey[i]);
-    }
+  //     updaterUserKeyReal.push(updaterUserKey[i]);
+  //   }
 
-    if (updaterUserKeyReal.length > 0) {
-      OpAndArray.push({
-        updaterUserKey: {
-          [Op.in]: updaterUserKeyReal,
-        },
-      });
-    }
-  }
+  //   if (updaterUserKeyReal.length > 0) {
+  //     OpAndArray.push({
+  //       updaterUserKey: {
+  //         [Op.in]: updaterUserKeyReal,
+  //       },
+  //     });
+  //   }
+  // }
 
-  // updaterUserName 체크 : optional
-  if (typeof updaterUserName === 'string') {
-    if (updaterUserName.trim() !== '') {
-      updaterUserWhereOpAndArray.push({
-        userName: {
-          [Op.substring]: myCommon.specialCharEscape(updaterUserName),
-        },
-      });
-    }
-  }
+  // // updaterUserName 체크 : optional
+  // if (typeof updaterUserName === 'string') {
+  //   if (updaterUserName.trim() !== '') {
+  //     updaterUserWhereOpAndArray.push({
+  //       userName: {
+  //         [Op.substring]: myCommon.specialCharEscape(updaterUserName),
+  //       },
+  //     });
+  //   }
+  // }
 
-  if (Array.isArray(updaterUserName)) {
-    const updaterUserNameReal = [];
-    for (let i = 0; i < updaterUserName.length; i++) {
-      if (typeof updaterUserName[i] !== 'string') {
-        continue;
-      }
+  // if (Array.isArray(updaterUserName)) {
+  //   const updaterUserNameReal = [];
+  //   for (let i = 0; i < updaterUserName.length; i++) {
+  //     if (typeof updaterUserName[i] !== 'string') {
+  //       continue;
+  //     }
 
-      if (updaterUserName[i].trim() === '') {
-        continue;
-      }
+  //     if (updaterUserName[i].trim() === '') {
+  //       continue;
+  //     }
 
-      updaterUserNameReal.push(updaterUserName[i]);
-    }
+  //     updaterUserNameReal.push(updaterUserName[i]);
+  //   }
 
-    if (updaterUserNameReal.length > 0) {
-      updaterUserWhereOpAndArray.push({
-        [Op.or]: updaterUserNameReal.map((x) => {
-          return {
-            userName: {
-              [Op.substring]: myCommon.specialCharEscape(x),
-            },
-          };
-        }),
-      });
-    }
-  }
+  //   if (updaterUserNameReal.length > 0) {
+  //     updaterUserWhereOpAndArray.push({
+  //       [Op.or]: updaterUserNameReal.map((x) => {
+  //         return {
+  //           userName: {
+  //             [Op.substring]: myCommon.specialCharEscape(x),
+  //           },
+  //         };
+  //       }),
+  //     });
+  //   }
+  // }
 
   // companyStatus 체크 : optional
   if (typeof companyStatus === 'string') {
@@ -746,24 +746,6 @@ const getCompany = wrapper(async(req, res, next) => {
         model: db.FmsCodes,
         attributes: ['code', 'codeName'],
       },
-      {
-        as: 'FmsCreaterUsers',
-        model: db.FmsUsers,
-        attributes: ['userKey', 'userName'],
-        required: createrUserRequired,
-        where: {
-          [Op.and]: createrUserWhereOpAndArray,
-        },
-      },
-      {
-        as: 'FmsUpdaterUsers',
-        model: db.FmsUsers,
-        attributes: ['userKey', 'userName'],
-        required: updaterUserRequired,
-        where: {
-          [Op.and]: updaterUserWhereOpAndArray,
-        },
-      },
     ],
   });
   const totalCount = totalResult.count;
@@ -817,8 +799,7 @@ const getCompany = wrapper(async(req, res, next) => {
   const list = await db.FmsCompanys.findAll({
     attributes: [
       'companyKey', 'companyName', 'companyCEOName', 'companyCEOTel', 'companyTel', 'companyBusinessNumber',
-      'companyAddress', 'memo', 'createdAt', 'createdIp', 'createrUserKey', 'updatedAt', 'updatedIp', 'updaterUserKey',
-      'companyStatus',
+      'companyAddress', 'memo', 'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'companyStatus',
     ],
     where: where,
     order: order,
@@ -827,24 +808,6 @@ const getCompany = wrapper(async(req, res, next) => {
         as: 'FmsCompanyStatusCodes',
         model: db.FmsCodes,
         attributes: ['code', 'codeName'],
-      },
-      {
-        as: 'FmsCreaterUsers',
-        model: db.FmsUsers,
-        attributes: ['userKey', 'userName'],
-        required: createrUserRequired,
-        where: {
-          [Op.and]: createrUserWhereOpAndArray,
-        },
-      },
-      {
-        as: 'FmsUpdaterUsers',
-        model: db.FmsUsers,
-        attributes: ['userKey', 'userName'],
-        required: updaterUserRequired,
-        where: {
-          [Op.and]: updaterUserWhereOpAndArray,
-        },
       },
     ],
     offset: getPageInfo.startIndex,

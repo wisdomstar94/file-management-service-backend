@@ -28,10 +28,10 @@ module.exports = (sequelize, DataTypes) => {
     memo: DataTypes.TEXT,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
-    createrUserKey: DataTypes.STRING,
+    // createrUserKey: DataTypes.STRING,
     updatedAt: DataTypes.DATE,
     updatedIp: DataTypes.STRING,
-    updaterUserKey: DataTypes.STRING,
+    // updaterUserKey: DataTypes.STRING,
     companyStatus: DataTypes.STRING,
     isDeletedRow: DataTypes.ENUM(['Y', 'N']),
   }, {

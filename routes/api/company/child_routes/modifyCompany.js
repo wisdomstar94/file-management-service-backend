@@ -515,7 +515,7 @@ const modifyCompany = wrapper(async(req, res, next) => {
     memo: memo,
     updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     updatedIp: req.real_ip,
-    updaterUserKey: loginInfo.userKey,
+    // updaterUserKey: loginInfo.userKey,
     companyStatus: companyStatus,
   }, {
     where: {

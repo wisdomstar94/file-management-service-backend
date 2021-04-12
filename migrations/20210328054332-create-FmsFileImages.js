@@ -15,6 +15,12 @@ module.exports = {
         allowNull: false,
         comment: '파일 이미지 고유 식별키',
       },
+      fileImageType: {
+        type: Sequelize.STRING(13),
+        allowNull: false,
+        comment: '파일 이미지 종류 (대표이미지인지, 스크린샷인지 등)',
+        // FK
+      },
       fileKey: {
         type: Sequelize.STRING(20),
         allowNull: false,
@@ -25,6 +31,21 @@ module.exports = {
         type: Sequelize.STRING(255),
         allowNull: false,
         comment: '이미지 원본 파일명',
+      },
+      fileImageConvertName: {
+        type: Sequelize.STRING(500),
+        allowNull: false,
+        comment: '이미지 파일명 변환 후의 파일명',
+      },
+      fileYYYYMM: {
+        type: Sequelize.STRING(6),
+        allowNull: false,
+        comment: '이미지 파일이 저장된 폴더의 월, 일',
+      },
+      fileSize: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: '이미지 용량 (byte)',
       },
       filePath: {
         type: Sequelize.STRING(255),
