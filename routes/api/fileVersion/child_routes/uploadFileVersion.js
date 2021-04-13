@@ -135,6 +135,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
   const fileKeyResult = await db.FmsFiles.findOne({
     where: {
       fileKey: fileKey,
+      isDeletedRow: 'N',
     },
   });
   if (fileKeyResult === null) {
@@ -194,6 +195,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     where: {
       fileKey: fileKey,
       fileVersionName: fileVersionName,
+      isDeletedRow: 'N',
     },
   });
   if (fileVersionNameResult !== null) {
@@ -248,6 +250,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     where: {
       fileKey: fileKey,
       fileVersionCode: Number(fileVersionCode),
+      isDeletedRow: 'N',
     },
   });
   if (fileVersionCodeResult !== null) {

@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     !fs.existsSync(check_folder) && fs.mkdirSync(check_folder, { recursive: true });
 
     // req.fileImageSaveFolder = check_folder;
-    req.fileImageYYYYMM = YYYYMM_folder_name;
+    req.fileVersionYYYYMM = YYYYMM_folder_name;
 
     cb(null, check_folder);
   },
@@ -45,7 +45,7 @@ const upload = multer({
 
 
 const child_route__uploadFileVersion = require('./child_routes/uploadFileVersion');
-
+const child_route__modifyFileVersion = require('./child_routes/modifyFileVersion');
 
 
 /*
@@ -57,5 +57,12 @@ router.post('/uploadFileVersion', jwtTokenCheck, upload.fields([
     maxCount: 1,
   },
 ]), child_route__uploadFileVersion);
+
+router.post('/modifyFileVersion', jwtTokenCheck, upload.fields([
+  {
+    name: 'versionFile',
+    maxCount: 1,
+  },
+]), child_route__modifyFileVersion);
 
 module.exports = router;
