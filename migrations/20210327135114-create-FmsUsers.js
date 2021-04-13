@@ -27,6 +27,12 @@ module.exports = {
         comment: '권한 그룹 고유 식별키',
         // FK
       },
+      userLevel: {
+        type: Sequelize.STRING(13),
+        allowNull: false,
+        comment: '회원 등급',
+        // FK
+      },
       userId: {
         type: Sequelize.STRING(50),
         unique: true,

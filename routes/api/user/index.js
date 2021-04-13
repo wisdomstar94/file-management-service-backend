@@ -15,10 +15,10 @@ const child_route__getUser = require('./child_routes/getUser');
   /api/user
 */
 router.post('/login', child_route__login);
-router.post('/createUser', child_route__createUser);
-router.post('/modifyUser', child_route__modifyUser);
-router.post('/deleteUser', child_route__deleteUser);
-router.post('/restoreUser', child_route__restoreUser);
+router.post('/createUser', jwtTokenCheck, child_route__createUser);
+router.post('/modifyUser', jwtTokenCheck, child_route__modifyUser);
+router.post('/deleteUser', jwtTokenCheck, child_route__deleteUser);
+router.post('/restoreUser', jwtTokenCheck, child_route__restoreUser);
 router.post('/getUser', jwtTokenCheck, child_route__getUser);
 
 module.exports = router;

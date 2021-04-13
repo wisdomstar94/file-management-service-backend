@@ -11,9 +11,31 @@ const myRegularExpressCheck = require('../../../librarys/myRegularExpressCheck')
 const { Op, Sequelize } = require('sequelize');
 
 const createUser = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+  loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
+  if (loginInfo.userLevel !== 'USLEV00000001') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017009,
+        msg: myResultCode[20017009].msg,
+      },
+    }));
+    return;
+  }
+
   const {
     companyKey,
     permissionGroupKey,
+    userLevel,
     userId,
     userPassword,
     userName,
@@ -137,6 +159,60 @@ const createUser = wrapper(async(req, res, next) => {
         headTail: req.accessUniqueKey,
         code: 20017080,
         msg: myResultCode[20017080].msg,
+      },
+    }));
+    return;
+  }
+
+  // userLevel 체크 : required 
+  if (typeof userLevel !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017081,
+        msg: myResultCode[20017081].msg,
+      },
+    }));
+    return;
+  }
+
+  if (userLevel.trim() === '') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017082,
+        msg: myResultCode[20017082].msg,
+      },
+    }));
+    return;
+  }
+
+  if (userLevel.length !== 13) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017083,
+        msg: myResultCode[20017083].msg,
+      },
+    }));
+    return;
+  }
+
+  const userLevelCheck = await db.FmsCodes.isValidCode('USLEV', userLevel);
+  if (!userLevelCheck) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20017084,
+        msg: myResultCode[20017084].msg,
       },
     }));
     return;
@@ -405,6 +481,7 @@ const createUser = wrapper(async(req, res, next) => {
     userKey: newUserKey,
     companyKey: companyKey,
     permissionGroupKey: permissionGroupKey,
+    userLevel: userLevel,
     userId: userId,
     userPassword: myCrypto.oneRootEncrypt({ originalValue: userPassword }),
     userName: userName,

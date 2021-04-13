@@ -32,6 +32,15 @@ module.exports = {
       },
     });
     await queryInterface.addConstraint('FmsUsers', {
+      fields: ['userLevel'],
+      type: 'foreign key',
+      name: 'fu_userLevel_fk',
+      references: { // Required field
+        table: 'FmsCodes',
+        field: 'code',
+      },
+    });
+    await queryInterface.addConstraint('FmsUsers', {
       fields: ['userStatus'],
       type: 'foreign key',
       name: 'fu_userStatus_fk',

@@ -96,6 +96,9 @@ db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissions, { foreignKey: 'permiss
 db.FmsCodes.hasMany(db.FmsUsers, { foreignKey: 'userStatus', sourceKey: 'code' });
 db.FmsUsers.belongsTo(db.FmsCodes, { foreignKey: 'userStatus', sourceKey: 'code' });
 
+db.FmsCodes.hasMany(db.FmsUsers, { foreignKey: 'userLevel', sourceKey: 'code' });
+db.FmsUsers.belongsTo(db.FmsCodes, { as: 'FmsUserLevelCodes', foreignKey: 'userLevel', sourceKey: 'code' });
+
 db.FmsCompanys.hasMany(db.FmsUsers, { foreignKey: 'companyKey', sourceKey: 'companyKey' });
 db.FmsUsers.belongsTo(db.FmsCompanys, { foreignKey: 'companyKey', sourceKey: 'companyKey' });
 
@@ -130,7 +133,7 @@ db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageStatus', sourceKey
 db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageStatusCodes', foreignKey: 'fileImageStatus', sourceKey: 'code' });
 
 db.FmsFiles.hasMany(db.FmsFileVersions, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
-db.FmsFileVersions.belongsTo(db.FmsFiles, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
+db.FmsFileVersions.belongsTo(db.FmsFiles, { as: 'FmsFiles', foreignKey: 'fileKey', sourceKey: 'fileKey' });
 
 db.FmsUsers.hasMany(db.FmsFileVersions, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
 db.FmsFileVersions.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });

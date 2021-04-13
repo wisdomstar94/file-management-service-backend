@@ -25,6 +25,7 @@ const getUser = wrapper(async(req, res, next) => {
     companyCEOName, // string 또는 string[]
     permissionGroupKey, // string 또는 string[]
     permissionGroupName, // string 또는 string[]
+    userLevel, // string 또는 string[]
     userId, // string 또는 string[]
     userName, // string 또는 string[]
     userPhone, // string 또는 string[]
@@ -230,6 +231,40 @@ const getUser = wrapper(async(req, res, next) => {
             },
           };
         }),
+      });
+    }
+  }
+
+  // userLevel 체크
+  if (typeof userLevel === 'string') {
+    if (userLevel.trim() !== '' && userLevel.length === 13) {
+      OpAndArray.push({
+        userLevel: {
+          [Op.eq]: userLevel,
+        },
+      });
+    }
+  }
+
+  if (Array.isArray(userLevel)) {
+    const userLevelReal = [];
+    for (let i = 0; i < userLevel.length; i++) {
+      if (typeof userLevel[i] !== 'string') {
+        continue;
+      }
+
+      if (userLevel[i].length !== 13) {
+        continue;
+      }
+
+      userLevelReal.push(userLevel[i]);
+    }
+
+    if (userLevelReal.length > 0) {
+      OpAndArray.push({
+        userLevel: {
+          [Op.in]: userLevelReal,
+        },
       });
     }
   }
@@ -534,6 +569,11 @@ const getUser = wrapper(async(req, res, next) => {
         attributes: ['code', 'codeName'],
       },
       {
+        model: db.FmsCodes,
+        as: 'FmsUserLevelCodes',
+        attributes: ['code', 'codeName'],
+      },
+      {
         model: db.FmsCompanys,
         attributes: ['companyKey', 'companyName', 'companyCEOName'],
         required: companyRequired,
@@ -601,12 +641,17 @@ const getUser = wrapper(async(req, res, next) => {
 
   const list = await db.FmsUsers.findAll({
     attributes: [
-      'userKey', 'companyKey', 'permissionGroupKey', 'userId', 'userName', 'userPhone', 'userMemo',
+      'userKey', 'companyKey', 'permissionGroupKey', 'userLevel', 'userId', 'userName', 'userPhone', 'userMemo',
       'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'userStatus',
     ],
     include: [
       {
         model: db.FmsCodes,
+        attributes: ['code', 'codeName'],
+      },
+      {
+        model: db.FmsCodes,
+        as: 'FmsUserLevelCodes',
         attributes: ['code', 'codeName'],
       },
       {

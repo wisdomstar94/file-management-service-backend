@@ -15,6 +15,7 @@ const modifyUser = wrapper(async(req, res, next) => {
     userKey, // string 또는 string[]
     companyKey,
     permissionGroupKey,
+    userLevel,
     // userId,
     userPassword,
     userName,
@@ -243,6 +244,62 @@ const modifyUser = wrapper(async(req, res, next) => {
     }
   }
 
+  // userLevel 체크 : optional
+  if (userLevel !== undefined && typeof userLevel !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20018651,
+        msg: myResultCode[20018651].msg,
+      },
+    }));
+    return;
+  }
+
+  if (typeof userLevel === 'string') {
+    if (userLevel.trim() === '') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20018652,
+          msg: myResultCode[20018652].msg,
+        },
+      }));
+      return;
+    }
+
+    if (userLevel.length !== 13) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20018653,
+          msg: myResultCode[20018653].msg,
+        },
+      }));
+      return;
+    }
+
+    const userLevelCheck = await db.FmsCodes.isValidCode('USLEV', userLevel);
+    if (!userLevelCheck) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20018654,
+          msg: myResultCode[20018654].msg,
+        },
+      }));
+      return;
+    }
+  }
+
   // userPassword 체크 : optional
   if (userPassword !== undefined && typeof userPassword !== 'string') {
     res.status(200).json(myValueLog({
@@ -443,6 +500,7 @@ const modifyUser = wrapper(async(req, res, next) => {
   const modifyResult = await db.FmsUsers.update({
     companyKey: companyKey,
     permissionGroupKey: permissionGroupKey,
+    userLevel: userLevel,
     userPassword: userPassword === undefined ? userPassword : myCrypto.oneRootEncrypt({ originalValue: userPassword }),
     userName: userName,
     userPhone: userPhone,

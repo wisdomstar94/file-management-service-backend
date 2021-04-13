@@ -21,6 +21,16 @@ module.exports = (sequelize, DataTypes) => {
       });
       return result;
     }
+
+    static async getUserLevel(userKey) {
+      const result = await this.findOne({
+        attributes: ['userLevel'],
+        where: {
+          userKey: userKey,
+        },
+      });
+      return result.userLevel;
+    }
   };
   FmsUsers.init({
     seq: DataTypes.BIGINT,
@@ -30,6 +40,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     companyKey: DataTypes.STRING,
     permissionGroupKey: DataTypes.STRING,
+    userLevel: DataTypes.STRING,
     userId: DataTypes.STRING,
     userPassword: DataTypes.TEXT,
     userName: DataTypes.STRING,

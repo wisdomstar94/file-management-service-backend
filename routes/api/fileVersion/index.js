@@ -46,6 +46,7 @@ const upload = multer({
 
 const child_route__uploadFileVersion = require('./child_routes/uploadFileVersion');
 const child_route__modifyFileVersion = require('./child_routes/modifyFileVersion');
+const child_route__getFileVersion = require('./child_routes/getFileVersion');
 
 
 /*
@@ -64,5 +65,7 @@ router.post('/modifyFileVersion', jwtTokenCheck, upload.fields([
     maxCount: 1,
   },
 ]), child_route__modifyFileVersion);
+
+router.post('/getFileVersion', jwtTokenCheck, child_route__getFileVersion);
 
 module.exports = router;
