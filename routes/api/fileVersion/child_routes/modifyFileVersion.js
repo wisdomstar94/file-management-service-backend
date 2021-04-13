@@ -69,8 +69,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025010,
+        msg: myResultCode[20025010].msg,
       },
     }));
     return;
@@ -82,8 +82,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025020,
+        msg: myResultCode[20025020].msg,
       },
     }));
     return;
@@ -95,8 +95,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025030,
+        msg: myResultCode[20025030].msg,
       },
     }));
     return;
@@ -114,8 +114,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025040,
+        msg: myResultCode[20025040].msg,
       },
     }));
     return;
@@ -128,8 +128,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025050,
+        msg: myResultCode[20025050].msg,
       },
     }));
     return;
@@ -142,8 +142,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025060,
+          msg: myResultCode[20025060].msg,
         },
       }));
       return;
@@ -155,8 +155,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025070,
+          msg: myResultCode[20025070].msg,
         },
       }));
       return;
@@ -170,8 +170,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025080,
+        msg: myResultCode[20025080].msg,
       },
     }));
     return;
@@ -184,8 +184,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025090,
+          msg: myResultCode[20025090].msg,
         },
       }));
       return;
@@ -199,8 +199,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025100,
+        msg: myResultCode[20025100].msg,
       },
     }));
     return;
@@ -213,8 +213,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025110,
+          msg: myResultCode[20025110].msg,
         },
       }));
       return;
@@ -228,8 +228,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20025120,
+        msg: myResultCode[20025120].msg,
       },
     }));
     return;
@@ -242,8 +242,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025130,
+          msg: myResultCode[20025130].msg,
         },
       }));
       return;
@@ -255,8 +255,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025140,
+          msg: myResultCode[20025140].msg,
         },
       }));
       return;
@@ -269,8 +269,8 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
         obj: {
           result: 'success',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20025150,
+          msg: myResultCode[20025150].msg,
         },
       }));
       return;
