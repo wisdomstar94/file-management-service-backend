@@ -46,6 +46,7 @@ const upload = multer({
 
 const child_route__uploadFile = require('./child_routes/uploadFile');
 const child_route__modifyFile = require('./child_routes/modifyFile');
+const child_route__getFile = require('./child_routes/getFile');
 
 
 
@@ -73,6 +74,8 @@ router.post('/modifyFile', jwtTokenCheck, upload.fields([
     maxCount: 1,
   },
 ]), child_route__modifyFile);
+
+router.post('/getFile', jwtTokenCheck, child_route__getFile);
 
 
 module.exports = router;
