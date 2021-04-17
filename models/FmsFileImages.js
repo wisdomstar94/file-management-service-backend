@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     fileSize: DataTypes.INTEGER,
     filePath: DataTypes.STRING,
     fileAccessUrl: DataTypes.STRING,
+    sortNo: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
     updatedAt: DataTypes.DATE,

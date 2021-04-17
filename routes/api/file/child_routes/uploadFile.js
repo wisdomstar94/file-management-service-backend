@@ -306,6 +306,8 @@ const uploadFile = wrapper(async(req, res, next) => {
 
     // 2) 파일 대표 이미지 정보 등록
     if (Array.isArray(req.files.fileRepresentImage)) {
+      let sortNo = 1;
+
       for (let i = 0; i < req.files.fileRepresentImage.length; i++) {
         const fileItem = req.files.fileRepresentImage[i];
 
@@ -321,17 +323,22 @@ const uploadFile = wrapper(async(req, res, next) => {
           fileSize: fileItem.size,
           filePath: fileItem.path,
           fileAccessUrl: null,
+          sortNo: sortNo,
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
           fileImageStatus: 'FIMSS00000001',
         }, {
           transaction: transaction,
         });
+
+        sortNo++;
       }
     }
 
     // 3) 파일 스크린샷 이미지 정보 등록
     if (Array.isArray(req.files.fileScreenShot)) {
+      let sortNo = 1;
+
       for (let i = 0; i < req.files.fileScreenShot.length; i++) {
         const fileItem = req.files.fileScreenShot[i];
 
@@ -347,12 +354,15 @@ const uploadFile = wrapper(async(req, res, next) => {
           fileSize: fileItem.size,
           filePath: fileItem.path,
           fileAccessUrl: null,
+          sortNo: sortNo,
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
           fileImageStatus: 'FIMSS00000001',
         }, {
           transaction: transaction,
         });
+
+        sortNo++;
       }
     }
 

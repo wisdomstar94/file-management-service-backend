@@ -56,6 +56,12 @@ module.exports = {
         type: Sequelize.STRING(255),
         comment: '파일 이미지 접근 URL',
       },
+      sortNo: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        default: 1,
+        comment: '이미지 순서',
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,

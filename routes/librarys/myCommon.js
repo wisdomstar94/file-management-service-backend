@@ -30,3 +30,17 @@ exports.isNumber = function(val) {
 
   return true;
 };
+
+
+exports.isJsonString = function(str) {
+  if (typeof str !== 'string') {
+    return false;
+  }
+
+  try {
+    JSON.parse(str);
+    return true;
+  } catch (e){
+    return false;
+  }
+};
