@@ -16,6 +16,8 @@ const FmsCompanys = require('./FmsCompanys');
 const FmsFiles = require('./FmsFiles');
 const FmsFileImages = require('./FmsFileImages');
 const FmsFileVersions = require('./FmsFileVersions');
+const FmsFileDownloadUrls = require('./FmsFileDownloadUrls');
+const FmsFileDownloadUrlAccessConditions = require('./FmsFileDownloadUrlAccessConditions');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -64,6 +66,8 @@ db.FmsCompanys = FmsCompanys(sequelize, Sequelize);
 db.FmsFiles = FmsFiles(sequelize, Sequelize);
 db.FmsFileImages = FmsFileImages(sequelize, Sequelize);
 db.FmsFileVersions = FmsFileVersions(sequelize, Sequelize);
+db.FmsFileDownloadUrls = FmsFileDownloadUrls(sequelize, Sequelize);
+db.FmsFileDownloadUrlAccessConditions = FmsFileDownloadUrlAccessConditions(sequelize, Sequelize);
 
 // define association
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
@@ -143,6 +147,39 @@ db.FmsFileVersions.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: '
 
 db.FmsCodes.hasMany(db.FmsFileVersions, { foreignKey: 'fileVersionStatus', sourceKey: 'code' });
 db.FmsFileVersions.belongsTo(db.FmsCodes, { as: 'FmsFileVersionStatusCodes', foreignKey: 'fileVersionStatus', sourceKey: 'code' });
+
+db.FmsUsers.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'downloadTargetUserKey', sourceKey: 'userKey' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsUsers, { as: 'FmsFileDownloadUrlTargetUsers', foreignKey: 'downloadTargetUserKey', sourceKey: 'userKey' });
+
+db.FmsFiles.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsFiles, { as: 'FmsTargetFiles', foreignKey: 'fileKey', sourceKey: 'fileKey' });
+
+db.FmsFileVersions.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'fileVersionKey', sourceKey: 'fileVersionKey' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsFileVersions, { as: 'FmsTargetFileVersions', foreignKey: 'fileVersionKey', sourceKey: 'fileVersionKey' });
+
+db.FmsUsers.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
+db.FmsUsers.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+
+db.FmsCodes.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'fileDownloadUrlStatus', sourceKey: 'code' });
+db.FmsFileDownloadUrls.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadUrlStatusCodes', foreignKey: 'fileDownloadUrlStatus', sourceKey: 'code' });
+
+db.FmsFileDownloadUrls.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'fileDownloadUrlKey', sourceKey: 'fileDownloadUrlKey' });
+db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsFileDownloadUrls, { as: 'FmsFileDownloadUrls', foreignKey: 'fileDownloadUrlKey', sourceKey: 'fileDownloadUrlKey' });
+
+db.FmsCodes.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'conditionType', sourceKey: 'code' });
+db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadAccessConditionTypeCodes', foreignKey: 'conditionType', sourceKey: 'code' });
+
+db.FmsUsers.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
+db.FmsUsers.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updaterUserKey', sourceKey: 'userKey' });
+
+db.FmsCodes.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'conditionStatus', sourceKey: 'code' });
+db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadAccessConditionStatusCodes', foreignKey: 'conditionStatus', sourceKey: 'code' });
 
 // export module
 module.exports = db;

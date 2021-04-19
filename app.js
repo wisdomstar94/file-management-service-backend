@@ -40,6 +40,7 @@ const apiPermissionGroupUploadRouter = require('./routes/api/permissionGroupUplo
 const apiCompanyRouter = require('./routes/api/company/index');
 const apiFileRouter = require('./routes/api/file/index');
 const apiFileVersionRouter = require('./routes/api/fileVersion/index');
+const apiFileDownloadUrlRouter = require('./routes/api/fileDownloadUrl/index');
 
 // express declare
 const app = express();
@@ -89,6 +90,7 @@ app.use('/api/permissionGroupUpload', apiPermissionGroupUploadRouter);
 app.use('/api/company', apiCompanyRouter);
 app.use('/api/file', apiFileRouter);
 app.use('/api/fileVersion', apiFileVersionRouter);
+app.use('/api/fileDownloadUrl', apiFileDownloadUrlRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
