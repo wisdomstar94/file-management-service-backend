@@ -2099,6 +2099,9 @@ const myResultCode = {
   20027330: {
     msg: ``,
   },
+
+
+  
 };
 
 module.exports = myResultCode;

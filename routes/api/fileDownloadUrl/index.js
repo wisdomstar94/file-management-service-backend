@@ -12,8 +12,8 @@ const myGetFileNameAndType = require('../../librarys/myGetFileNameAndType').myGe
 
 
 const child_route__createFileDownloadUrl = require('./child_routes/createFileDownloadUrl');
-// const child_route__modifyFile = require('./child_routes/modifyFile');
-// const child_route__getFile = require('./child_routes/getFile');
+const child_route__modifyFileDownloadUrl = require('./child_routes/modifyFileDownloadUrl');
+
 
 
 
@@ -21,6 +21,7 @@ const child_route__createFileDownloadUrl = require('./child_routes/createFileDow
   /api/fileDownloadUrl
 */
 router.post('/createFileDownloadUrl', jwtTokenCheck, child_route__createFileDownloadUrl);
+router.post('/modifyFileDownloadUrl', jwtTokenCheck, child_route__modifyFileDownloadUrl);
 
 
 
