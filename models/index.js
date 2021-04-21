@@ -97,8 +97,11 @@ db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissionGroups, { foreignKey: 'pe
 db.FmsPermissions.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
 db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissions, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
 
+db.FmsUsers.hasMany(db.FmsUsers, { foreignKey: 'parentUserKey', sourceKey: 'userKey' });
+db.FmsUsers.belongsTo(db.FmsUsers, { as: 'FmsParentUsers', foreignKey: 'parentUserKey', sourceKey: 'userKey' });
+
 db.FmsCodes.hasMany(db.FmsUsers, { foreignKey: 'userStatus', sourceKey: 'code' });
-db.FmsUsers.belongsTo(db.FmsCodes, { foreignKey: 'userStatus', sourceKey: 'code' });
+db.FmsUsers.belongsTo(db.FmsCodes, { as: 'FmsUserStatusCodes', foreignKey: 'userStatus', sourceKey: 'code' });
 
 db.FmsCodes.hasMany(db.FmsUsers, { foreignKey: 'userLevel', sourceKey: 'code' });
 db.FmsUsers.belongsTo(db.FmsCodes, { as: 'FmsUserLevelCodes', foreignKey: 'userLevel', sourceKey: 'code' });

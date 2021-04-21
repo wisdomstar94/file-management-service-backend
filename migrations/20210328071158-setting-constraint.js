@@ -14,6 +14,15 @@ module.exports = {
 
     // FmsUsers
     await queryInterface.addConstraint('FmsUsers', {
+      fields: ['parentUserKey'],
+      type: 'foreign key',
+      name: 'fu_parentUserKey_fk',
+      references: { // Required field
+        table: 'FmsUsers',
+        field: 'userKey',
+      },
+    });
+    await queryInterface.addConstraint('FmsUsers', {
       fields: ['companyKey'],
       type: 'foreign key',
       name: 'fu_companyKey_fk',

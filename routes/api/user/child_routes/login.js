@@ -95,6 +95,7 @@ const login = wrapper(async(req, res, next) => {
     include: [
       {
         model: db.FmsCodes,
+        as: 'FmsUserStatusCodes',
       },
     ],
   });

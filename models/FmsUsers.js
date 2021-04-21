@@ -34,6 +34,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   FmsUsers.init({
     seq: DataTypes.BIGINT,
+    parentUserKey: DataTypes.STRING,
     userKey: {
       type: DataTypes.STRING,
       primaryKey: true,

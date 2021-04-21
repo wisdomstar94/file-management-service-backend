@@ -20,6 +20,9 @@ const getUser = wrapper(async(req, res, next) => {
   */
 
   const {
+    parentUserKey, 
+    parentUserId,
+    parentUserName,
     companyKey, // string 또는 string[]
     companyName, // string 또는 string[]
     companyCEOName, // string 또는 string[]
@@ -46,12 +49,141 @@ const getUser = wrapper(async(req, res, next) => {
   let viewCountReal = Number(viewCount);
 
   const where = {};
+
+  const parentUserWhereOpAndArray = [];
+  let parentUserRequired = false;
+
   const companyWhereOpAndArray = [];
   let companyRequired = false;
+
   const permissionGroupWhereOpAndArray = [];
   let permissionGroupRequired = false;
+
   const order = [];
   const OpAndArray = [];
+
+  // parentUserKey 체크 : optional
+  if (typeof parentUserKey === 'string') {
+    if (parentUserKey.trim() !== '' && parentUserKey.length !== 20) {
+      OpAndArray.push({
+        parentUserKey: {
+          [Op.eq]: parentUserKey,
+        },
+      });
+    }
+  }
+
+  if (parentUserKey === null) {
+    OpAndArray.push({
+      parentUserKey: {
+        [Op.eq]: parentUserKey,
+      },
+    });
+  }
+
+  if (Array.isArray(parentUserKey)) {
+    const parentUserKeyReal = [];
+
+    for (let i = 0; i < parentUserKey.length; i++) {
+      if (typeof parentUserKey[i] !== 'string') {
+        continue;
+      }
+
+      if (parentUserKey[i].trim() === '') {
+        continue;
+      }
+
+      if (parentUserKey[i].length !== 20) {
+        continue;
+      }
+
+      parentUserKeyReal.push(parentUserKey[i]);
+    }
+
+    if (parentUserKeyReal.length > 0) {
+      OpAndArray.push({
+        parentUserKey: {
+          [Op.in]: parentUserKeyReal,
+        },
+      });
+    }
+  }
+
+  // parentUserId 체크 : optional
+  if (typeof parentUserId === 'string') {
+    if (parentUserId.trim() !== '') {
+      parentUserWhereOpAndArray.push({
+        userId: {
+          [Op.substring]: myCommon.specialCharEscape(parentUserId),
+        },
+      });
+    }
+  }
+
+  if (Array.isArray(parentUserId)) {
+    const parentUserIdReal = [];
+    for (let i = 0; i < parentUserId.length; i++) {
+      if (typeof parentUserId[i] !== 'string') {
+        continue;
+      }
+
+      if (parentUserId[i].trim() === '') {
+        continue;
+      }
+
+      parentUserIdReal.push(parentUserId[i]);
+    }
+
+    if (parentUserIdReal.length > 0) {
+      parentUserWhereOpAndArray.push({
+        [Op.or]: parentUserIdReal.map((x) => {
+          return {
+            userId: {
+              [Op.substring]: myCommon.specialCharEscape(x),
+            },
+          };
+        }),
+      });
+    }
+  }
+
+  // parentUserName 체크 : optional
+  if (typeof parentUserName === 'string') {
+    if (parentUserName.trim() !== '') {
+      parentUserWhereOpAndArray.push({
+        userName: {
+          [Op.substring]: myCommon.specialCharEscape(parentUserName),
+        },
+      });
+    }
+  }
+
+  if (Array.isArray(parentUserName)) {
+    const parentUserNameReal = [];
+    for (let i = 0; i < parentUserName.length; i++) {
+      if (typeof parentUserName[i] !== 'string') {
+        continue;
+      }
+
+      if (parentUserName[i].trim() === '') {
+        continue;
+      }
+
+      parentUserNameReal.push(parentUserName[i]);
+    }
+
+    if (parentUserNameReal.length > 0) {
+      parentUserWhereOpAndArray.push({
+        [Op.or]: parentUserNameReal.map((x) => {
+          return {
+            userName: {
+              [Op.substring]: myCommon.specialCharEscape(x),
+            },
+          };
+        }),
+      });
+    }
+  }
 
   // companyKey 체크 : optional
   if (typeof companyKey === 'string') {
@@ -549,6 +681,9 @@ const getUser = wrapper(async(req, res, next) => {
     include (join) 대상에 대한 조건이 없다면, OUTER JOIN
     include (join) 대상에 대한 조건이 있다면, INNER JOIN
   */
+  if (parentUserWhereOpAndArray.length > 0) {
+    parentUserRequired = true;
+  }
   if (companyWhereOpAndArray.length > 0) {
     companyRequired = true;
   }
@@ -565,7 +700,17 @@ const getUser = wrapper(async(req, res, next) => {
     order: order,
     include: [
       {
+        model: db.FmsUsers,
+        as: 'FmsParentUsers',
+        attributes: ['userKey', 'userId', 'userName'],
+        required: parentUserRequired,
+        where: {
+          [Op.and]: parentUserWhereOpAndArray,
+        },
+      },
+      {
         model: db.FmsCodes,
+        as: 'FmsUserStatusCodes',
         attributes: ['code', 'codeName'],
       },
       {
@@ -641,12 +786,22 @@ const getUser = wrapper(async(req, res, next) => {
 
   const list = await db.FmsUsers.findAll({
     attributes: [
-      'userKey', 'companyKey', 'permissionGroupKey', 'userLevel', 'userId', 'userName', 'userPhone', 'userMemo',
+      'parentUserKey', 'userKey', 'companyKey', 'permissionGroupKey', 'userLevel', 'userId', 'userName', 'userPhone', 'userMemo',
       'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'userStatus',
     ],
     include: [
       {
+        model: db.FmsUsers,
+        as: 'FmsParentUsers',
+        attributes: ['userKey', 'userId', 'userName'],
+        required: parentUserRequired,
+        where: {
+          [Op.and]: parentUserWhereOpAndArray,
+        },
+      },
+      {
         model: db.FmsCodes,
+        as: 'FmsUserStatusCodes',
         attributes: ['code', 'codeName'],
       },
       {

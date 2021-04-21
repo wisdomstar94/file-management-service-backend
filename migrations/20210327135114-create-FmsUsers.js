@@ -9,6 +9,11 @@ module.exports = {
         autoIncrement: true,
         comment: '대체키 숫자값',
       },
+      parentUserKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '부모 회원 고유 식별키',
+      },
       userKey: {
         type: Sequelize.STRING(20),
         primaryKey: true,
