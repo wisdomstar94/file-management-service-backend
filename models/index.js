@@ -184,5 +184,40 @@ db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUs
 db.FmsCodes.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'conditionStatus', sourceKey: 'code' });
 db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadAccessConditionStatusCodes', foreignKey: 'conditionStatus', sourceKey: 'code' });
 
+
+
+
+
+
+
+
+
+db.isActivePermission = async(userKey, permissionKey) => {
+  const userInfo = await db.FmsUsers.findOne({
+    where: {
+      userKey: userKey,
+    },
+  });
+
+  if (userInfo === null) {
+    return false;
+  }
+
+  const permissionGroupUploadInfo = await db.FmsPermissionGroupUploads.findOne({
+    where: {
+      permissionGroupKey: userInfo.permissionGroupKey,
+      permissionKey: permissionKey,
+      isActive: 'Y',
+      isDeletedRow: 'N',
+    },
+  });
+
+  if (permissionGroupUploadInfo === null) {
+    return false;
+  }
+
+  return true;
+};
+
 // export module
 module.exports = db;

@@ -19,7 +19,9 @@ const createUser = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
-  if (loginInfo.userLevel !== 'USLEV00000001') {
+
+  const permissionCheck = await db.isActivePermission(loginInfo.userKey, 'F1619012225347uuKMhw');
+  if (!permissionCheck) {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
