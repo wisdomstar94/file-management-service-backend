@@ -20,8 +20,8 @@ const createUser = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
-  const permissionCheck = await db.isActivePermission(loginInfo.userKey, 'F1619012225347uuKMhw');
-  if (!permissionCheck) {
+  const isUserCreatePossible = await db.isActivePermission(loginInfo.userKey, 'F1619012225347uuKMhw');
+  if (!isUserCreatePossible) {
     res.status(200).json(myValueLog({
       req: req,
       obj: {

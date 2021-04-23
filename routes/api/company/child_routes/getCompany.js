@@ -18,6 +18,21 @@ const getCompany = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+  const isCompanyListPossible = await db.isActivePermission(loginInfo.userKey, 'flfE1617684930419rMf');
+  if (!isCompanyListPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20020810,
+        msg: myResultCode[20020810].msg,
+      },
+    }));
+    return;
+  }
+
+
   
   const {
     companyKey, // string 또는 string[]

@@ -7,6 +7,17 @@ const myGetMakeToken = require('../../../librarys/myGetMakeToken').myGetMakeToke
 const myCommon = require('../../../librarys/myCommon');
 
 const modifyPermissionGroup = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+  const isPermissionGroupAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'moum1617688803133KDK');
+
+
   const {
     permissionGroupKey,
     permissionGroupName,
@@ -70,6 +81,22 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
   }
 
   if (typeof permissionGroupName === 'string') {
+    if (!isPermissionGroupAllModifyPossible) {
+      const isPermissionGroupNameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'eXYOni1617688817371c');
+      if (!isPermissionGroupNameModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20014549,
+            msg: myResultCode[20014549].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (permissionGroupName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -111,6 +138,24 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (permissionGroupDescription === null || typeof permissionGroupDescription === 'string') {
+    if (!isPermissionGroupAllModifyPossible) {
+      const isPermissionGroupDescriptionModifyPossible = await db.isActivePermission(loginInfo.userKey, 'nAvqxz1617688830871w');
+      if (!isPermissionGroupDescriptionModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20014575,
+            msg: myResultCode[20014575].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   if (typeof permissionGroupDescription === 'string') {
     if (permissionGroupDescription.length > 255) {
       res.status(200).json(myValueLog({
@@ -128,6 +173,22 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
 
   // sortNo 체크
   if (sortNo !== undefined) {
+    if (!isPermissionGroupAllModifyPossible) {
+      const isPermissionGroupSortModifyPossible = await db.isActivePermission(loginInfo.userKey, 'F1619180812531eiRqVu');
+      if (!isPermissionGroupSortModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 00000000,
+            msg: myResultCode[00000000].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (!myCommon.isNumber(sortNo)) {
       res.status(200).json(myValueLog({
         req: req,
@@ -157,6 +218,22 @@ const modifyPermissionGroup = wrapper(async(req, res, next) => {
   }
 
   if (typeof permissionGroupStatus === 'string') {
+    if (!isPermissionGroupAllModifyPossible) {
+      const isPermissionGroupStatusModifyPossible = await db.isActivePermission(loginInfo.userKey, 'VoCkGI1617688843559f');
+      if (!isPermissionGroupStatusModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20014609,
+            msg: myResultCode[20014609].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (permissionGroupStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,

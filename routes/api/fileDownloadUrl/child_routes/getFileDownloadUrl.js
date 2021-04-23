@@ -66,6 +66,20 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  const isFileDownloadUrlListPossible = await db.isActivePermission(loginInfo.userKey, 'KA1617691210754FxPXn');
+  if (!isFileDownloadUrlListPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20030010,
+        msg: myResultCode[20030010].msg,
+      },
+    }));
+    return;
+  }
+
   const {
     fileDownloadUrlKey,
     downloadTargetUserKey,

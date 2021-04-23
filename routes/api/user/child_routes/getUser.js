@@ -18,6 +18,21 @@ const getUser = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+  const permissionCheck = await db.isActivePermission(loginInfo.userKey, 'lundi1617686154398kN');
+  if (!permissionCheck) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20028010,
+        msg: myResultCode[20028010].msg,
+      },
+    }));
+    return;
+  }
+
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
   const {
     parentUserKey, 
@@ -61,6 +76,18 @@ const getUser = wrapper(async(req, res, next) => {
 
   const order = [];
   const OpAndArray = [];
+
+
+
+  // isAllUserControl 체크 : required
+  if (!isAllUserControl) {
+    // 자신 및 하위 유저들만
+    OpAndArray.push({
+      userKey: {
+        [Op.in]: await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey),
+      },
+    });
+  } 
 
   // parentUserKey 체크 : optional
   if (typeof parentUserKey === 'string') {

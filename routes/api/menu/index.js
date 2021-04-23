@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwtTokenCheck = require('../../middlewares/jwtTokenCheck');
 
 
 const child_route__createMenu = require('./child_routes/createMenu');
@@ -12,11 +13,11 @@ const child_route__restoreMenu = require('./child_routes/restoreMenu');
 /*
   /api/menu
 */
-router.post('/createMenu', child_route__createMenu);
-router.post('/getMenu', child_route__getMenu);
-router.post('/modifyMenu', child_route__modifyMenu);
-router.post('/deleteMenu', child_route__deleteMenu);
-router.post('/restoreMenu', child_route__restoreMenu);
+router.post('/createMenu', jwtTokenCheck, child_route__createMenu);
+router.post('/getMenu', jwtTokenCheck, child_route__getMenu);
+router.post('/modifyMenu', jwtTokenCheck, child_route__modifyMenu);
+router.post('/deleteMenu', jwtTokenCheck, child_route__deleteMenu);
+router.post('/restoreMenu', jwtTokenCheck, child_route__restoreMenu);
 
 
 

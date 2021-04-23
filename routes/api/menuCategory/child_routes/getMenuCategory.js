@@ -7,6 +7,29 @@ const myGetMakeToken = require('../../../librarys/myGetMakeToken').myGetMakeToke
 const { Op } = require('sequelize');
 
 const getMenuCategory = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+  loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
+
+  if (loginInfo.userLevel !== 'USLEV00000001') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20006509,
+        msg: myResultCode[20006509].msg,
+      },
+    }));
+    return;
+  }
+
+
   const {
     menuCategoryName,
     menuCategoryDescription,

@@ -51,6 +51,10 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  const isFileVersionAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'SioYPe1619178659344f');
+
+
+
   const {
     fileVersionKey,
     // fileKey,
@@ -136,6 +140,22 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileDownloadName === 'string') {
+    if (!isFileVersionAllModifyPossible) {
+      const isFileDownloadNameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'UrSprt1617691140153j');
+      if (!isFileDownloadNameModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20025059,
+            msg: myResultCode[20025059].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileDownloadName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -177,6 +197,24 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (fileVersionMemo === null || typeof fileVersionMemo === 'string') {
+    if (!isFileVersionAllModifyPossible) {
+      const isFileVersionMemoModifyPossible = await db.isActivePermission(loginInfo.userKey, 'RZCF1617691153958FRX');
+      if (!isFileVersionMemoModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20025085,
+            msg: myResultCode[20025085].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   if (typeof fileVersionMemo === 'string') {
     if (fileVersionMemo.trim() === '') {
       res.status(200).json(myValueLog({
@@ -204,6 +242,24 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
       },
     }));
     return;
+  }
+
+  if (fileVersionDescription === null || typeof fileVersionDescription === 'string') {
+    if (!isFileVersionAllModifyPossible) {
+      const isFileVersionDescriptionModifyPossible = await db.isActivePermission(loginInfo.userKey, 'E1617691168179MGcCVF');
+      if (!isFileVersionDescriptionModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20025105,
+            msg: myResultCode[20025105].msg,
+          },
+        }));
+        return;
+      }
+    }
   }
 
   if (typeof fileVersionDescription === 'string') {
@@ -236,6 +292,22 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileVersionStatus === 'string') {
+    if (!isFileVersionAllModifyPossible) {
+      const isFileVersionStatusModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ANqm1617691180937Vix');
+      if (!isFileVersionStatusModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20025129,
+            msg: myResultCode[20025129].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileVersionStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,

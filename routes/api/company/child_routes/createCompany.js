@@ -18,6 +18,21 @@ const createCompany = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+
+  const isCompanyCreatePossible = await db.isActivePermission(loginInfo.userKey, 'UY1619153982779QIVRq');
+  if (!isCompanyCreatePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20020509,
+        msg: myResultCode[20020509].msg,
+      },
+    }));
+    return;
+  }
+
   
   const {
     companyName,

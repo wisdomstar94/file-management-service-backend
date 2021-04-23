@@ -5,6 +5,29 @@ const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
 const modifyMenuCategory = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+  loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
+
+  if (loginInfo.userLevel !== 'USLEV00000001') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20007009,
+        msg: myResultCode[20007009].msg,
+      },
+    }));
+    return;
+  }
+
+
   const {
     menuCategoryKey, // 수정할 메뉴 카테고리 고유 식별키
     menuCategoryName, // 메뉴 카테고리명을 menuCategoryName 으로 수정

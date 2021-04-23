@@ -18,6 +18,8 @@ const modifyCompany = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+  const isCompanyAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'kuRI1617685328685PCL');
+
   
   const {
     companyKey, // string 또는 string[]
@@ -184,6 +186,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyName === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyNameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'zXw1617685347777EzGZ');
+      if (!isCompanyNameModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021109,
+            msg: myResultCode[20021109].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -226,6 +244,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyCEOName === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyCEONameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'pi1617685629576AENpM');
+      if (!isCompanyCEONameModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021139,
+            msg: myResultCode[20021139].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyCEOName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -268,6 +302,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyCEOTel === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyCEOTelModifyPossible = await db.isActivePermission(loginInfo.userKey, 'n1617685645747YeYsgZ');
+      if (!isCompanyCEOTelModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021169,
+            msg: myResultCode[20021169].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyCEOTel.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -310,6 +360,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyTel === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyTelModifyPossible = await db.isActivePermission(loginInfo.userKey, 'picDYTK1617685662336');
+      if (!isCompanyTelModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021199,
+            msg: myResultCode[20021199].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyTel.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -352,6 +418,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyBusinessNumber === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyAABAModifyPossible = await db.isActivePermission(loginInfo.userKey, 'aaaaaaaaa');
+      if (!isCompanyAABAModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021229,
+            msg: myResultCode[20021229].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyBusinessNumber.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -394,6 +476,22 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyAddress === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyAddressModifyPossible = await db.isActivePermission(loginInfo.userKey, 'J1617685612715KKtEoM');
+      if (!isCompanyAddressModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021259,
+            msg: myResultCode[20021259].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyAddress.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -435,6 +533,24 @@ const modifyCompany = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (typeof memo === 'string' || memo === null) {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyMemoModifyPossible = await db.isActivePermission(loginInfo.userKey, 'FsLLW1617685677061iv');
+      if (!isCompanyMemoModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021289,
+            msg: myResultCode[20021289].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   if (typeof memo === 'string') {
     if (memo.trim() === '') {
       res.status(200).json(myValueLog({
@@ -450,8 +566,8 @@ const modifyCompany = wrapper(async(req, res, next) => {
     }
   }
 
-  // companyStatus 체크 : required
-  if (typeof companyStatus !== 'string') {
+  // companyStatus 체크 : optional
+  if (companyStatus !== undefined && typeof companyStatus !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
@@ -464,44 +580,62 @@ const modifyCompany = wrapper(async(req, res, next) => {
     return;
   }
 
-  if (companyStatus.trim() === '') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20021310,
-        msg: myResultCode[20021310].msg,
-      },
-    }));
-    return;
-  }
+  if (typeof companyStatus === 'string') {
+    if (!isCompanyAllModifyPossible) {
+      const isCompanyStatusModifyPossible = await db.isActivePermission(loginInfo.userKey, 'wbi1617685695068SGzA');
+      if (!isCompanyStatusModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20021309,
+            msg: myResultCode[20021309].msg,
+          },
+        }));
+        return;
+      }
+    }
 
-  if (companyStatus.length !== 13) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20021320,
-        msg: myResultCode[20021320].msg,
-      },
-    }));
-    return;
-  }
+    if (companyStatus.trim() === '') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20021310,
+          msg: myResultCode[20021310].msg,
+        },
+      }));
+      return;
+    }
 
-  const companyStatusCheck = await db.FmsCodes.isValidCode('CMPST', companyStatus);
-  if (!companyStatusCheck) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20021330,
-        msg: myResultCode[20021330].msg,
-      },
-    }));
-    return;
+    if (companyStatus.length !== 13) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20021320,
+          msg: myResultCode[20021320].msg,
+        },
+      }));
+      return;
+    }
+
+    const companyStatusCheck = await db.FmsCodes.isValidCode('CMPST', companyStatus);
+    if (!companyStatusCheck) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20021330,
+          msg: myResultCode[20021330].msg,
+        },
+      }));
+      return;
+    }
   }
   
   // 회사 정보 업데이트

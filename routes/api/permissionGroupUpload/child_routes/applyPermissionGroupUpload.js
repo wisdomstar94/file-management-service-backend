@@ -8,6 +8,30 @@ const myGetMakeToken = require('../../../librarys/myGetMakeToken').myGetMakeToke
 
 // /api/permissionGroup/createPermissionGroup 대체 
 const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+
+  const isPermissionGroupPermissionControlPossible = await db.isActivePermission(loginInfo.userKey, 'YBmA1617688856994Ktx');
+  if (!isPermissionGroupPermissionControlPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20016009,
+        msg: myResultCode[20016009].msg,
+      },
+    }));
+    return;
+  }
+
+
   const {
     permissionGroupKey, // string 또는 undefined
     permissionKeyInfo, // [ { permissionKey: '', isActive: '' }, ... ]

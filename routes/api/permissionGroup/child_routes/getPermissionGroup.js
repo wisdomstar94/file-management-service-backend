@@ -9,6 +9,30 @@ const myBoard = require('../../../librarys/myBoard');
 const { Op, Sequelize } = require('sequelize');
 
 const getPermissionGroup = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+  const isPermissionGroupCreatePossible = await db.isActivePermission(loginInfo.userKey, 'k1617688553902XjzFCy');
+  if (!isPermissionGroupCreatePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20015210,
+        msg: myResultCode[20015210].msg,
+      },
+    }));
+    return;
+  }
+
+
+
   const {
     permissionGroupKey, // string 또는 string[]
     permissionGroupName, // string 또는 string[]

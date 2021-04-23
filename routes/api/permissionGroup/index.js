@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const jwtTokenCheck = require('../../middlewares/jwtTokenCheck');
 
 
 const child_route__createPermissionGroup = require('./child_routes/createPermissionGroup');
@@ -12,11 +13,11 @@ const child_route__restorePermissionGroup = require('./child_routes/restorePermi
 /*
   /api/permissionGroup
 */
-router.post('/createPermissionGroup', child_route__createPermissionGroup);
-router.post('/getPermissionGroup', child_route__getPermissionGroup);
-router.post('/modifyPermissionGroup', child_route__modifyPermissionGroup);
-router.post('/deletePermissionGroup', child_route__deletePermissionGroup);
-router.post('/restorePermissionGroup', child_route__restorePermissionGroup);
+router.post('/createPermissionGroup', jwtTokenCheck, child_route__createPermissionGroup);
+router.post('/getPermissionGroup', jwtTokenCheck, child_route__getPermissionGroup);
+router.post('/modifyPermissionGroup', jwtTokenCheck, child_route__modifyPermissionGroup);
+router.post('/deletePermissionGroup', jwtTokenCheck, child_route__deletePermissionGroup);
+router.post('/restorePermissionGroup', jwtTokenCheck, child_route__restorePermissionGroup);
 
 
 

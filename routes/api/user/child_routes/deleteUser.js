@@ -11,6 +11,29 @@ const myRegularExpressCheck = require('../../../librarys/myRegularExpressCheck')
 const { Op, Sequelize } = require('sequelize');
 
 const deleteUser = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+  const isUserDeletePossible = await db.isActivePermission(loginInfo.userKey, 'gQdEs1617688259139el');
+  if (!isUserDeletePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20019509,
+        msg: myResultCode[20019509].msg,
+      },
+    }));
+    return;
+  }  
+
+
   const {
     userKey, // string 또는 string[]
   } = req.body;

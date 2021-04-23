@@ -11,8 +11,15 @@ const errorHandler = function(err, req, res, next) {
   myLogger.error(req.logHeadTail + 'status : ' + err_status);
 
   res.status(err_status);
-  res.send('에러가 발생하였습니다. 접근코드 : ' + req.accessUniqueKey);
-  return;
+  try {
+    const json_object = JSON.parse(err.message);
+    res.status(200).json(json_object);
+    return;
+  } catch (e) {
+    res.send('에러가 발생하였습니다. 접근코드 : ' + req.accessUniqueKey);
+    return;
+  }
+    
 };
 
 module.exports = errorHandler;

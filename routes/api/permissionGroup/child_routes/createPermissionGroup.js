@@ -6,6 +6,30 @@ const myDate = require('../../../librarys/myDate');
 const myGetMakeToken = require('../../../librarys/myGetMakeToken').myGetMakeToken;
 
 const createPermissionGroup = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+  const isPermissionGroupCreatePossible = await db.isActivePermission(loginInfo.userKey, 'yQWpkir1617688667026');
+  if (!isPermissionGroupCreatePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20014009,
+        msg: myResultCode[20014009].msg,
+      },
+    }));
+    return;
+  }
+
+
+
   const {
     permissionGroupName,
     permissionGroupDescription,

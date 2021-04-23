@@ -31,6 +31,37 @@ module.exports = (sequelize, DataTypes) => {
       });
       return result.userLevel;
     }
+
+    static async getChildAllUserKeys(userKey) {
+      let childUserKeys = [];
+
+      childUserKeys.push(userKey);
+      const parentUserKeys = [
+        [userKey],
+      ];
+
+      for (let i = 0; i < 10000; i++) {
+        const result = await this.findAll({
+          attributes: ['userKey'],
+          where: {
+            parentUserKey: parentUserKeys[i],
+          },
+        });
+
+        if (result.length === 0) {
+          break;
+        }
+
+        childUserKeys = childUserKeys.concat(result.map((x) => {
+          return x.userKey;
+        }));
+        parentUserKeys.push(result.map((x) => {
+          return x.userKey;
+        }));
+      }
+
+      return childUserKeys;
+    }
   };
   FmsUsers.init({
     seq: DataTypes.BIGINT,

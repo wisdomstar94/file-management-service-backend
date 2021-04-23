@@ -5,6 +5,30 @@ const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
 const deleteMenuCategory = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+  loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
+
+  if (loginInfo.userLevel !== 'USLEV00000001') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20007509,
+        msg: myResultCode[20007509].msg,
+      },
+    }));
+    return;
+  }
+
+
+
   const {
     menuCategoryKey, // 삭제 처리할 메뉴 카테고리 고유 식별키 (string 또는 string[])
   } = req.body;

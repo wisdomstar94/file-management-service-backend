@@ -23,6 +23,21 @@ const getFileVersion = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  const isFileVersionListPossible = await db.isActivePermission(loginInfo.userKey, 'XPebmV1619179187706G');
+  if (!isFileVersionListPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20033010,
+        msg: myResultCode[20033010].msg,
+      },
+    }));
+    return;
+  }
+
+
   const {
     fileVersionKey, // string 또는 string[]
     fileKey, // string 또는 string[]

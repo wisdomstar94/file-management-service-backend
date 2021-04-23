@@ -18,6 +18,22 @@ const deleteCompany = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+
+  const isCompanyDeletePossible = await db.isActivePermission(loginInfo.userKey, 'FJIyt1617685724474xG');
+  if (!isCompanyDeletePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20022009,
+        msg: myResultCode[20022009].msg,
+      },
+    }));
+    return;
+  }
+
+
   
   const {
     companyKey, // string 또는 string[]

@@ -5,6 +5,29 @@ const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
 
 const deleteCode = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+  loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
+
+  if (loginInfo.userLevel !== 'USLEV00000001') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20003009,
+        msg: myResultCode[20003009].msg,
+      },
+    }));
+    return;
+  }
+
+
   const {
     code, // 삭제할 코드 (문자 또는 배열)
   } = req.body;

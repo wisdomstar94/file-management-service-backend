@@ -11,6 +11,18 @@ const myRegularExpressCheck = require('../../../librarys/myRegularExpressCheck')
 const { Op, Sequelize } = require('sequelize');
 
 const modifyUser = wrapper(async(req, res, next) => {
+  const loginInfo = req.loginInfo;
+  /*
+    loginInfo.userKey: 'C1618033738099vtEiUg',
+    loginInfo.userId: 'test123',
+    loginInfo.userName: '홍길동',
+    loginInfo.ip: '::ffff:172.17.0.1'
+  */
+
+    
+  const isUserAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ZXdQT1617688117620Kp');
+
+
   const {
     userKey, // string 또는 string[]
     companyKey,
@@ -137,6 +149,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof companyKey === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isCompanyModifyPossible = await db.isActivePermission(loginInfo.userKey, 'qMz1617688160685WVie');
+      if (!isCompanyModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018589,
+            msg: myResultCode[20018589].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (companyKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -198,6 +226,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof permissionGroupKey === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isPermissionGroupModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ej1617688228080etHji');
+      if (!isPermissionGroupModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018629,
+            msg: myResultCode[20018629].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (permissionGroupKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -259,6 +303,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof userLevel === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isUserLevelModifyPossible = await db.isActivePermission(loginInfo.userKey, 'siGZT1619141385876kF');
+      if (!isUserLevelModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018655,
+            msg: myResultCode[20018655].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (userLevel.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -315,6 +375,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof userPassword === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isUserPasswordModifyPossible = await db.isActivePermission(loginInfo.userKey, 'XNcrRT1619142279885F');
+      if (!isUserPasswordModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018669,
+            msg: myResultCode[20018669].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (userPassword.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -357,6 +433,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof userName === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isCompanyModifyPossible = await db.isActivePermission(loginInfo.userKey, 'zqYNi1617688178303Jj');
+      if (!isCompanyModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018699,
+            msg: myResultCode[20018699].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (userName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -399,6 +491,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof userPhone === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isUserPhoneModifyPossible = await db.isActivePermission(loginInfo.userKey, 'm1617688197706pJPsHd');
+      if (!isUserPhoneModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018729,
+            msg: myResultCode[20018729].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (userPhone.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -440,6 +548,24 @@ const modifyUser = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (userMemo === null || typeof userMemo === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isUserMemoModifyPossible = await db.isActivePermission(loginInfo.userKey, 'hpXEml1617688212167t');
+      if (!isUserMemoModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018751,
+            msg: myResultCode[20018751].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   // userStatus 체크 : optional
   if (userStatus !== undefined && typeof userStatus !== 'string') {
     res.status(200).json(myValueLog({
@@ -455,6 +581,22 @@ const modifyUser = wrapper(async(req, res, next) => {
   }
 
   if (typeof userStatus === 'string') {
+    if (!isUserAllModifyPossible) {
+      const isUserStatusModifyPossible = await db.isActivePermission(loginInfo.userKey, 'L1617688242674YwkQAy');
+      if (!isUserStatusModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20018769,
+            msg: myResultCode[20018769].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (userStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,

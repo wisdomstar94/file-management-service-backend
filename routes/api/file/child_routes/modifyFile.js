@@ -86,7 +86,8 @@ const modifyFile = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
-  myLogger.info(req.logHeadTail + 'req.body => ' + JSON.stringify(req.body));
+
+  const isFileAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'Kx1619158838238pCDXS');
 
   const {
     fileKey,
@@ -178,6 +179,22 @@ const modifyFile = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileLabelName === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileLabelNameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'kgHt1619158968829afj');
+      if (!isFileLabelNameModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026059,
+            msg: myResultCode[20026059].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileLabelName.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
@@ -219,6 +236,24 @@ const modifyFile = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (fileMemo === null || typeof fileMemo === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileAABAModifyPossible = await db.isActivePermission(loginInfo.userKey, 'cjozg1619158988578Dy');
+      if (!isFileAABAModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026089,
+            msg: myResultCode[20026089].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   if (typeof fileMemo === 'string') {
     if (fileMemo.trim() === '') {
       res.status(200).json(myValueLog({
@@ -248,6 +283,24 @@ const modifyFile = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (fileDescription === null || typeof fileDescription === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileAABAModifyPossible = await db.isActivePermission(loginInfo.userKey, 'Setv1619159012587hpx');
+      if (!isFileAABAModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026109,
+            msg: myResultCode[20026109].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   if (typeof fileDescription === 'string') {
     if (fileDescription.trim() === '') {
       res.status(200).json(myValueLog({
@@ -264,7 +317,7 @@ const modifyFile = wrapper(async(req, res, next) => {
   }
 
   // fileImageScreenShotInfoJsonString 체크
-  if (typeof fileImageScreenShotInfoJsonString !=='string') {
+  if (typeof fileImageScreenShotInfoJsonString !== 'string') {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
@@ -277,7 +330,7 @@ const modifyFile = wrapper(async(req, res, next) => {
     return;
   }
 
-  if (!myCommon.isJsonString(fileImageScreenShotInfoJsonString)){
+  if (!myCommon.isJsonString(fileImageScreenShotInfoJsonString)) {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
@@ -314,6 +367,24 @@ const modifyFile = wrapper(async(req, res, next) => {
       },
     }));
     return;
+  }
+
+  if (fileImageScreenShotInfo.length > 0) {
+    if (!isFileAllModifyPossible) {
+      const isFileImageScreenShotModifyPossible = await db.isActivePermission(loginInfo.userKey, 'GpGYwJt1619159095273');
+      if (!isFileImageScreenShotModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026141,
+            msg: myResultCode[20026141].msg,
+          },
+        }));
+        return;
+      }
+    }
   }
 
   const newImageScreenShotSort = [];
@@ -391,6 +462,24 @@ const modifyFile = wrapper(async(req, res, next) => {
     return;
   }
 
+  if (fileImageRepresentInfo.length > 0) {
+    if (!isFileAllModifyPossible) {
+      const isFileRepresentImageModifyPossible = await db.isActivePermission(loginInfo.userKey, 'iFnb1619159115861ZNK');
+      if (!isFileRepresentImageModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026171,
+            msg: myResultCode[20026171].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
+
   const newImageRepresentSort = [];
   for (let i = 0; i < fileImageRepresentInfo.length; i++) {
     if (fileImageRepresentInfo[i].infoType === 'new') {
@@ -428,6 +517,22 @@ const modifyFile = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileStoreVersionHistoryOpen === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileStoreVersionHistoryOpenModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ENRTwOP1619159031243');
+      if (!isFileStoreVersionHistoryOpenModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026189,
+            msg: myResultCode[20026189].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileStoreVersionHistoryOpen !== 'Y' && fileStoreVersionHistoryOpen !== 'N') {
       res.status(200).json(myValueLog({
         req: req,
@@ -457,6 +562,22 @@ const modifyFile = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileStoreDescriptionOpen === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileAABAModifyPossible = await db.isActivePermission(loginInfo.userKey, 'Xx1619159049782JpLKV');
+      if (!isFileAABAModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026209,
+            msg: myResultCode[20026209].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileStoreDescriptionOpen !== 'Y' && fileStoreDescriptionOpen !== 'N') {
       res.status(200).json(myValueLog({
         req: req,
@@ -486,6 +607,22 @@ const modifyFile = wrapper(async(req, res, next) => {
   }
 
   if (typeof fileStatus === 'string') {
+    if (!isFileAllModifyPossible) {
+      const isFileAABAModifyPossible = await db.isActivePermission(loginInfo.userKey, 'KygH1619159135190rkp');
+      if (!isFileAABAModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20026229,
+            msg: myResultCode[20026229].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,

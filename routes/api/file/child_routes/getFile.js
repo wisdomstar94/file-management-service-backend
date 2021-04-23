@@ -23,6 +23,22 @@ const getFile = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  const isFileListModifyPossible = await db.isActivePermission(loginInfo.userKey, 'XQSP1617689945699vvv');
+  if (!isFileListModifyPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20029010,
+        msg: myResultCode[20029010].msg,
+      },
+    }));
+    return;
+  }
+
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
+
   const {
     fileKey, 
     fileLabelName,
@@ -61,23 +77,13 @@ const getFile = wrapper(async(req, res, next) => {
   const order = [];
   const OpAndArray = [];
 
-  // loginInfo.userKey 체크
-  if (typeof loginInfo.userKey !== 'string'){
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
-      },
-    }));
-    return;
-  }
+  
 
-  if (loginInfo.userLevel !== 'USLEV00000001') {
+  if (!isAllUserControl) {
     OpAndArray.push({
-      createrUserKey: loginInfo.userKey,
+      createrUserKey: {
+        [Op.in]: await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey),
+      },
     });
   }
     

@@ -66,10 +66,12 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  const isFileDownloadUrlAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'VlEX1619174971861yVJ');
+
   const {
     fileDownloadUrlKey,
     downloadTargetUserKey,
-    fileKey,
+    // fileKey,
     fileVersionKey,
     // fileDownloadUrlAccessCount,
     fileDownloadPossibleDateTimeStart,
@@ -88,8 +90,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031010,
+        msg: myResultCode[20031010].msg,
       },
     }));
     return;
@@ -101,8 +103,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031020,
+        msg: myResultCode[20031020].msg,
       },
     }));
     return;
@@ -114,8 +116,27 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031030,
+        msg: myResultCode[20031030].msg,
+      },
+    }));
+    return;
+  }
+
+  const fileDownloadUrlKeyResult = await db.FmsFileDownloadUrls.findOne({
+    where: {
+      fileDownloadUrlKey: fileDownloadUrlKey,
+    },
+  });
+
+  if (fileDownloadUrlKeyResult === null) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20031035,
+        msg: myResultCode[20031035].msg,
       },
     }));
     return;
@@ -128,22 +149,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031040,
+        msg: myResultCode[20031040].msg,
       },
     }));
     return;
   }
 
   if (typeof downloadTargetUserKey === 'string') {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadUrlTargetUserKeyModifyPossible = await db.isActivePermission(loginInfo.userKey, 'vqINGKr1617691537278');
+      if (!isFileDownloadUrlTargetUserKeyModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031049,
+            msg: myResultCode[20031049].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (downloadTargetUserKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031050,
+          msg: myResultCode[20031050].msg,
         },
       }));
       return;
@@ -155,8 +192,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031060,
+          msg: myResultCode[20031060].msg,
         },
       }));
       return;
@@ -174,8 +211,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031070,
+          msg: myResultCode[20031070].msg,
         },
       }));
       return;
@@ -183,65 +220,65 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
   }
 
   // fileKey 체크 : optional
-  if (fileKey !== undefined && typeof fileKey !== 'string') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
-      },
-    }));
-    return;
-  }
+  // if (fileKey !== undefined && typeof fileKey !== 'string') {
+  //   res.status(200).json(myValueLog({
+  //     req: req,
+  //     obj: {
+  //       result: 'failure',
+  //       headTail: req.accessUniqueKey,
+  //       code: 20031080,
+  //       msg: myResultCode[20031080].msg,
+  //     },
+  //   }));
+  //   return;
+  // }
 
-  if (typeof fileKey === 'string') {
-    if (fileKey.trim() === '') {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
-        },
-      }));
-      return;
-    }
+  // if (typeof fileKey === 'string') {
+  //   if (fileKey.trim() === '') {
+  //     res.status(200).json(myValueLog({
+  //       req: req,
+  //       obj: {
+  //         result: 'failure',
+  //         headTail: req.accessUniqueKey,
+  //         code: 20031090,
+  //         msg: myResultCode[20031090].msg,
+  //       },
+  //     }));
+  //     return;
+  //   }
     
-    if (fileKey.length !== 20) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
-        },
-      }));
-      return;
-    }
+  //   if (fileKey.length !== 20) {
+  //     res.status(200).json(myValueLog({
+  //       req: req,
+  //       obj: {
+  //         result: 'failure',
+  //         headTail: req.accessUniqueKey,
+  //         code: 20031100,
+  //         msg: myResultCode[20031100].msg,
+  //       },
+  //     }));
+  //     return;
+  //   }
 
-    const fileKeyResult = await db.FmsFiles.findOne({
-      where: {
-        fileKey: fileKey,
-        isDeletedRow: 'N',
-      },
-    });
-    if (fileKeyResult === null) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
-        },
-      }));
-      return;
-    }
-  }
+  //   const fileKeyResult = await db.FmsFiles.findOne({
+  //     where: {
+  //       fileKey: fileKey,
+  //       isDeletedRow: 'N',
+  //     },
+  //   });
+  //   if (fileKeyResult === null) {
+  //     res.status(200).json(myValueLog({
+  //       req: req,
+  //       obj: {
+  //         result: 'failure',
+  //         headTail: req.accessUniqueKey,
+  //         code: 20031110,
+  //         msg: myResultCode[20031110].msg,
+  //       },
+  //     }));
+  //     return;
+  //   }
+  // }
 
   // fileVersionKey 체크 : optional
   if (fileVersionKey !== undefined && typeof fileVersionKey !== 'string') {
@@ -250,22 +287,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031120,
+        msg: myResultCode[20031120].msg,
       },
     }));
     return;
   }
 
   if (typeof fileVersionKey === 'string') {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileVersionModifyPossible = await db.isActivePermission(loginInfo.userKey, 'jEi1617691551741tSOG');
+      if (!isFileVersionModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031129,
+            msg: myResultCode[20031129].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileVersionKey.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031130,
+          msg: myResultCode[20031130].msg,
         },
       }));
       return;
@@ -277,8 +330,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031140,
+          msg: myResultCode[20031140].msg,
         },
       }));
       return;
@@ -286,7 +339,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
 
     const fileVersionKeyResult = await db.FmsFileVersions.findOne({
       where: {
-        fileKey: fileKey,
+        fileKey: fileDownloadUrlKeyResult.fileKey,
         fileVersionKey: fileVersionKey,
         isDeletedRow: 'N',
       },
@@ -297,8 +350,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031150,
+          msg: myResultCode[20031150].msg,
         },
       }));
       return;
@@ -312,22 +365,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031160,
+        msg: myResultCode[20031160].msg,
       },
     }));
     return;
   }
 
   if (typeof fileDownloadPossibleDateTimeStart === 'string') {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadPossibleDateTimeModifyPossible = await db.isActivePermission(loginInfo.userKey, 'GuP1617691566626dvRA');
+      if (!isFileDownloadPossibleDateTimeModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031169,
+            msg: myResultCode[20031169].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileDownloadPossibleDateTimeStart.trim() === '' || !myDate(fileDownloadPossibleDateTimeStart).isValid()) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031170,
+          msg: myResultCode[20031170].msg,
         },
       }));
       return;
@@ -341,22 +410,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031180,
+        msg: myResultCode[20031180].msg,
       },
     }));
     return;
   }
 
   if (typeof fileDownloadPossibleDateTimeEnd === 'string') {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadPossibleDateTimeModifyPossible = await db.isActivePermission(loginInfo.userKey, 'GuP1617691566626dvRA');
+      if (!isFileDownloadPossibleDateTimeModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031189,
+            msg: myResultCode[20031189].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileDownloadPossibleDateTimeEnd.trim() === '' || !myDate(fileDownloadPossibleDateTimeEnd).isValid()) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031190,
+          msg: myResultCode[20031190].msg,
         },
       }));
       return;
@@ -371,8 +456,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031200,
+          msg: myResultCode[20031200].msg,
         },
       }));
       return;
@@ -384,8 +469,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031210,
+          msg: myResultCode[20031210].msg,
         },
       }));
       return;
@@ -397,8 +482,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031220,
+          msg: myResultCode[20031220].msg,
         },
       }));
       return;
@@ -412,11 +497,29 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031230,
+        msg: myResultCode[20031230].msg,
       },
     }));
     return;
+  }
+
+  if (myCommon.isNumber(fileDownloadLimitMaxCount)) {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadLimitMaxCountModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ehV1617691582518czOk');
+      if (!isFileDownloadLimitMaxCountModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031235,
+            msg: myResultCode[20031235].msg,
+          },
+        }));
+        return;
+      }
+    }
   }
 
   // fileDownloadCount 체크 : optional
@@ -426,22 +529,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031240,
+        msg: myResultCode[20031240].msg,
       },
     }));
     return;
   }
 
   if (myCommon.isNumber(fileDownloadCount)) {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadCountModifyPossible = await db.isActivePermission(loginInfo.userKey, 'eqaOCnz1617691599380');
+      if (!isFileDownloadCountModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031249,
+            msg: myResultCode[20031249].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (Number(fileDownloadCount) !== 0) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031250,
+          msg: myResultCode[20031250].msg,
         },
       }));
       return;
@@ -455,8 +574,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031260,
+        msg: myResultCode[20031260].msg,
       },
     }));
     return;
@@ -464,6 +583,24 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
 
   const conditionTypeUnique = [];
   const conditionStatusUnique = [];
+
+  if (fileDownloadUrlAccessConditionInfo.length > 0) {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadUrlAccessConditionInfoModifyPossible = await db.isActivePermission(loginInfo.userKey, 'Vm1617691627356GZtNd');
+      if (!isFileDownloadUrlAccessConditionInfoModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031265,
+            msg: myResultCode[20031265].msg,
+          },
+        }));
+        return;
+      }
+    }
+  }
 
   for (let i = 0; i < fileDownloadUrlAccessConditionInfo.length; i++) {
     const item = fileDownloadUrlAccessConditionInfo[i];
@@ -474,8 +611,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031270,
+          msg: myResultCode[20031270].msg,
         },
       }));
       return;
@@ -488,8 +625,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20031280,
+            msg: myResultCode[20031280].msg,
           },
         }));
         return;
@@ -503,8 +640,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20031290,
+            msg: myResultCode[20031290].msg,
           },
         }));
         return;
@@ -516,8 +653,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20031300,
+            msg: myResultCode[20031300].msg,
           },
         }));
         return;
@@ -531,8 +668,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20031310,
+            msg: myResultCode[20031310].msg,
           },
         }));
         return;
@@ -544,8 +681,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
           obj: {
             result: 'failure',
             headTail: req.accessUniqueKey,
-            code: 00000000,
-            msg: myResultCode[00000000].msg,
+            code: 20031320,
+            msg: myResultCode[20031320].msg,
           },
         }));
         return;
@@ -569,8 +706,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031330,
+          msg: myResultCode[20031330].msg,
         },
       }));
       return;
@@ -585,8 +722,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031340,
+          msg: myResultCode[20031340].msg,
         },
       }));
       return;
@@ -600,22 +737,38 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031350,
+        msg: myResultCode[20031350].msg,
       },
     }));
     return;
   }
 
   if (typeof fileDownloadUrlStatus === 'string') {
+    if (!isFileDownloadUrlAllModifyPossible) {
+      const isFileDownloadUrlStatusModifyPossible = await db.isActivePermission(loginInfo.userKey, 'DfCM1617691613278YYD');
+      if (!isFileDownloadUrlStatusModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031359,
+            msg: myResultCode[20031359].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (fileDownloadUrlStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031360,
+          msg: myResultCode[20031360].msg,
         },
       }));
       return;
@@ -627,8 +780,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031370,
+          msg: myResultCode[20031370].msg,
         },
       }));
       return;
@@ -641,8 +794,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
         obj: {
           result: 'failure',
           headTail: req.accessUniqueKey,
-          code: 00000000,
-          msg: myResultCode[00000000].msg,
+          code: 20031380,
+          msg: myResultCode[20031380].msg,
         },
       }));
       return;
@@ -662,7 +815,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     // 다운로드 URL 정보 업데이트
     const updateResult = await db.FmsFileDownloadUrls.update({
       downloadTargetUserKey: downloadTargetUserKey,
-      fileKey: fileKey,
+      // fileKey: fileKey,
       fileVersionKey: fileVersionKey,
       fileDownloadPossibleDateTimeStart: fileDownloadPossibleDateTimeStart,
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
@@ -756,8 +909,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       obj: {
         result: 'success',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20031390,
+        msg: myResultCode[20031390].msg,
       },
     }));
     return;
