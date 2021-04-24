@@ -24,8 +24,6 @@ const getUploadedFileCount = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
-  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
-
   const isDashboardUploadedFileCountAccessPossible = await db.isActivePermission(loginInfo.userKey, 'VHI1617682787237PDYt');
   if (!isDashboardUploadedFileCountAccessPossible) {
     res.status(200).json(myValueLog({
@@ -39,6 +37,8 @@ const getUploadedFileCount = wrapper(async(req, res, next) => {
     }));
     return;
   }
+
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
 
 
