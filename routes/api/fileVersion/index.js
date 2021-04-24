@@ -49,7 +49,7 @@ const uploadFileVersionUpload = multer({
 });
 
 
-const modifyFileVersionFileVersionStorage = multer.diskStorage({
+const modifyFileVersionStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     const YYYYMM_folder_name = myDate().format('YYYYMM');
 
@@ -61,7 +61,7 @@ const modifyFileVersionFileVersionStorage = multer.diskStorage({
 
     cb(null, check_folder);
   },
-  filename: function (req, file, cb) {
+  filename: wrapper(async(req, file, cb) => {
     const loginInfo = req.loginInfo;
     /*
       loginInfo.userKey: 'C1618033738099vtEiUg',
@@ -100,10 +100,10 @@ const modifyFileVersionFileVersionStorage = multer.diskStorage({
     // }
     
     cb(null, filename); // cb 콜백함수를 통해 전송된 파일 이름 설정
-  }
+  })
 });
-const modifyFileVersionFileVersionUpload = multer({ 
-  storage: modifyFileVersionFileVersionStorage, 
+const modifyFileVersionUpload = multer({ 
+  storage: modifyFileVersionStorage, 
   limits: { fileSize: 1000 * 1024 * 1024 } // 1000mb (1 * 1024 * 1024 = 1MB)
 });
 
@@ -125,7 +125,7 @@ router.post('/uploadFileVersion', jwtTokenCheck, uploadFileVersionPermissionChec
   },
 ]), child_route__uploadFileVersion);
 
-router.post('/modifyFileVersion', jwtTokenCheck, modifyFileVersionFileVersionStorage.fields([
+router.post('/modifyFileVersion', jwtTokenCheck, modifyFileVersionUpload.fields([
   {
     name: 'versionFile',
     maxCount: 1,

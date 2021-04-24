@@ -1,8 +1,10 @@
 'use strict';
 
+require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
+const { QueryTypes } = require('sequelize');
 const FmsCodeGroups = require('./FmsCodeGroups');
 const FmsCodes = require('./FmsCodes');
 const FmsUsers = require('./FmsUsers');
@@ -218,6 +220,25 @@ db.isActivePermission = async(userKey, permissionKey) => {
 
   return true;
 };
+
+
+
+db.isExistTable = async(tableName) => {
+  const result = await sequelize.query(`
+      SHOW TABLES IN ${process.env.MAIN_DB_DEFAULT_DATABASE} LIKE ${sequelize.escape(tableName)};
+    `, { 
+      type: QueryTypes.SELECT 
+    }
+  );
+
+  if (result.length > 0) {
+    return true;
+  } else {
+    return false;
+  }
+};
+
+
 
 // export module
 module.exports = db;
