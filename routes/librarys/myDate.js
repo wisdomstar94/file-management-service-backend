@@ -508,22 +508,24 @@ class myDateClass {
     }
 
     const dateInfo = t.getDateInfo();
-    const currentYear = dateInfo.year;
+    const currentYear = Number(dateInfo.year);
     let targetYear = Number(currentYear);
 
-    const currentMonth = dateInfo.month; // 인덱스 아님.. 즉 5이면 5월이고 인덱스로 따지면 4
+    const currentMonth = Number(dateInfo.month); // 인덱스 아님.. 즉 5이면 5월이고 인덱스로 따지면 4
     let targetNextMonth = currentMonth + 1;
     if (targetNextMonth > 12) {
       targetNextMonth = 1;
       targetYear += 1;
     }
 
-    const zeroDateObject = dateInfo.dateObject;
-    zeroDateObject.setMonth(targetYear - 1);
+    const zeroDateObject = new Date(dateInfo.dateObject);
+
+    zeroDateObject.setYear(targetYear);
+    zeroDateObject.setMonth(targetNextMonth - 1);
     zeroDateObject.setDate(0);
 
     const lastDate = zeroDateObject.getDate();
-    return lastDate;
+    return Number(lastDate);
   }
 
 
