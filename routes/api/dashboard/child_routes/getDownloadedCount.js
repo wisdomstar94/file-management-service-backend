@@ -32,8 +32,8 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20036009,
+        msg: myResultCode[20036009].msg,
       },
     }));
     return;
@@ -100,8 +100,8 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 00000000,
-        msg: myResultCode[00000000].msg,
+        code: 20036030,
+        msg: myResultCode[20036030].msg,
       },
     }));
     return;
