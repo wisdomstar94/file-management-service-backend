@@ -13,9 +13,11 @@ const wrapper = require('../../librarys/myAsyncWrapper');
 
 
 const child_route__getDownloadedCount = require('./child_routes/getDownloadedCount');
+const child_route__getUploadedFileCount = require('./child_routes/getUploadedFileCount');
 
 
 router.post('/getDownloadedCount', jwtTokenCheck, child_route__getDownloadedCount);
+router.post('/getUploadedFileCount', jwtTokenCheck, child_route__getUploadedFileCount);
 
 
 module.exports = router;

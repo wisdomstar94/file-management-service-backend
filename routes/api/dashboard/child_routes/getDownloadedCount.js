@@ -24,6 +24,23 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
+
+
+  let addWhere = ``;
+  const addWhereValues = {};
+
+
+  if (!isAllUserControl) {
+    addWhere += `
+      AND \`FFDL\`.\`downloadTargetUserKey\` IN(:childUserKey)
+    `;
+    addWhereValues.childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
+    // addWhereValues.push({
+    //   childUserKey: await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey),
+    // });  
+  }
+
   
   const isDashboardDownloadedCountAccessPossible = await db.isActivePermission(loginInfo.userKey, 'TkF1617682723752uKlJ');
   if (!isDashboardDownloadedCountAccessPossible) {
@@ -145,7 +162,9 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
         FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${targetTableName}\` AS \`FFDL\` 
 
         WHERE \`FFDL\`.\`isDeletedRow\` = ${sequelize.escape('N')}
+        ${addWhere} 
       `, { 
+        replacements: addWhereValues,
         type: QueryTypes.SELECT 
       }
     );
@@ -178,8 +197,10 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
         FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${todayTableName}\` AS \`FFDL\` 
 
         WHERE \`FFDL\`.\`isDeletedRow\` = ${sequelize.escape('N')}
+        ${addWhere} 
         AND (\`FFDL\`.\`createdAt\` >= '${myDate().format('YYYY-MM-DD 00:00:00')}' AND \`FFDL\`.\`createdAt\` <= '${myDate().format('YYYY-MM-DD 23:59:59')}')
       `, { 
+        replacements: addWhereValues,
         type: QueryTypes.SELECT 
       }
     );

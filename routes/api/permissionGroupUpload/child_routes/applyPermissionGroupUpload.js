@@ -17,19 +17,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
   */
 
 
-  const isPermissionGroupPermissionControlPossible = await db.isActivePermission(loginInfo.userKey, 'YBmA1617688856994Ktx');
-  if (!isPermissionGroupPermissionControlPossible) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20016009,
-        msg: myResultCode[20016009].msg,
-      },
-    }));
-    return;
-  }
+  const isPermissionGroupAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'moum1617688803133KDK');
 
 
   const {
@@ -54,6 +42,22 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
       },
     }));
     return;
+  }
+
+  if (permissionGroupKey === undefined) {
+    const isPermissionGroupCreatePossible = await db.isActivePermission(loginInfo.userKey, 'yQWpkir1617688667026');
+    if (!isPermissionGroupCreatePossible) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20016011,
+          msg: myResultCode[20016011].msg,
+        },
+      }));
+      return;
+    }
   }
 
   if (typeof permissionGroupKey === 'string') {
@@ -98,57 +102,97 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
     return;
   }
 
-  if (permissionKeyInfo.length === 0) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20016050,
-        msg: myResultCode[20016050].msg,
-      },
-    }));
-    return;
+  // if (permissionKeyInfo.length === 0) {
+  //   res.status(200).json(myValueLog({
+  //     req: req,
+  //     obj: {
+  //       result: 'failure',
+  //       headTail: req.accessUniqueKey,
+  //       code: 20016050,
+  //       msg: myResultCode[20016050].msg,
+  //     },
+  //   }));
+  //   return;
+  // }
+
+  if (permissionKeyInfo.length > 0) {
+    if (!isPermissionGroupAllModifyPossible && permissionGroupKey !== undefined) {
+      const isPermissionGroupPermissionControlPossible = await db.isActivePermission(loginInfo.userKey, 'YBmA1617688856994Ktx');
+      if (!isPermissionGroupPermissionControlPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20016051,
+            msg: myResultCode[20016051].msg,
+          },
+        }));
+        return;
+      }
+    }
   }
 
-  // permissionGroupName 체크 : required
-  if (typeof permissionGroupName !== 'string') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20016060,
-        msg: myResultCode[20016060].msg,
-      },
-    }));
-    return;
-  }
+  // permissionGroupName 체크 : optional
+  if (permissionGroupKey === undefined) {
+    if (typeof permissionGroupName !== 'string') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20016060,
+          msg: myResultCode[20016060].msg,
+        },
+      }));
+      return;
+    }
 
-  if (permissionGroupName.trim() === '') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20016070,
-        msg: myResultCode[20016070].msg,
-      },
-    }));
-    return;
-  }
+    if (permissionGroupName.trim() === '') {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20016070,
+          msg: myResultCode[20016070].msg,
+        },
+      }));
+      return;
+    }
 
-  if (permissionGroupName.length > 100) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20016080,
-        msg: myResultCode[20016080].msg,
-      },
-    }));
-    return;
+    if (permissionGroupName.length > 100) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20016080,
+          msg: myResultCode[20016080].msg,
+        },
+      }));
+      return;
+    }
+  } 
+
+  if (permissionGroupKey !== undefined) {
+    if (typeof permissionGroupName === 'string') {
+      if (!isPermissionGroupAllModifyPossible) {
+        const isPermissionGroupNameModifyPossible = await db.isActivePermission(loginInfo.userKey, 'eXYOni1617688817371c');
+        if (!isPermissionGroupNameModifyPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20016081,
+              msg: myResultCode[20016081].msg,
+            },
+          }));
+          return;
+        }
+      }
+    }
   }
 
   // permissionGroupDescription 체크 : optional
@@ -166,6 +210,22 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
   }
 
   if (typeof permissionGroupDescription === 'string') {
+    if (!isPermissionGroupAllModifyPossible && permissionGroupKey !== undefined) {
+      const isPermissionGroupDescriptionModifyPossible = await db.isActivePermission(loginInfo.userKey, 'nAvqxz1617688830871w');
+      if (!isPermissionGroupDescriptionModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20016091,
+            msg: myResultCode[20016091].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (permissionGroupDescription.length > 255) {
       res.status(200).json(myValueLog({
         req: req,
@@ -182,6 +242,22 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
 
   // sortNo 체크 : optional
   if (sortNo !== undefined) {
+    if (!isPermissionGroupAllModifyPossible && permissionGroupKey !== undefined) {
+      const isPermissionGroupSortNoModifyPossible = await db.isActivePermission(loginInfo.userKey, 'F1619180812531eiRqVu');
+      if (!isPermissionGroupSortNoModifyPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20016109,
+            msg: myResultCode[20016109].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (sortNo === null) {
       res.status(200).json(myValueLog({
         req: req,
@@ -239,6 +315,22 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
   }
 
   if (typeof permissionGroupStatus === 'string') {
+    if (!isPermissionGroupAllModifyPossible && permissionGroupKey !== undefined) {
+      const isPermissionGroupStatusPossible = await db.isActivePermission(loginInfo.userKey, 'VoCkGI1617688843559f');
+      if (!isPermissionGroupStatusPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20016135,
+            msg: myResultCode[20016135].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     if (permissionGroupStatus.trim() === '') {
       res.status(200).json(myValueLog({
         req: req,
