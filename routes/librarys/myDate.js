@@ -500,6 +500,51 @@ class myDateClass {
   }
 
 
+  getLastDate() {
+    const t = this;
+
+    if (!t.isValid()) {
+      throw new Error('myDate의 날짜 값이 유효한 날짜가 아닙니다. Error-Type : Q');
+    }
+
+    const dateInfo = t.getDateInfo();
+    const currentYear = dateInfo.year;
+    let targetYear = Number(currentYear);
+
+    const currentMonth = dateInfo.month; // 인덱스 아님.. 즉 5이면 5월이고 인덱스로 따지면 4
+    let targetNextMonth = currentMonth + 1;
+    if (targetNextMonth > 12) {
+      targetNextMonth = 1;
+      targetYear += 1;
+    }
+
+    const zeroDateObject = dateInfo.dateObject;
+    zeroDateObject.setMonth(targetYear - 1);
+    zeroDateObject.setDate(0);
+
+    const lastDate = zeroDateObject.getDate();
+    return lastDate;
+  }
+
+
+  getDately() {
+    const t = this;
+
+    if (!t.isValid()) {
+      throw new Error('myDate의 날짜 값이 유효한 날짜가 아닙니다. Error-Type : P');
+    }
+
+    const lastDate = t.getLastDate();
+
+    const dately = [];
+    for (let i = 1; i <= lastDate; i++) {
+      dately.push(t.format('YYYY-MM-') + t.zeroFill(i));
+    }
+
+    return dately;
+  }
+
+
   zeroFill(number_value) {
     const t = this;
 
