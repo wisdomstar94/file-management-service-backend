@@ -1,7 +1,6 @@
 const cron = require('node-cron');
 const myDate = require('../routes/librarys/myDate');
 const myLogger = require('../routes/librarys/myLogger');
-const myMysql = require('../routes/librarys/myMysql');
 const { Sequelize, QueryTypes } = require('sequelize');
 require('dotenv').config();
 
