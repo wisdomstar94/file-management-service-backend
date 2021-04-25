@@ -31,6 +31,8 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
     return;
   }
 
+  // const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
+
 
 
   const {
@@ -423,18 +425,45 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
     getPageInfo.pageLength 
   */
 
+  const activePermissionKeys = await db.isActivePermissions(loginInfo.userKey, [
+    'IuJ1617688567172AqFn', // seq
+    'jahWg1617688582449bI', // 권한 그룹명
+    'Nr1617688597087MzSAo', // 권한 그룹 설명
+    'Tz1617688611713wZfKg', // 생성일
+    'M1617688625942lyFAFR', // 상태
+  ]);
+  const FmsPermissionGroupsAttributes = [];
+  const FmsPermissionGroupStatusCodesAttributes = [];
+
+  activePermissionKeys.includes('IuJ1617688567172AqFn') ? FmsPermissionGroupsAttributes.push('seq') : null;
+  activePermissionKeys.includes('jahWg1617688582449bI') ? FmsPermissionGroupsAttributes.push('permissionGroupName') : null;
+  activePermissionKeys.includes('Nr1617688597087MzSAo') ? FmsPermissionGroupsAttributes.push('permissionGroupDescription') : null;
+  activePermissionKeys.includes('Tz1617688611713wZfKg') ? FmsPermissionGroupsAttributes.push('createdAt') : null;
+  if (activePermissionKeys.includes('M1617688625942lyFAFR')) {
+    FmsPermissionGroupsAttributes.push('permissionGroupStatus');
+    FmsPermissionGroupStatusCodesAttributes.push('code');
+    FmsPermissionGroupStatusCodesAttributes.push('codeName');
+  }
+
+  if (FmsPermissionGroupsAttributes.length > 0) {
+    FmsPermissionGroupsAttributes.push('permissionGroupKey');
+  }
+
   // 리스트 가져오기
   const list = await db.FmsPermissionGroups.findAll({
-    attributes: [
-      'permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription', 'sortNo',
-      'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'permissionGroupStatus', 
-    ],
+    attributes: FmsPermissionGroupsAttributes,
+    // attributes: [
+    //   'permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription', 'sortNo',
+    //   'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'permissionGroupStatus', 
+    // ],
     include: [
       {
+        as: 'FmsPermissionGroupStatusCodes',
         model: db.FmsCodes,
-        attributes: [
-          ['codeName', 'permissionGroupStatusString'],
-        ],
+        attributes: FmsPermissionGroupStatusCodesAttributes,
+        // attributes: [
+        //   ['codeName', 'permissionGroupStatusString'],
+        // ],
       },
     ],
     where: where,

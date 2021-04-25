@@ -58,7 +58,6 @@ db.FmsCodeGroups = FmsCodeGroups(sequelize, Sequelize);
 db.FmsCodes = FmsCodes(sequelize, Sequelize);
 db.FmsUsers = FmsUsers(sequelize, Sequelize);
 db.FmsJwtRefreshTokens = FmsJwtRefreshTokens(sequelize, Sequelize);
-db.FmsPermissionGroups = FmsPermissionGroups(sequelize, Sequelize);
 db.FmsMenuCategorys = FmsMenuCategorys(sequelize, Sequelize);
 db.FmsMenus = FmsMenus(sequelize, Sequelize);
 db.FmsPermissions = FmsPermissions(sequelize, Sequelize);
@@ -91,7 +90,7 @@ db.FmsMenus.hasMany(db.FmsPermissions, { foreignKey: 'menuKey', sourceKey: 'menu
 db.FmsPermissions.belongsTo(db.FmsMenus, { foreignKey: 'menuKey', sourceKey: 'menuKey' });
 
 db.FmsCodes.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
-db.FmsPermissionGroups.belongsTo(db.FmsCodes, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
+db.FmsPermissionGroups.belongsTo(db.FmsCodes, { as: 'FmsPermissionGroupStatusCodes', foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 
 db.FmsPermissionGroups.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
 db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' })

@@ -33,7 +33,8 @@ const getCompany = wrapper(async(req, res, next) => {
   }
 
   const isCompanyAllSearchPossible = await db.isActivePermission(loginInfo.userKey, 'nFIGS1617683501961lw');
-
+  
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
   
   const {
@@ -73,6 +74,13 @@ const getCompany = wrapper(async(req, res, next) => {
   let updaterUserRequired = false;
   const order = [];
   const OpAndArray = [];
+
+
+  // isAllUserControl 체크
+  if (!isAllUserControl) {
+    const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
+    where.createrUserKey = childUserKey;
+  }
 
   
   // companyKey 체크 : optional
@@ -1225,6 +1233,10 @@ const getCompany = wrapper(async(req, res, next) => {
     FmsCompanyAttributes.push('companyStatus');
     FmsCompanyStatusCodesAttributes.push('code');
     FmsCompanyStatusCodesAttributes.push('codeName');
+  }
+
+  if (FmsCompanyAttributes.length !== 0) {
+    FmsCompanyAttributes.push('companyKey');
   }
 
   const list = await db.FmsCompanys.findAll({

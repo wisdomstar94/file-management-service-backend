@@ -1285,6 +1285,11 @@ const getUser = wrapper(async(req, res, next) => {
     FmsPermissionGroupsAttributes.push('permissionGroupName');
   }
 
+
+  if (FmsUsersAttributes.length > 0) {
+    FmsUsersAttributes.push('userKey');
+  }
+
   const list = await db.FmsUsers.findAll({
     attributes: FmsUsersAttributes,
     // attributes: [
