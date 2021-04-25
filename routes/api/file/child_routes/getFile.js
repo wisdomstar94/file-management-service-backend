@@ -23,8 +23,8 @@ const getFile = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
-  const isFileListModifyPossible = await db.isActivePermission(loginInfo.userKey, 'XQSP1617689945699vvv');
-  if (!isFileListModifyPossible) {
+  const isFileListAccessPossible = await db.isActivePermission(loginInfo.userKey, 'XQSP1617689945699vvv');
+  if (!isFileListAccessPossible) {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
@@ -38,6 +38,8 @@ const getFile = wrapper(async(req, res, next) => {
   }
 
   const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
+
+  const isFileAllSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qITqpA1617689044321f');
 
   const {
     fileKey, 
@@ -129,6 +131,22 @@ const getFile = wrapper(async(req, res, next) => {
   // fileLabelName 체크 : optional
   if (typeof fileLabelName === 'string') {
     if (fileLabelName.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileLabelNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'cGVs1617689058125dEv');
+        if (!isFileLabelNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043010,
+              msg: myResultCode[20043010].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileLabelName:{
           [Op.substring]: myCommon.specialCharEscape(fileLabelName),
@@ -153,6 +171,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (fileLabelNameReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileLabelNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'cGVs1617689058125dEv');
+        if (!isFileLabelNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043020,
+              msg: myResultCode[20043020].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: fileLabelNameReal.map((x) => {
           return {
@@ -168,6 +202,22 @@ const getFile = wrapper(async(req, res, next) => {
   // fileMemo 체크 : optional
   if (typeof fileMemo === 'string') {
     if (fileMemo.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'bHELBPm1617689088683');
+        if (!isFileMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043030,
+              msg: myResultCode[20043030].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileMemo:{
           [Op.substring]: myCommon.specialCharEscape(fileMemo),
@@ -192,6 +242,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (fileMemoReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'bHELBPm1617689088683');
+        if (!isFileMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043040,
+              msg: myResultCode[20043040].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: fileMemoReal.map((x) => {
           return {
@@ -207,6 +273,22 @@ const getFile = wrapper(async(req, res, next) => {
   // fileDescription 체크 : optional
   if (typeof fileDescription === 'string') {
     if (fileDescription.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileDescriptionSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oYCV1617689103507gcQ');
+        if (!isFileDescriptionSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043050,
+              msg: myResultCode[20043050].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDescription:{
           [Op.substring]: myCommon.specialCharEscape(fileDescription),
@@ -231,6 +313,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (fileDescriptionReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileDescriptionSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oYCV1617689103507gcQ');
+        if (!isFileDescriptionSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043060,
+              msg: myResultCode[20043060].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: fileDescriptionReal.map((x) => {
           return {
@@ -316,6 +414,22 @@ const getFile = wrapper(async(req, res, next) => {
   // createdAtStart 체크 : optional
   if (typeof createdAtStart === 'string') {
     if (myDate(createdAtStart).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'XkW1617689123553Zvzr');
+        if (!isFileCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043070,
+              msg: myResultCode[20043070].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt:{
           [Op.gte]: createdAtStart,
@@ -327,6 +441,22 @@ const getFile = wrapper(async(req, res, next) => {
   // createdAtEnd 체크 : optional
   if (typeof createdAtEnd === 'string') {
     if (myDate(createdAtEnd).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'XkW1617689123553Zvzr');
+        if (!isFileCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043080,
+              msg: myResultCode[20043080].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt:{
           [Op.lte]: createdAtEnd,
@@ -338,6 +468,22 @@ const getFile = wrapper(async(req, res, next) => {
   // createdIp 체크 : optional
   if (typeof createdIp === 'string') {
     if (createdIp.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'ItzQ1619329144821EAy');
+        if (!isFileCreatedIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043090,
+              msg: myResultCode[20043090].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdIp:{
           [Op.substring]: myCommon.specialCharEscape(createdIp),
@@ -362,6 +508,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (createdIpReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'ItzQ1619329144821EAy');
+        if (!isFileCreatedIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043100,
+              msg: myResultCode[20043100].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: createdIpReal.map((x) => {
           return {
@@ -416,6 +578,22 @@ const getFile = wrapper(async(req, res, next) => {
   // createrUserId 체크 : optional
   if (typeof createrUserId === 'string') {
     if (createrUserId.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileCreaterUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oe1617689881993ybZnR');
+        if (!isFileCreaterUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043110,
+              msg: myResultCode[20043110].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       createrUserWhereOpAndArray.push({
         userId: {
           [Op.substring]: myCommon.specialCharEscape(createrUserId),
@@ -440,6 +618,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (createrUserIdReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreaterUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oe1617689881993ybZnR');
+        if (!isFileCreaterUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043120,
+              msg: myResultCode[20043120].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       createrUserWhereOpAndArray.push({
         [Op.or]: createrUserIdReal.map((x) => {
           return {
@@ -455,6 +649,22 @@ const getFile = wrapper(async(req, res, next) => {
   // createrUserName 체크 : optional
   if (typeof createrUserName === 'string') {
     if (createrUserName.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileCreaterUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'gQ1619329353880lFZTV');
+        if (!isFileCreaterUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043130,
+              msg: myResultCode[20043130].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       createrUserWhereOpAndArray.push({
         userName: {
           [Op.substring]: myCommon.specialCharEscape(createrUserName),
@@ -479,6 +689,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (createrUserNameReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreaterUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'gQ1619329353880lFZTV');
+        if (!isFileCreaterUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043140,
+              msg: myResultCode[20043140].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       createrUserWhereOpAndArray.push({
         [Op.or]: createrUserNameReal.map((x) => {
           return {
@@ -494,6 +720,22 @@ const getFile = wrapper(async(req, res, next) => {
   // updatedAtStart 체크 : optional
   if (typeof updatedAtStart === 'string') {
     if (myDate(updatedAtStart).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AG1619329923777LqIPy');
+        if (!isFileUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043150,
+              msg: myResultCode[20043150].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt:{
           [Op.gte]: updatedAtStart,
@@ -505,6 +747,22 @@ const getFile = wrapper(async(req, res, next) => {
   // updatedAtEnd 체크 : optional
   if (typeof updatedAtEnd === 'string') {
     if (myDate(updatedAtEnd).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AG1619329923777LqIPy');
+        if (!isFileUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043160,
+              msg: myResultCode[20043160].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt:{
           [Op.lte]: updatedAtEnd,
@@ -516,6 +774,22 @@ const getFile = wrapper(async(req, res, next) => {
   // updatedIp 체크 : optional
   if (typeof updatedIp === 'string') {
     if (updatedIp.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdatedIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AJYRBGo1619330030498');
+        if (!isFileUpdatedIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043170,
+              msg: myResultCode[20043170].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedIp:{
           [Op.substring]: myCommon.specialCharEscape(updatedIp),
@@ -540,6 +814,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (updatedIpReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdatedIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AJYRBGo1619330030498');
+        if (!isFileUpdatedIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043180,
+              msg: myResultCode[20043180].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: updatedIpReal.map((x) => {
           return {
@@ -594,6 +884,22 @@ const getFile = wrapper(async(req, res, next) => {
   // updaterUserId 체크 : optional
   if (typeof updaterUserId === 'string') {
     if (updaterUserId.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdaterUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'MYYHojt1619330115015');
+        if (!isFileUpdaterUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043190,
+              msg: myResultCode[20043190].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       updaterUserWhereOpAndArray.push({
         userId: {
           [Op.substring]: myCommon.specialCharEscape(updaterUserId),
@@ -618,6 +924,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (updaterUserIdReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdaterUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'MYYHojt1619330115015');
+        if (!isFileUpdaterUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043200,
+              msg: myResultCode[20043200].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       updaterUserWhereOpAndArray.push({
         [Op.or]: updaterUserIdReal.map((x) => {
           return {
@@ -633,6 +955,22 @@ const getFile = wrapper(async(req, res, next) => {
   // updaterUserName 체크 : optional
   if (typeof updaterUserName === 'string') {
     if (updaterUserName.trim() !== '') {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdaterUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qH1619330132562vCXBm');
+        if (!isFileUpdaterUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043210,
+              msg: myResultCode[20043210].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       updaterUserWhereOpAndArray.push({
         userName: {
           [Op.substring]: myCommon.specialCharEscape(updaterUserName),
@@ -657,6 +995,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (updaterUserNameReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileUpdaterUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qH1619330132562vCXBm');
+        if (!isFileUpdaterUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043220,
+              msg: myResultCode[20043220].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       updaterUserWhereOpAndArray.push({
         [Op.or]: updaterUserNameReal.map((x) => {
           return {
@@ -671,7 +1025,23 @@ const getFile = wrapper(async(req, res, next) => {
 
   // fileStatus 체크 : optional
   if (typeof fileStatus === 'string') {
-    if (fileStatus.trim() !== '' && fileStatus.length === 20) {
+    if (fileStatus.trim() !== '' && fileStatus.length === 13) {
+      if (!isFileAllSearchPossible) {
+        const isFileStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'Wud1617689932201GWoW');
+        if (!isFileStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043230,
+              msg: myResultCode[20043230].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileStatus:{
           [Op.eq]: fileStatus,
@@ -700,6 +1070,22 @@ const getFile = wrapper(async(req, res, next) => {
     }
 
     if (fileStatusReal.length > 0) {
+      if (!isFileAllSearchPossible) {
+        const isFileStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'Wud1617689932201GWoW');
+        if (!isFileStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20043240,
+              msg: myResultCode[20043240].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileStatus:{
           [Op.in]: fileStatusReal,
@@ -856,33 +1242,124 @@ const getFile = wrapper(async(req, res, next) => {
     getPageInfo.startIndex
     getPageInfo.pageLength 
   */
+ 
+  const activePermissionKeys = await db.isActivePermissions(loginInfo.userKey, [
+    'jdKBH1617689963499uB', // seq
+    'mbFzwxc1617689977402', // 파일 라벨명
+    'VgH1617689990860NtIb', // 파일 메모
+    'LEjRdC1617690010717t', // 파일 설명
+    'zaYaP1617690026127Te', // 최신 버전 파일명
+    'AbFp1617690053679MfC', // 최신 버전 업로드 날짜
+    'BnjjNb1617690039693C', // 등록일
+    'M1617690067526aqQSFx', // 등록자 ID
+    'wEZC1617690101921eeh', // 등록된 다운로드 URL 갯수
+    'wCdVLb1617690115292m', // 상태
+  ]);
+  const FmsFilesAttributes = [];
+  const FmsCreaterUsersAttributes = [];
+  const FmsUpdaterUsersAttributes = [];
+  const FmsFileStatusCodesAttributes = [];
+
+  activePermissionKeys.includes('jdKBH1617689963499uB') ? FmsFilesAttributes.push('seq') : null;
+  activePermissionKeys.includes('mbFzwxc1617689977402') ? FmsFilesAttributes.push('fileLabelName') : null;
+  activePermissionKeys.includes('VgH1617689990860NtIb') ? FmsFilesAttributes.push('fileMemo') : null;
+  activePermissionKeys.includes('LEjRdC1617690010717t') ? FmsFilesAttributes.push('fileDescription') : null;
+  if (activePermissionKeys.includes('zaYaP1617690026127Te')) {
+    FmsFilesAttributes.push([
+      db.Sequelize.literal(`(
+        SELECT 
+
+        \`FFV\`.\`fileOriginalName\` 
+
+        FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileVersions\` AS \`FFV\` 
+
+        WHERE \`FFV\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+        AND \`FFV\`.\`isDeletedRow\` = 'N'
+        
+        ORDER BY \`FFV\`.\`createdAt\` DESC 
+
+        LIMIT 1 
+      )`),
+      'recentFileVersionFileName'
+    ],)
+  }
+  if (activePermissionKeys.includes('AbFp1617690053679MfC')) {
+    FmsFilesAttributes.push([
+      db.Sequelize.literal(`(
+        SELECT 
+
+        \`FFV\`.\`createdAt\` 
+
+        FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileVersions\` AS \`FFV\` 
+
+        WHERE \`FFV\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+        AND \`FFV\`.\`isDeletedRow\` = 'N'
+        
+        ORDER BY \`FFV\`.\`createdAt\` DESC 
+
+        LIMIT 1 
+      )`),
+      'recentFileVersionCreatedAt'
+    ],)
+  }
+  activePermissionKeys.includes('BnjjNb1617690039693C') ? FmsFilesAttributes.push('createdAt') : null;
+  if (activePermissionKeys.includes('M1617690067526aqQSFx')) {
+    FmsFilesAttributes.push('createrUserKey');
+    FmsCreaterUsersAttributes.push('userKey');
+    FmsCreaterUsersAttributes.push('userId');
+  }
+  if (activePermissionKeys.includes('wCdVLb1617690115292m')) {
+    FmsFilesAttributes.push('fileStatus');
+    FmsFileStatusCodesAttributes.push('code');
+    FmsFileStatusCodesAttributes.push('codeName');
+  }
+  if (activePermissionKeys.includes('wEZC1617690101921eeh')) {
+    FmsFilesAttributes.push([
+      db.Sequelize.literal(`(
+        SELECT 
+
+        COUNT(*) 
+
+        FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileDownloadUrls\` AS \`FFDU\` 
+
+        WHERE \`FFDU\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+        AND \`FFDU\`.\`isDeletedRow\` = 'N'
+      )`),
+      'fileDownloadUrlCount'
+    ],)
+  }
+
 
   const list = await db.FmsFiles.findAll({
-    attributes: [
-      'fileKey', 'fileLabelName', 'fileMemo', 'fileDescription', 
-      'fileStoreVersionHistoryOpen', 'fileStoreDescriptionOpen',
-      'createdAt', 'createdIp', 'createrUserKey',
-      'updatedAt', 'updatedIp', 'updaterUserKey',
-      'fileStatus',
-    ],
+    attributes: FmsFilesAttributes,
+    // attributes: [
+    //   'fileKey', 'fileLabelName', 'fileMemo', 'fileDescription', 
+    //   'fileStoreVersionHistoryOpen', 'fileStoreDescriptionOpen',
+    //   'createdAt', 'createdIp', 'createrUserKey',
+    //   'updatedAt', 'updatedIp', 'updaterUserKey',
+    //   'fileStatus',
+    // ],
     where: where,
     order: order,
     include: [
       {
         as: 'FmsFileStatusCodes',
         model: db.FmsCodes,
-        attributes: ['code', 'codeName'],
+        attributes: FmsFileStatusCodesAttributes,
+        // attributes: ['code', 'codeName'],
       },
       {
         as: 'FmsCreaterUsers',
         model: db.FmsUsers,
-        attributes: ['userKey', 'userId', 'userName'],
+        attributes: FmsCreaterUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
         required: createrUserRequired,
       },
       {
         as: 'FmsUpdaterUsers',
         model: db.FmsUsers,
-        attributes: ['userKey', 'userId', 'userName'],
+        attributes: FmsUpdaterUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
         required: updaterUserRequired,
       },
     ],
