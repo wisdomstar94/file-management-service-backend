@@ -80,6 +80,9 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     return;
   }
 
+  const isFileDownloadUrlAllSearchPossible = await db.isActivePermission(loginInfo.userKey, 'FV1617691241638WOtiK');
+
+
   const {
     fileDownloadUrlKey,
     downloadTargetUserKey,
@@ -128,7 +131,7 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   const order = [];
   const OpAndArray = [];
 
-  const includes = [];
+  // const includes = [];
 
 
 
@@ -142,6 +145,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileDownloadUrlKey 체크 : optional
   if (typeof fileDownloadUrlKey === 'string') {
     if (fileDownloadUrlKey.trim() !== '' && fileDownloadUrlKey.length === 20) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlKeySearchPossible = await db.isActivePermission(loginInfo.userKey, 'PkWkVjK1617691256386');
+        if (!isFileDownloadUrlKeySearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046010,
+              msg: myResultCode[20046010].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadUrlKey: {
           [Op.eq]: fileDownloadUrlKey,
@@ -170,6 +189,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     }
 
     if (fileDownloadUrlKeyReal.length > 0) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlKeySearchPossible = await db.isActivePermission(loginInfo.userKey, 'PkWkVjK1617691256386');
+        if (!isFileDownloadUrlKeySearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046020,
+              msg: myResultCode[20046020].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadUrlKey: {
           [Op.in]: fileDownloadUrlKey,
@@ -376,6 +411,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileVersionKey 체크 : optional
   if (typeof fileVersionKey === 'string') {
     if (fileVersionKey.trim() !== '' && fileVersionKey.length === 20) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlFileVersionSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AgJmIv1619349258683c');
+        if (!isFileDownloadUrlFileVersionSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046030,
+              msg: myResultCode[20046030].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileVersionKey: {
           [Op.eq]: fileVersionKey,
@@ -404,6 +455,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     }
 
     if (fileVersionKeyReal.length > 0) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlFileVersionSearchPossible = await db.isActivePermission(loginInfo.userKey, 'AgJmIv1619349258683c');
+        if (!isFileDownloadUrlFileVersionSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046040,
+              msg: myResultCode[20046040].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileVersionKey: {
           [Op.in]: fileVersionKey,
@@ -414,6 +481,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadUrlAccessCountStart 체크 : optional
   if (myCommon.isNumber(fileDownloadUrlAccessCountStart)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlAccessCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'JgPbu1619349344177QQ');
+      if (!isFileDownloadUrlAccessCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046050,
+            msg: myResultCode[20046050].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadUrlAccessCount: {
         [Op.gte]: Number(fileDownloadUrlAccessCountStart),
@@ -423,6 +506,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadUrlAccessCountEnd 체크 : optional
   if (myCommon.isNumber(fileDownloadUrlAccessCountEnd)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlAccessCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'JgPbu1619349344177QQ');
+      if (!isFileDownloadUrlAccessCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046060,
+            msg: myResultCode[20046060].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadUrlAccessCount: {
         [Op.lte]: Number(fileDownloadUrlAccessCountEnd),
@@ -433,6 +532,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileDownloadPossibleDateTimeStart 체크 : optional
   if (typeof fileDownloadPossibleDateTimeStart === 'string') {
     if (myDate(fileDownloadPossibleDateTimeStart).isValid()) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlDownloadPossibleDateTimeSearchPossible = await db.isActivePermission(loginInfo.userKey, 'xD1617691288301xOsvB');
+        if (!isFileDownloadUrlDownloadPossibleDateTimeSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046070,
+              msg: myResultCode[20046070].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadPossibleDateTimeStart: {
           [Op.gte]: fileDownloadPossibleDateTimeStart.split(' ')[0] + ' 00:00:00',
@@ -444,6 +559,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileDownloadPossibleDateTimeEnd 체크 : optional
   if (typeof fileDownloadPossibleDateTimeEnd === 'string') {
     if (myDate(fileDownloadPossibleDateTimeEnd).isValid()) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlDownloadPossibleDateTimeSearchPossible = await db.isActivePermission(loginInfo.userKey, 'xD1617691288301xOsvB');
+        if (!isFileDownloadUrlDownloadPossibleDateTimeSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046080,
+              msg: myResultCode[20046080].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadPossibleDateTimeEnd: {
           [Op.lte]: fileDownloadPossibleDateTimeEnd.split(' ')[0] + ' 23:59:59',
@@ -454,6 +585,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadLimitMaxCountStart 체크 : optional
   if (myCommon.isNumber(fileDownloadLimitMaxCountStart)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlDownloadLimitMaxCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'q1617691273028DpJblt');
+      if (!isFileDownloadUrlDownloadLimitMaxCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046090,
+            msg: myResultCode[20046090].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadLimitMaxCount: {
         [Op.gte]: Number(fileDownloadLimitMaxCountStart),
@@ -463,6 +610,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadLimitMaxCountEnd 체크 : optional
   if (myCommon.isNumber(fileDownloadLimitMaxCountEnd)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlDownloadLimitMaxCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'q1617691273028DpJblt');
+      if (!isFileDownloadUrlDownloadLimitMaxCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046100,
+            msg: myResultCode[20046100].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadLimitMaxCount: {
         [Op.lte]: Number(fileDownloadLimitMaxCountEnd),
@@ -472,6 +635,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadCountStart 체크 : optional
   if (myCommon.isNumber(fileDownloadCountStart)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlDownloadCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'VJLb1619349481831LuX');
+      if (!isFileDownloadUrlDownloadCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046110,
+            msg: myResultCode[20046110].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadCount: {
         [Op.gte]: Number(fileDownloadCountStart),
@@ -481,6 +660,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
 
   // fileDownloadCountEnd 체크 : optional
   if (myCommon.isNumber(fileDownloadCountEnd)) {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlDownloadCountSearchPossible = await db.isActivePermission(loginInfo.userKey, 'VJLb1619349481831LuX');
+      if (!isFileDownloadUrlDownloadCountSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046120,
+            msg: myResultCode[20046120].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadCount: {
         [Op.lte]: Number(fileDownloadCountEnd),
@@ -491,6 +686,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileDownloadUrlAccessConditionType 체크 : optional
   // 서브 쿼리 들어가야 함...
   if (typeof fileDownloadUrlAccessConditionType === 'string') {
+    if (!isFileDownloadUrlAllSearchPossible) {
+      const isFileDownloadUrlAccessConditionTypeSearchPossible = await db.isActivePermission(loginInfo.userKey, 'mdoI1617691317329jJl');
+      if (!isFileDownloadUrlAccessConditionTypeSearchPossible) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20046130,
+            msg: myResultCode[20046130].msg,
+          },
+        }));
+        return;
+      }
+    }
+
     OpAndArray.push({
       fileDownloadUrlKey: {
         [Op.eq]: db.Sequelize.literal(`(
@@ -529,6 +740,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     }
 
     if (fileDownloadUrlAccessConditionTypeReal.length > 0) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlAccessConditionTypeSearchPossible = await db.isActivePermission(loginInfo.userKey, 'mdoI1617691317329jJl');
+        if (!isFileDownloadUrlAccessConditionTypeSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046140,
+              msg: myResultCode[20046140].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadUrlKey: {
           [Op.eq]: db.Sequelize.literal(`(
@@ -551,6 +778,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   // fileDownloadUrlStatus 체크 : optional
   if (typeof fileDownloadUrlStatus === 'string') {
     if (fileDownloadUrlStatus.trim() !== '' && fileDownloadUrlStatus.length === 13) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'Nd1617691331094UeXXb');
+        if (!isFileDownloadUrlStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046150,
+              msg: myResultCode[20046150].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadUrlStatus: {
           [Op.eq]: fileDownloadUrlStatus,
@@ -579,6 +822,22 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     }
 
     if (fileDownloadUrlStatusReal.length > 0) {
+      if (!isFileDownloadUrlAllSearchPossible) {
+        const isFileDownloadUrlStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'Nd1617691331094UeXXb');
+        if (!isFileDownloadUrlStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046160,
+              msg: myResultCode[20046160].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         fileDownloadUrlStatus: {
           [Op.in]: fileDownloadUrlStatus,
@@ -669,51 +928,51 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   where.isDeletedRow = 'N';
   order.push(['createdAt', 'DESC']);
 
-  includes.push({
-    as: 'FmsFileDownloadUrlTargetUsers',
-    model: db.FmsUsers,
-    attributes: ['userKey', 'userId', 'userName'],
-    required: targetUserRequired,
-    where: {
-      [Op.and]: targetUserWhereOpAndArray,
-    },
-  });
-  includes.push({
-    as: 'FmsTargetFiles',
-    model: db.FmsFiles,
-    attributes: ['fileKey', 'fileLabelName'],
-    required: fileRequired,
-    where: {
-      [Op.and]: fileWhereOpAndArray,
-    },
-  });
-  includes.push({
-    as: 'FmsTargetFileVersions',
-    model: db.FmsFileVersions,
-    attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode'],
-    required: fileVersionRequired,
-    where: {
-      [Op.and]: fileVersionWhereOpAndArray,
-    },
-  });
-  includes.push({
-    as: 'FmsCreaterUsers',
-    model: db.FmsUsers,
-    attributes: ['userKey', 'userId', 'userName'],
-    required: createrUserRequired,
-    where: {
-      [Op.and]: createrUserWhereOpAndArray,
-    },
-  });
-  includes.push({
-    as: 'FmsUpdaterUsers',
-    model: db.FmsUsers,
-    attributes: ['userKey', 'userId', 'userName'],
-    required: updaterUserRequired,
-    where: {
-      [Op.and]: updaterUserWhereOpAndArray,
-    },
-  });
+  // includes.push({
+  //   as: 'FmsFileDownloadUrlTargetUsers',
+  //   model: db.FmsUsers,
+  //   attributes: ['userKey', 'userId', 'userName'],
+  //   required: targetUserRequired,
+  //   where: {
+  //     [Op.and]: targetUserWhereOpAndArray,
+  //   },
+  // });
+  // includes.push({
+  //   as: 'FmsTargetFiles',
+  //   model: db.FmsFiles,
+  //   attributes: ['fileKey', 'fileLabelName'],
+  //   required: fileRequired,
+  //   where: {
+  //     [Op.and]: fileWhereOpAndArray,
+  //   },
+  // });
+  // includes.push({
+  //   as: 'FmsTargetFileVersions',
+  //   model: db.FmsFileVersions,
+  //   attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode'],
+  //   required: fileVersionRequired,
+  //   where: {
+  //     [Op.and]: fileVersionWhereOpAndArray,
+  //   },
+  // });
+  // includes.push({
+  //   as: 'FmsCreaterUsers',
+  //   model: db.FmsUsers,
+  //   attributes: ['userKey', 'userId', 'userName'],
+  //   required: createrUserRequired,
+  //   where: {
+  //     [Op.and]: createrUserWhereOpAndArray,
+  //   },
+  // });
+  // includes.push({
+  //   as: 'FmsUpdaterUsers',
+  //   model: db.FmsUsers,
+  //   attributes: ['userKey', 'userId', 'userName'],
+  //   required: updaterUserRequired,
+  //   where: {
+  //     [Op.and]: updaterUserWhereOpAndArray,
+  //   },
+  // });
 
 
 
@@ -721,7 +980,58 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
   const totalResult = await db.FmsFileDownloadUrls.findAndCountAll({
     where: where,
     order: order,
-    include: includes,
+    include: [
+      {
+        as: 'FmsFileDownloadUrlTargetUsers',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId', 'userName'],
+        required: targetUserRequired,
+        where: {
+          [Op.and]: targetUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsTargetFiles',
+        model: db.FmsFiles,
+        attributes: ['fileKey', 'fileLabelName'],
+        required: fileRequired,
+        where: {
+          [Op.and]: fileWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsTargetFileVersions',
+        model: db.FmsFileVersions,
+        attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode'],
+        required: fileVersionRequired,
+        where: {
+          [Op.and]: fileVersionWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsCreaterUsers',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId', 'userName'],
+        required: createrUserRequired,
+        where: {
+          [Op.and]: createrUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsUpdaterUsers',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId', 'userName'],
+        required: updaterUserRequired,
+        where: {
+          [Op.and]: updaterUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsFileDownloadUrlStatusCodes',
+        model: db.FmsCodes,
+        attributes: ['code', 'codeName'],
+      },
+    ],
   });
   const totalCount = totalResult.count;
 
@@ -771,19 +1081,149 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     getPageInfo.pageLength 
   */
 
+  const activePermissionKeys = await db.isActivePermissions(loginInfo.userKey, [
+    'wN1617691374902fVQZj', // fileDownloadUrlKey
+    'Oo1617691389632JKoWM', // 타겟 계정 ID
+    'f1617691404392ERzflF', // 버전명
+    'QyRNVuf1617691418624', // URL 접근 총 횟수
+    'dI1617691432796fQpqX', // 다운로드 제한 기간
+    'cLEUrrW1617691447795', // 다운로드 제한 횟수
+    'PD1617691464911EKhTL', // 현재 다운로드 된 수
+    'CVWk1617691479896GIj', // URL 생성일
+    'bezBsTe1617691493886', // URL 상태
+    'lpIglo1617691523078e', // 다운로드 (접근)제한 표시
+  ]);
+  const FmsFileDownloadUrlsAttributes = [];
+  const FmsFileDownloadUrlTargetUsersAttributes = [];
+  const FmsTargetFilesAttributes = [];
+  const FmsTargetFileVersionsAttributes = [];
+  const FmsCreaterUsersAttributes = [];
+  const FmsUpdaterUsersAttributes = [];
+  const FmsFileDownloadUrlStatusCodesAttributes = [];
+
+  activePermissionKeys.includes('wN1617691374902fVQZj') ? FmsFileDownloadUrlsAttributes.push('fileDownloadUrlKey') : null;
+  if (activePermissionKeys.includes('Oo1617691389632JKoWM')) {
+    FmsFileDownloadUrlsAttributes.push('downloadTargetUserKey');
+    FmsFileDownloadUrlTargetUsersAttributes.push('userKey');
+    FmsFileDownloadUrlTargetUsersAttributes.push('userId');
+  }
+  if (activePermissionKeys.includes('f1617691404392ERzflF')) {
+    FmsFileDownloadUrlsAttributes.push('fileVersionKey');
+    FmsTargetFileVersionsAttributes.push('fileVersionKey');
+    FmsTargetFileVersionsAttributes.push('fileVersionName');
+  }
+  activePermissionKeys.includes('QyRNVuf1617691418624') ? FmsFileDownloadUrlsAttributes.push('fileDownloadUrlAccessCount') : null;
+  if (activePermissionKeys.includes('dI1617691432796fQpqX')) {
+    FmsFileDownloadUrlsAttributes.push('fileDownloadPossibleDateTimeStart');
+    FmsFileDownloadUrlsAttributes.push('fileDownloadPossibleDateTimeEnd');
+  }
+  activePermissionKeys.includes('cLEUrrW1617691447795') ? FmsFileDownloadUrlsAttributes.push('fileDownloadLimitMaxCount') : null;
+  activePermissionKeys.includes('PD1617691464911EKhTL') ? FmsFileDownloadUrlsAttributes.push('fileDownloadCount') : null;
+  activePermissionKeys.includes('CVWk1617691479896GIj') ? FmsFileDownloadUrlsAttributes.push('createdAt') : null;
+  if (activePermissionKeys.includes('bezBsTe1617691493886')) {
+    FmsFileDownloadUrlsAttributes.push('fileDownloadUrlStatus');
+    FmsFileDownloadUrlStatusCodesAttributes.push('code');
+    FmsFileDownloadUrlStatusCodesAttributes.push('codeName');
+  }
+
   const list = await db.FmsFileDownloadUrls.findAll({
-    attributes: [
-      'fileDownloadUrlKey', 'downloadTargetUserKey', 'fileKey', 'fileVersionKey',
-      'fileDownloadUrlAccessCount', 'fileDownloadPossibleDateTimeStart', 'fileDownloadPossibleDateTimeEnd', 
-      'fileDownloadLimitMaxCount', 'fileDownloadCount', 'createdAt', 'createdIp', 'createrUserKey', 
-      'updatedAt', 'updatedIp', 'updaterUserKey', 'fileDownloadUrlStatus',
-    ],
+    attributes: FmsFileDownloadUrlsAttributes,
+    // attributes: [
+    //   'fileDownloadUrlKey', 'downloadTargetUserKey', 'fileKey', 'fileVersionKey',
+    //   'fileDownloadUrlAccessCount', 'fileDownloadPossibleDateTimeStart', 'fileDownloadPossibleDateTimeEnd', 
+    //   'fileDownloadLimitMaxCount', 'fileDownloadCount', 'createdAt', 'createdIp', 'createrUserKey', 
+    //   'updatedAt', 'updatedIp', 'updaterUserKey', 'fileDownloadUrlStatus',
+    // ],
     where: where,
     order: order,
-    include: includes,
+    include: [
+      {
+        as: 'FmsFileDownloadUrlTargetUsers',
+        model: db.FmsUsers,
+        attributes: FmsFileDownloadUrlTargetUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
+        required: targetUserRequired,
+        where: {
+          [Op.and]: targetUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsTargetFiles',
+        model: db.FmsFiles,
+        attributes: FmsTargetFilesAttributes,
+        // attributes: ['fileKey', 'fileLabelName'],
+        required: fileRequired,
+        where: {
+          [Op.and]: fileWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsTargetFileVersions',
+        model: db.FmsFileVersions,
+        attributes: FmsTargetFileVersionsAttributes,
+        // attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode'],
+        required: fileVersionRequired,
+        where: {
+          [Op.and]: fileVersionWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsCreaterUsers',
+        model: db.FmsUsers,
+        attributes: FmsCreaterUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
+        required: createrUserRequired,
+        where: {
+          [Op.and]: createrUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsUpdaterUsers',
+        model: db.FmsUsers,
+        attributes: FmsUpdaterUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
+        required: updaterUserRequired,
+        where: {
+          [Op.and]: updaterUserWhereOpAndArray,
+        },
+      },
+      {
+        as: 'FmsFileDownloadUrlStatusCodes',
+        model: db.FmsCodes,
+        attributes: FmsFileDownloadUrlStatusCodesAttributes,
+        // attributes: ['code', 'codeName'],
+      },
+    ],
     offset: getPageInfo.startIndex,
     limit: getPageInfo.pageLength,
   });
+
+  if (activePermissionKeys.includes('lpIglo1617691523078e')) {
+    for (let i = 0; i < list.length; i++) {
+      // console.log('list['+i+']', list[i]);
+      if (typeof list[i].dataValues.fileDownloadUrlKey !== 'string') {
+        continue;
+      }
+
+      const conditions = await db.FmsFileDownloadUrlAccessConditions.findAll({
+        attributes: ['conditionType'],
+        where: {
+          fileDownloadUrlKey: list[i].dataValues.fileDownloadUrlKey,
+          isDeletedRow: 'N',
+        },
+        include: [
+          {
+            as: 'FmsFileDownloadAccessConditionTypeCodes',
+            model: db.FmsCodes,
+            attributes: ['code', 'codeName'],
+          },
+        ],
+        group: ['conditionType'],
+      });
+
+      list[i].dataValues.conditions = conditions;
+    }
+  }
 
   res.status(200).json(myValueLog({
     req: req,
