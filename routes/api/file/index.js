@@ -143,6 +143,7 @@ const modifyFileUpload = multer({
 const child_route__uploadFile = require('./child_routes/uploadFile');
 const child_route__modifyFile = require('./child_routes/modifyFile');
 const child_route__getFile = require('./child_routes/getFile');
+const child_route__fileBasicInfo = require('./child_routes/fileBasicInfo');
 
 
 
@@ -172,6 +173,7 @@ router.post('/modifyFile', jwtTokenCheck, modifyFileUpload.fields([
 ]), child_route__modifyFile);
 
 router.post('/getFile', jwtTokenCheck, child_route__getFile);
+router.post('/fileBasicInfo', jwtTokenCheck, child_route__fileBasicInfo);
 
 
 module.exports = router;
