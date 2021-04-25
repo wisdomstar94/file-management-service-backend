@@ -32,6 +32,8 @@ const getCompany = wrapper(async(req, res, next) => {
     return;
   }
 
+  const isCompanyAllSearchPossible = await db.isActivePermission(loginInfo.userKey, 'nFIGS1617683501961lw');
+
 
   
   const {
@@ -114,6 +116,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyName 체크 : optional
   if (typeof companyName === 'string') {
     if (companyName.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'wychQA1617683535981H');
+        if (!isCompanyNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041010,
+              msg: myResultCode[20041010].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyName: {
           [Op.substring]: myCommon.specialCharEscape(companyName),
@@ -137,6 +155,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyNameReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'wychQA1617683535981H');
+        if (!isCompanyNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041020,
+              msg: myResultCode[20041020].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyNameReal.map((x) => {
           return {
@@ -152,6 +186,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyCEOName 체크 : optional
   if (typeof companyCEOName === 'string') {
     if (companyCEOName.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCEONameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'JGd1617683646183nWBz');
+        if (!isCompanyCEONameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041030,
+              msg: myResultCode[20041030].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyCEOName: {
           [Op.substring]: myCommon.specialCharEscape(companyCEOName),
@@ -175,6 +225,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyCEONameReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCEONameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'JGd1617683646183nWBz');
+        if (!isCompanyCEONameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041040,
+              msg: myResultCode[20041040].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyCEONameReal.map((x) => {
           return {
@@ -190,6 +256,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyCEOTel 체크 : optional
   if (typeof companyCEOTel === 'string') {
     if (companyCEOTel.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCEOTelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'jw1617683662584Mxqxo');
+        if (!isCompanyCEOTelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041050,
+              msg: myResultCode[20041050].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyCEOTel: {
           [Op.substring]: myCommon.specialCharEscape(companyCEOTel),
@@ -213,6 +295,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyCEOTelReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCEOTelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'jw1617683662584Mxqxo');
+        if (!isCompanyCEOTelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041060,
+              msg: myResultCode[20041060].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyCEOTelReal.map((x) => {
           return {
@@ -228,6 +326,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyTel 체크 : optional
   if (typeof companyTel === 'string') {
     if (companyTel.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyTelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'VJ1617683688584sCaqN');
+        if (!isCompanyTelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041070,
+              msg: myResultCode[20041070].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyTel: {
           [Op.substring]: myCommon.specialCharEscape(companyTel),
@@ -251,6 +365,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyTelReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyTelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'VJ1617683688584sCaqN');
+        if (!isCompanyTelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041080,
+              msg: myResultCode[20041080].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyTelReal.map((x) => {
           return {
@@ -266,6 +396,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyBusinessNumber 체크 : optional
   if (typeof companyBusinessNumber === 'string') {
     if (companyBusinessNumber.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyBusinessNumberSearchPossible = await db.isActivePermission(loginInfo.userKey, 'at1617683568543MQpfL');
+        if (!isCompanyBusinessNumberSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041090,
+              msg: myResultCode[20041090].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyBusinessNumber: {
           [Op.substring]: myCommon.specialCharEscape(companyBusinessNumber),
@@ -289,6 +435,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyBusinessNumberReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyBusinessNumberSearchPossible = await db.isActivePermission(loginInfo.userKey, 'at1617683568543MQpfL');
+        if (!isCompanyBusinessNumberSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041100,
+              msg: myResultCode[20041100].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyBusinessNumberReal.map((x) => {
           return {
@@ -304,6 +466,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyAddress 체크 : optional
   if (typeof companyAddress === 'string') {
     if (companyAddress.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyAddressSearchPossible = await db.isActivePermission(loginInfo.userKey, 'i1617683608391leidZG');
+        if (!isCompanyAddressSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041110,
+              msg: myResultCode[20041110].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyAddress: {
           [Op.substring]: myCommon.specialCharEscape(companyAddress),
@@ -327,6 +505,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyAddressReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyAddressSearchPossible = await db.isActivePermission(loginInfo.userKey, 'i1617683608391leidZG');
+        if (!isCompanyAddressSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041120,
+              msg: myResultCode[20041120].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: companyAddressReal.map((x) => {
           return {
@@ -342,6 +536,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // memo 체크 : optional
   if (typeof memo === 'string') {
     if (memo.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'GOH1617687091505GMAz');
+        if (!isCompanyMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041130,
+              msg: myResultCode[20041130].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         memo: {
           [Op.substring]: myCommon.specialCharEscape(memo),
@@ -365,6 +575,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (memoReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'GOH1617687091505GMAz');
+        if (!isCompanyMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041140,
+              msg: myResultCode[20041140].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: memoReal.map((x) => {
           return {
@@ -380,6 +606,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // createdAtStart 체크 : optional
   if (typeof createdAtStart === 'string') {
     if (myDate(createdAtStart).isValid()) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCreateSearchPossible = await db.isActivePermission(loginInfo.userKey, 'fWHJmEv1617684892794');
+        if (!isCompanyCreateSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041150,
+              msg: myResultCode[20041150].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt: {
           [Op.gte]: createdAtStart,
@@ -391,6 +633,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // createdAtEnd 체크 : optional
   if (typeof createdAtEnd === 'string') {
     if (myDate(createdAtEnd).isValid()) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCreateSearchPossible = await db.isActivePermission(loginInfo.userKey, 'fWHJmEv1617684892794');
+        if (!isCompanyCreateSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041160,
+              msg: myResultCode[20041160].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt: {
           [Op.lte]: createdAtEnd,
@@ -402,6 +660,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // createdIp 체크 : optional
   if (typeof createdIp === 'string') {
     if (createdIp.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCreateAtIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'DUrVJAA1619312521414');
+        if (!isCompanyCreateAtIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041170,
+              msg: myResultCode[20041170].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdIp: {
           [Op.substring]: myCommon.specialCharEscape(createdIp),
@@ -425,6 +699,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (createdIpReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyCreateAtIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'DUrVJAA1619312521414');
+        if (!isCompanyCreateAtIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041180,
+              msg: myResultCode[20041180].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: createdIpReal.map((x) => {
           return {
@@ -516,6 +806,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // updatedAtStart 체크 : optional
   if (typeof updatedAtStart === 'string') {
     if (myDate(updatedAtStart).isValid()) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'gSutwYw1619312843781');
+        if (!isCompanyUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041190,
+              msg: myResultCode[20041190].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt: {
           [Op.gte]: updatedAtStart,
@@ -527,6 +833,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // updatedAtEnd 체크 : optional
   if (typeof updatedAtEnd === 'string') {
     if (myDate(updatedAtEnd).isValid()) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'gSutwYw1619312843781');
+        if (!isCompanyUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041200,
+              msg: myResultCode[20041200].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt: {
           [Op.lte]: updatedAtEnd,
@@ -538,6 +860,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // updatedIp 체크 : optional
   if (typeof updatedIp === 'string') {
     if (updatedIp.trim() !== '') {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyUpdateIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'QC1619312971337AqYpN');
+        if (!isCompanyUpdateIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041210,
+              msg: myResultCode[20041210].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedIp: {
           [Op.substring]: myCommon.specialCharEscape(updatedIp),
@@ -561,6 +899,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (updatedIpReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyUpdateIpSearchPossible = await db.isActivePermission(loginInfo.userKey, 'QC1619312971337AqYpN');
+        if (!isCompanyUpdateIpSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041220,
+              msg: myResultCode[20041220].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: updatedIpReal.map((x) => {
           return {
@@ -652,6 +1006,22 @@ const getCompany = wrapper(async(req, res, next) => {
   // companyStatus 체크 : optional
   if (typeof companyStatus === 'string') {
     if (companyStatus.trim() !== '' && companyStatus.length === 20) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'wReS1617684910526lEK');
+        if (!isCompanyStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041230,
+              msg: myResultCode[20041230].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyStatus: {
           [Op.eq]: companyStatus,
@@ -679,6 +1049,22 @@ const getCompany = wrapper(async(req, res, next) => {
     }
 
     if (companyStatusReal.length > 0) {
+      if (!isCompanyAllSearchPossible) {
+        const isCompanyStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'wReS1617684910526lEK');
+        if (!isCompanyStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20041240,
+              msg: myResultCode[20041240].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         companyStatus: {
           [Op.in]: companyStatusReal,
@@ -811,18 +1197,50 @@ const getCompany = wrapper(async(req, res, next) => {
     getPageInfo.pageLength 
   */
 
+  const activePermissionKeys = await db.isActivePermissions(loginInfo.userKey, [
+    'S1617684955017JFIumn', // seq
+    'KL1617684973373YzQOa', // 회사명
+    'dNrN1617684996447qOA', // 사업자번호
+    'BfX1617685011279bGbM', // 사업장주소
+    'kCs1617685025399aUmD', // 대표자명
+    'Ut1617685039971wJiPQ', // 대표자 연락처
+    'BV1617685057809IWBVM', // 회사전화번호
+    'mnNdpze1617685077300', // 등록일
+    'ssO1617687189173zGlK', // 메모
+    'uZdxER1617685091349q', // 상태
+  ]);
+  const FmsCompanyAttributes = [];
+  const FmsCompanyStatusCodesAttributes = [];
+
+  activePermissionKeys.includes('S1617684955017JFIumn') ? FmsCompanyAttributes.push('seq') : null;
+  activePermissionKeys.includes('KL1617684973373YzQOa') ? FmsCompanyAttributes.push('companyName') : null;
+  activePermissionKeys.includes('dNrN1617684996447qOA') ? FmsCompanyAttributes.push('companyBusinessNumber') : null;
+  activePermissionKeys.includes('BfX1617685011279bGbM') ? FmsCompanyAttributes.push('companyAddress') : null;
+  activePermissionKeys.includes('kCs1617685025399aUmD') ? FmsCompanyAttributes.push('companyCEOName') : null;
+  activePermissionKeys.includes('Ut1617685039971wJiPQ') ? FmsCompanyAttributes.push('companyCEOTel') : null;
+  activePermissionKeys.includes('BV1617685057809IWBVM') ? FmsCompanyAttributes.push('companyTel') : null;
+  activePermissionKeys.includes('mnNdpze1617685077300') ? FmsCompanyAttributes.push('createdAt') : null;
+  activePermissionKeys.includes('ssO1617687189173zGlK') ? FmsCompanyAttributes.push('memo') : null;
+  if (activePermissionKeys.includes('uZdxER1617685091349q')) {
+    FmsCompanyAttributes.push('companyStatus');
+    FmsCompanyStatusCodesAttributes.push('code');
+    FmsCompanyStatusCodesAttributes.push('codeName');
+  }
+
   const list = await db.FmsCompanys.findAll({
-    attributes: [
-      'companyKey', 'companyName', 'companyCEOName', 'companyCEOTel', 'companyTel', 'companyBusinessNumber',
-      'companyAddress', 'memo', 'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'companyStatus',
-    ],
+    attributes: FmsCompanyAttributes,
+    // attributes: [
+    //   'companyKey', 'companyName', 'companyCEOName', 'companyCEOTel', 'companyTel', 'companyBusinessNumber',
+    //   'companyAddress', 'memo', 'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'companyStatus',
+    // ],
     where: where,
     order: order,
     include: [
       {
         as: 'FmsCompanyStatusCodes',
         model: db.FmsCodes,
-        attributes: ['code', 'codeName'],
+        attributes: FmsCompanyStatusCodesAttributes,
+        // attributes: ['code', 'codeName'],
       },
     ],
     offset: getPageInfo.startIndex,

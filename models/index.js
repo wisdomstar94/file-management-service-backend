@@ -4,7 +4,7 @@ require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
 const Sequelize = require('sequelize');
-const { QueryTypes } = require('sequelize');
+const { QueryTypes, Op } = require('sequelize');
 const FmsCodeGroups = require('./FmsCodeGroups');
 const FmsCodes = require('./FmsCodes');
 const FmsUsers = require('./FmsUsers');
@@ -219,6 +219,37 @@ db.isActivePermission = async(userKey, permissionKey) => {
   }
 
   return true;
+};
+
+
+
+db.isActivePermissions = async(userKey, permissionKeys) => {
+  const userInfo = await db.FmsUsers.findOne({
+    where: {
+      userKey: userKey,
+    },
+  });
+
+  if (userInfo === null) {
+    return [];
+  }
+
+  const permissionGroupUploadInfo = await db.FmsPermissionGroupUploads.findAll({
+    attributes: ['permissionKey'],
+    where: {
+      permissionGroupKey: userInfo.permissionGroupKey,
+      permissionKey: {
+        [Op.in]: permissionKeys,
+      },
+      isActive: 'Y',
+      isDeletedRow: 'N',
+    },
+  });
+
+  const activePermissionKeyList = permissionGroupUploadInfo.map((x) => {
+    return x.permissionKey;
+  });
+  return activePermissionKeyList;
 };
 
 
