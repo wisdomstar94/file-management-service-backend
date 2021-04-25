@@ -32,6 +32,8 @@ const getUser = wrapper(async(req, res, next) => {
     return;
   }
 
+  const isUserAllSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qDLUgK1617686039888I');
+
   const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
   const {
@@ -139,6 +141,22 @@ const getUser = wrapper(async(req, res, next) => {
   // parentUserId 체크 : optional
   if (typeof parentUserId === 'string') {
     if (parentUserId.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isParentUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'pgNfcjy1619317925868');
+        if (!isParentUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       parentUserWhereOpAndArray.push({
         userId: {
           [Op.substring]: myCommon.specialCharEscape(parentUserId),
@@ -162,6 +180,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (parentUserIdReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isParentUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'pgNfcjy1619317925868');
+        if (!isParentUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       parentUserWhereOpAndArray.push({
         [Op.or]: parentUserIdReal.map((x) => {
           return {
@@ -177,6 +211,22 @@ const getUser = wrapper(async(req, res, next) => {
   // parentUserName 체크 : optional
   if (typeof parentUserName === 'string') {
     if (parentUserName.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isParentUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'DjC1619317945380XwHe');
+        if (!isParentUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       parentUserWhereOpAndArray.push({
         userName: {
           [Op.substring]: myCommon.specialCharEscape(parentUserName),
@@ -200,6 +250,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (parentUserNameReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isParentUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'DjC1619317945380XwHe');
+        if (!isParentUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       parentUserWhereOpAndArray.push({
         [Op.or]: parentUserNameReal.map((x) => {
           return {
@@ -249,6 +315,22 @@ const getUser = wrapper(async(req, res, next) => {
   // companyName 체크
   if (typeof companyName === 'string') {
     if (companyName.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserCompanyNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'ttQCZki1617686071782');
+        if (!isUserCompanyNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       companyWhereOpAndArray.push({
         companyName: {
           [Op.substring]: myCommon.specialCharEscape(companyName),
@@ -272,6 +354,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (companyNameReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserCompanyNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'ttQCZki1617686071782');
+        if (!isUserCompanyNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       companyWhereOpAndArray.push({
         [Op.or]: companyNameReal.map((x) => {
           return {
@@ -287,6 +385,22 @@ const getUser = wrapper(async(req, res, next) => {
   // companyCEOName 체크
   if (typeof companyCEOName === 'string') {
     if (companyCEOName.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserCompanyCEONameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'U1619318276267fJrivz');
+        if (!isUserCompanyCEONameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       companyWhereOpAndArray.push({
         companyCEOName: {
           [Op.substring]: myCommon.specialCharEscape(companyCEOName),
@@ -310,6 +424,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (companyCEONameReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserCompanyCEONameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'U1619318276267fJrivz');
+        if (!isUserCompanyCEONameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       companyWhereOpAndArray.push({
         [Op.or]: companyCEONameReal.map((x) => {
           return {
@@ -359,6 +489,22 @@ const getUser = wrapper(async(req, res, next) => {
   // permissionGroupName 체크
   if (typeof permissionGroupName === 'string') {
     if (permissionGroupName.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserPermissionCroupNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qlo1619318587737xclU');
+        if (!isUserPermissionCroupNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       permissionGroupWhereOpAndArray.push({
         permissionGroupName: {
           [Op.substring]: myCommon.specialCharEscape(permissionGroupName),
@@ -382,6 +528,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (permissionGroupNameReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserPermissionCroupNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'qlo1619318587737xclU');
+        if (!isUserPermissionCroupNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       permissionGroupWhereOpAndArray.push({
         [Op.or]: permissionGroupNameReal.map((x) => {
           return {
@@ -397,6 +559,22 @@ const getUser = wrapper(async(req, res, next) => {
   // userLevel 체크
   if (typeof userLevel === 'string') {
     if (userLevel.trim() !== '' && userLevel.length === 13) {
+      if (!isUserAllSearchPossible) {
+        const isUserLevelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'mJCF1619318709313ysH');
+        if (!isUserLevelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userLevel: {
           [Op.eq]: userLevel,
@@ -420,6 +598,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userLevelReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserLevelSearchPossible = await db.isActivePermission(loginInfo.userKey, 'mJCF1619318709313ysH');
+        if (!isUserLevelSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userLevel: {
           [Op.in]: userLevelReal,
@@ -431,6 +625,22 @@ const getUser = wrapper(async(req, res, next) => {
   // userId 체크
   if (typeof userId === 'string') {
     if (userId.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oPkQ1617686057472UEH');
+        if (!isUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userId: {
           [Op.substring]: myCommon.specialCharEscape(userId),
@@ -454,6 +664,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userIdReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserIdSearchPossible = await db.isActivePermission(loginInfo.userKey, 'oPkQ1617686057472UEH');
+        if (!isUserIdSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: userIdReal.map((x) => {
           return {
@@ -469,6 +695,22 @@ const getUser = wrapper(async(req, res, next) => {
   // userName 체크
   if (typeof userName === 'string') {
     if (userName.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'paNF1617686087218kvL');
+        if (!isUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userName: {
           [Op.substring]: myCommon.specialCharEscape(userName),
@@ -492,6 +734,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userNameReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserNameSearchPossible = await db.isActivePermission(loginInfo.userKey, 'paNF1617686087218kvL');
+        if (!isUserNameSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: userNameReal.map((x) => {
           return {
@@ -507,6 +765,22 @@ const getUser = wrapper(async(req, res, next) => {
   // userPhone 체크
   if (typeof userPhone === 'string') {
     if (userPhone.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserPhoneSearchPossible = await db.isActivePermission(loginInfo.userKey, 'EuJg1617686102052Yxd');
+        if (!isUserPhoneSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userPhone: {
           [Op.substring]: myCommon.specialCharEscape(userPhone),
@@ -530,6 +804,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userPhoneReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserPhoneSearchPossible = await db.isActivePermission(loginInfo.userKey, 'EuJg1617686102052Yxd');
+        if (!isUserPhoneSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: userPhoneReal.map((x) => {
           return {
@@ -545,6 +835,22 @@ const getUser = wrapper(async(req, res, next) => {
   // userMemo 체크
   if (typeof userMemo === 'string') {
     if (userMemo.trim() !== '') {
+      if (!isUserAllSearchPossible) {
+        const isUserMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'eP1617687968986kdbbj');
+        if (!isUserMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userMemo: {
           [Op.substring]: myCommon.specialCharEscape(userMemo),
@@ -568,6 +874,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userMemoReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserMemoSearchPossible = await db.isActivePermission(loginInfo.userKey, 'eP1617687968986kdbbj');
+        if (!isUserMemoSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         [Op.or]: userMemoReal.map((x) => {
           return {
@@ -582,7 +904,23 @@ const getUser = wrapper(async(req, res, next) => {
 
   // userStatus 체크 : optional
   if (typeof userStatus === 'string') {
-    if (userStatus.trim() !== '' && userStatus.length === 20) {
+    if (userStatus.trim() !== '' && userStatus.length === 13) {
+      if (!isUserAllSearchPossible) {
+        const isUserStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'kCdm1619318907675TCu');
+        if (!isUserStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userStatus: {
           [Op.eq]: userStatus,
@@ -598,7 +936,7 @@ const getUser = wrapper(async(req, res, next) => {
         continue;
       }
 
-      if (userStatus[i].length !== 20) {
+      if (userStatus[i].length !== 13) {
         continue;
       }
 
@@ -606,6 +944,22 @@ const getUser = wrapper(async(req, res, next) => {
     }
 
     if (userStatusReal.length > 0) {
+      if (!isUserAllSearchPossible) {
+        const isUserStatusSearchPossible = await db.isActivePermission(loginInfo.userKey, 'kCdm1619318907675TCu');
+        if (!isUserStatusSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         userStatus: {
           [Op.in]: userStatusReal,
@@ -617,6 +971,22 @@ const getUser = wrapper(async(req, res, next) => {
   // createdAtStart 체크
   if (typeof createdAtStart === 'string') {
     if (createdAtStart.trim() !== '' && myDate(createdAtStart).isValid()) {
+      if (!isUserAllSearchPossible) {
+        const isUserCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 't1617686115937OSsoBL');
+        if (!isUserCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt: {
           [Op.gte]: createdAtStart,
@@ -628,6 +998,22 @@ const getUser = wrapper(async(req, res, next) => {
   // createdAtEnd 체크
   if (typeof createdAtEnd === 'string') {
     if (createdAtEnd.trim() !== '' && myDate(createdAtEnd).isValid()) {
+      if (!isUserAllSearchPossible) {
+        const isUserCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 't1617686115937OSsoBL');
+        if (!isUserCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         createdAt: {
           [Op.lte]: createdAtEnd,
@@ -639,6 +1025,22 @@ const getUser = wrapper(async(req, res, next) => {
   // updatedAtStart 체크
   if (typeof updatedAtStart === 'string') {
     if (updatedAtStart.trim() !== '' && myDate(updatedAtStart).isValid()) {
+      if (!isUserAllSearchPossible) {
+        const isUserUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'RGAnz1619319005583xP');
+        if (!isUserUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt: {
           [Op.gte]: updatedAtStart,
@@ -650,6 +1052,22 @@ const getUser = wrapper(async(req, res, next) => {
   // updatedAtEnd 체크
   if (typeof updatedAtEnd === 'string') {
     if (updatedAtEnd.trim() !== '' && myDate(updatedAtEnd).isValid()) {
+      if (!isUserAllSearchPossible) {
+        const isUserUpdatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'RGAnz1619319005583xP');
+        if (!isUserUpdatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 00000000,
+              msg: myResultCode[00000000].msg,
+            },
+          }));
+          return;
+        }
+      }
+
       OpAndArray.push({
         updatedAt: {
           [Op.lte]: updatedAtEnd,
@@ -657,6 +1075,14 @@ const getUser = wrapper(async(req, res, next) => {
       });
     }
   }
+
+
+
+
+
+
+
+
 
   // page 체크
   if (page === undefined) {
@@ -811,16 +1237,66 @@ const getUser = wrapper(async(req, res, next) => {
     getPageInfo.pageLength 
   */
 
+  const activePermissionKeys = await db.isActivePermissions(loginInfo.userKey, [
+    'iPUUDQ1617686168385p', // seq
+    'FXPCTN1619320182255r', // 권한 그룹명
+    'gq1617686317373XHpoz', // id
+    'MVQ1619319509205FVUg', // 부모 id
+    'itn1617686335680DnoA', // 회사명
+    'shlE1617686355662Tpk', // 회원명
+    'yrHqMW1617686370456X', // 휴대폰 번호
+    'AVQ1617688011683veXo', // 메모
+    'CKVwoUj1617686385077', // 가입일
+    'eBs1617686402027CkkN', // 가입시 ip
+    'fddW1617686414741VCr', // 상태
+  ]);
+  const FmsUsersAttributes = [];
+  const FmsParentUsersAttributes = [];
+  const FmsUserLevelCodesAttributes = [];
+  const FmsCompanysAttributes = [];
+  const FmsUserStatusCodesAttributes = [];
+  const FmsPermissionGroupsAttributes = [];
+
+  activePermissionKeys.includes('iPUUDQ1617686168385p') ? FmsUsersAttributes.push('seq') : null;
+  activePermissionKeys.includes('gq1617686317373XHpoz') ? FmsUsersAttributes.push('userId') : null;
+  if (activePermissionKeys.includes('MVQ1619319509205FVUg')) {
+    FmsUsersAttributes.push('parentUserKey');
+    FmsParentUsersAttributes.push('userKey');
+    FmsParentUsersAttributes.push('userId');
+  }
+  if (activePermissionKeys.includes('itn1617686335680DnoA')) {
+    FmsUsersAttributes.push('companyKey');
+    FmsCompanysAttributes.push('companyKey');
+    FmsCompanysAttributes.push('companyName');
+  }
+  activePermissionKeys.includes('shlE1617686355662Tpk') ? FmsUsersAttributes.push('userName') : null;
+  activePermissionKeys.includes('yrHqMW1617686370456X') ? FmsUsersAttributes.push('userPhone') : null;
+  activePermissionKeys.includes('AVQ1617688011683veXo') ? FmsUsersAttributes.push('userMemo') : null;
+  activePermissionKeys.includes('CKVwoUj1617686385077') ? FmsUsersAttributes.push('createdAt') : null;
+  activePermissionKeys.includes('eBs1617686402027CkkN') ? FmsUsersAttributes.push('createdIp') : null;
+  if (activePermissionKeys.includes('fddW1617686414741VCr')) {
+    FmsUsersAttributes.push('userStatus');
+    FmsUserStatusCodesAttributes.push('code');
+    FmsUserStatusCodesAttributes.push('codeName');
+  }
+  if (activePermissionKeys.includes('FXPCTN1619320182255r')) {
+    FmsUsersAttributes.push('permissionGroupKey');
+    FmsPermissionGroupsAttributes.push('permissionGroupKey');
+    FmsPermissionGroupsAttributes.push('permissionGroupName');
+  }
+
   const list = await db.FmsUsers.findAll({
-    attributes: [
-      'parentUserKey', 'userKey', 'companyKey', 'permissionGroupKey', 'userLevel', 'userId', 'userName', 'userPhone', 'userMemo',
-      'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'userStatus',
-    ],
+    attributes: FmsUsersAttributes,
+    // attributes: [
+    //   'parentUserKey', 'userKey', 'companyKey', 'permissionGroupKey', 'userLevel', 'userId', 'userName', 'userPhone', 'userMemo',
+    //   'createdAt', 'createdIp', 'updatedAt', 'updatedIp', 'userStatus',
+    // ],
     include: [
       {
         model: db.FmsUsers,
         as: 'FmsParentUsers',
-        attributes: ['userKey', 'userId', 'userName'],
+        attributes: FmsParentUsersAttributes,
+        // attributes: ['userKey', 'userId', 'userName'],
         required: parentUserRequired,
         where: {
           [Op.and]: parentUserWhereOpAndArray,
@@ -829,16 +1305,19 @@ const getUser = wrapper(async(req, res, next) => {
       {
         model: db.FmsCodes,
         as: 'FmsUserStatusCodes',
-        attributes: ['code', 'codeName'],
+        attributes: FmsUserStatusCodesAttributes,
+        // attributes: ['code', 'codeName'],
       },
       {
         model: db.FmsCodes,
         as: 'FmsUserLevelCodes',
-        attributes: ['code', 'codeName'],
+        attributes: FmsUserLevelCodesAttributes,
+        // attributes: ['code', 'codeName'],
       },
       {
         model: db.FmsCompanys,
-        attributes: ['companyKey', 'companyName', 'companyCEOName'],
+        attributes: FmsCompanysAttributes,
+        // attributes: ['companyKey', 'companyName', 'companyCEOName'],
         required: companyRequired,
         where: {
           [Op.and]: companyWhereOpAndArray,
@@ -846,7 +1325,8 @@ const getUser = wrapper(async(req, res, next) => {
       },
       {
         model: db.FmsPermissionGroups,
-        attributes: ['permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription'],
+        attributes: FmsPermissionGroupsAttributes,
+        // attributes: ['permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription'],
         required: permissionGroupRequired,
         where: {
           [Op.and]: permissionGroupWhereOpAndArray,
