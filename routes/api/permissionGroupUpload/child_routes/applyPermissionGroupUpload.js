@@ -16,6 +16,15 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000014', // 그룹 권한 등록/수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
 
   const isPermissionGroupAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'moum1617688803133KDK');
 
@@ -382,11 +391,14 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
   try {
     let permissionGroupKeyReal = permissionGroupKey;
 
+    let createOrUpdate = {};
+    let isMode = 'new';
+
     if (permissionGroupKey === undefined) {
       // 새로운 권한 종류 생성
       const newPermissionGroupKey = myGetMakeToken({ strlength: 20 });
 
-      await db.FmsPermissionGroups.create({
+      createOrUpdate = {
         permissionGroupKey: newPermissionGroupKey,
         permissionGroupName: permissionGroupName,
         permissionGroupDescription: permissionGroupDescription,
@@ -394,12 +406,16 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
         createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
         createdIp: req.real_ip,
         permissionGroupStatus: 'PEGRS00000001',
-      }, {
+      };
+
+      await db.FmsPermissionGroups.create(createOrUpdate, {
         transaction: transaction,
       });
 
       permissionGroupKeyReal = newPermissionGroupKey;
     } else {
+      isMode = 'modify';
+
       // 존재하는 권한 그룹인지 체크
       const permissionGroupKeyResult = await db.FmsPermissionGroups.findOne({
         where: {
@@ -428,14 +444,16 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
       }
 
       // 존재하는 권한 그룹 고유 식별키이면 정보 업데이트
-      const modifyResult = await db.FmsPermissionGroups.update({
+      createOrUpdate = {
         permissionGroupName: permissionGroupName,
         permissionGroupDescription: permissionGroupDescription,
         sortNo: sortNo,
         permissionGroupStatus: permissionGroupStatus,
         updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
         updatedIp: req.real_ip,
-      }, {
+      };
+
+      const modifyResult = await db.FmsPermissionGroups.update(createOrUpdate, {
         where: {
           permissionGroupKey: permissionGroupKey,
         },
@@ -509,6 +527,22 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
 
     await transaction.commit();
     myLogger.info(req.logHeadTail + 'transaction commit..!');
+
+    await db.insertLog({
+      logType: 'LOGTY00000014', // 그룹 권한 등록/수정 성공
+      createdIp: req.real_ip,
+      accessUniqueKey: req.accessUniqueKey,
+      userKey: loginInfo.userKey,
+      value1: isMode,
+      // value2: JSON.stringify(userPhone),
+      logContent: `
+        ※ 등록/수정 여부 value1 값 참조 (new: 신규등록, modify: 수정)
+
+        ※ 권한 그룹 등록 또는 수정시 값 : \`${JSON.stringify(createOrUpdate)}\`
+
+        ※ 권한 그룹의 허용 권한 적용 값 : \`${JSON.stringify(permissionKeyInfo)}\`
+      `,
+    });
 
     res.status(200).json(myValueLog({
       req: req,
