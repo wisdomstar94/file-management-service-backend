@@ -15,6 +15,16 @@ const deletePermissionGroup = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000015', // 그룹 권한 삭제 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isPermissionGroupCreatePossible = await db.isActivePermission(loginInfo.userKey, 'dxO1617688869086NNkT');
   if (!isPermissionGroupCreatePossible) {
     res.status(200).json(myValueLog({
@@ -141,6 +151,18 @@ const deletePermissionGroup = wrapper(async(req, res, next) => {
     where: {
       permissionGroupKey: permissionGroupKey,
     },
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000016', // 그룹 권한 삭제 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 삭제된 그룹 권한 식별키 : \`${JSON.stringify(permissionGroupKey)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({
