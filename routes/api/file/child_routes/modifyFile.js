@@ -87,6 +87,16 @@ const modifyFile = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000027', // 파일 수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });  
+
   const isFileAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'Kx1619158838238pCDXS');
 
   const {
@@ -670,7 +680,7 @@ const modifyFile = wrapper(async(req, res, next) => {
 
   try {
     // 1) 기존 파일 정보 수정
-    await db.FmsFiles.update({
+    const update = {
       fileLabelName: fileLabelName,
       fileMemo: fileMemo,
       fileDescription: fileDescription,
@@ -680,7 +690,9 @@ const modifyFile = wrapper(async(req, res, next) => {
       updatedIp: req.real_ip,
       updaterUserKey: loginInfo.userKey,
       fileStatus: fileStatus,
-    }, {
+    };
+
+    await db.FmsFiles.update(update, {
       where: {
         fileKey: fileKey,
       },
@@ -810,6 +822,30 @@ const modifyFile = wrapper(async(req, res, next) => {
     // 6) commit
     await transaction.commit();
     myLogger.info(req.logHeadTail + 'transaction commit..!');
+
+    await db.insertLog({
+      logType: 'LOGTY00000028', // 파일 수정 성공
+      createdIp: req.real_ip,
+      accessUniqueKey: req.accessUniqueKey,
+      userKey: loginInfo.userKey,
+      value1: JSON.stringify(fileKey),
+      // value2: JSON.stringify(userPhone),
+      logContent: `
+        ※ 수정 대상 파일 고유 식별 키 : value1 값 참조
+
+        ※ 수정 전 파일 정보 : \`${JSON.stringify(fileKeyResult)}\`
+
+        ※ 수정 후 파일 정보 : \`${JSON.stringify(update)}\`
+
+        ※ 신규 파일 스크린샷 정보 : \`${JSON.stringify(req.files.fileScreenShot)}\`
+
+        ※ 적용된 파일 스크린샷 정보 : \`${JSON.stringify(fileImageScreenShotInfo)}\`
+
+        ※ 신규 파일 대표 이미지 정보 : \`${JSON.stringify(req.files.fileRepresentImage)}\`
+
+        ※ 적용된 파일 대표 이미지 정보 : \`${JSON.stringify(fileImageRepresentInfo)}\`
+      `,
+    }); 
 
     res.status(200).json(myValueLog({
       req: req,

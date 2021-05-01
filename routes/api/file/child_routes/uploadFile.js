@@ -87,6 +87,30 @@ const uploadFile = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000025', // 파일 등록 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
+  const isFileCreatePossible = await db.isActivePermission(loginInfo.userKey, 'wSSQFD1617690129416s');
+  if (!isFileCreatePossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20023009,
+        msg: myResultCode[20023009].msg,
+      },
+    }));
+    return;
+  }
+
   const {
     fileLabelName,
     fileMemo,
@@ -289,7 +313,7 @@ const uploadFile = wrapper(async(req, res, next) => {
     const newFileKey = myGetMakeToken({ strlength: 20 });
 
     // 1) 파일 기본 정보 등록
-    await db.FmsFiles.create({
+    const create = {
       fileKey: newFileKey,
       fileLabelName: fileLabelName,
       fileMemo: fileMemo,
@@ -300,7 +324,9 @@ const uploadFile = wrapper(async(req, res, next) => {
       createdIp: req.real_ip,
       createrUserKey: loginInfo.userKey,
       fileStatus: fileStatus,
-    }, {
+    };
+
+    await db.FmsFiles.create(create, {
       transaction: transaction,
     });
 
@@ -369,6 +395,24 @@ const uploadFile = wrapper(async(req, res, next) => {
     // 4) commit
     await transaction.commit();
     myLogger.info(req.logHeadTail + 'transaction commit..!');
+
+    await db.insertLog({
+      logType: 'LOGTY00000026', // 파일 등록 성공
+      createdIp: req.real_ip,
+      accessUniqueKey: req.accessUniqueKey,
+      userKey: loginInfo.userKey,
+      value1: JSON.stringify(newFileKey),
+      // value2: JSON.stringify(userPhone),
+      logContent: `
+        ※ 신규 파일의 식별키 : value1 값 참조
+
+        ※ 신규 파일 정보 : \`${JSON.stringify(create)}\` 
+
+        ※ 파일 스크린샷 정보 : \`${JSON.stringify(req.files.fileScreenShot)}\`
+
+        ※ 파일 대표 이미지 정보 : \`${JSON.stringify(req.files.fileRepresentImage)}\`
+      `,
+    });
 
     res.status(200).json(myValueLog({
       req: req,
