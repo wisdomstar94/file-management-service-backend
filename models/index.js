@@ -20,6 +20,8 @@ const FmsFileImages = require('./FmsFileImages');
 const FmsFileVersions = require('./FmsFileVersions');
 const FmsFileDownloadUrls = require('./FmsFileDownloadUrls');
 const FmsFileDownloadUrlAccessConditions = require('./FmsFileDownloadUrlAccessConditions');
+const myDate = require('../routes/librarys/myDate');
+const myGetMakeToken = require('../routes/librarys/myGetMakeToken').myGetMakeToken;
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -71,12 +73,16 @@ db.FmsFileDownloadUrls = FmsFileDownloadUrls(sequelize, Sequelize);
 db.FmsFileDownloadUrlAccessConditions = FmsFileDownloadUrlAccessConditions(sequelize, Sequelize);
 
 // define association
+
+// FmsCodeGroups
 db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
 db.FmsCodeGroups.belongsTo(db.FmsCodes, { foreignKey: 'codeGroup', targetKey: 'codeGroup' });
 
+// FmsMenuCategorys
 db.FmsCodes.hasMany(db.FmsMenuCategorys, { foreignKey: 'menuCategoryStatus', sourceKey: 'code' });
 db.FmsMenuCategorys.belongsTo(db.FmsCodes, { foreignKey: 'menuCategoryStatus', targetKey: 'code' });
 
+// FmsMenus
 db.FmsCodes.hasMany(db.FmsMenus, { foreignKey: 'menuStatus', sourceKey: 'code' });
 db.FmsMenus.belongsTo(db.FmsCodes, { as: 'FmsCodesMenuStatus', foreignKey: 'menuStatus', targetKey: 'code' });
 
@@ -86,18 +92,22 @@ db.FmsMenus.belongsTo(db.FmsMenus, { as: 'FmsMenusParent', foreignKey: 'parentMe
 db.FmsMenuCategorys.hasMany(db.FmsMenus, { foreignKey: 'menuCategoryKey', sourceKey: 'menuCategoryKey' });
 db.FmsMenus.belongsTo(db.FmsMenuCategorys, { foreignKey: 'menuCategoryKey', targetKey: 'menuCategoryKey' });
 
+// FmsPermissions
 db.FmsMenus.hasMany(db.FmsPermissions, { foreignKey: 'menuKey', sourceKey: 'menuKey' });
 db.FmsPermissions.belongsTo(db.FmsMenus, { foreignKey: 'menuKey', sourceKey: 'menuKey' });
 
+// FmsPermissionGroups
 db.FmsCodes.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 db.FmsPermissionGroups.belongsTo(db.FmsCodes, { as: 'FmsPermissionGroupStatusCodes', foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 
+// FmsPermissionGroupUploads
 db.FmsPermissionGroups.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
 db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' })
 
 db.FmsPermissions.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
 db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissions, { foreignKey: 'permissionKey', sourceKey: 'permissionKey' });
 
+// FmsUsers
 db.FmsUsers.hasMany(db.FmsUsers, { foreignKey: 'parentUserKey', sourceKey: 'userKey' });
 db.FmsUsers.belongsTo(db.FmsUsers, { as: 'FmsParentUsers', foreignKey: 'parentUserKey', sourceKey: 'userKey' });
 
@@ -119,9 +129,11 @@ db.FmsUsers.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey'
 // db.FmsUsers.hasMany(db.FmsCompanys, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
 // db.FmsCompanys.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
 
+// FmsCompanys
 db.FmsCodes.hasMany(db.FmsCompanys, { foreignKey: 'companyStatus', sourceKey: 'code' });
 db.FmsCompanys.belongsTo(db.FmsCodes, { as: 'FmsCompanyStatusCodes', foreignKey: 'companyStatus', sourceKey: 'code' });
 
+// FmsFiles
 db.FmsUsers.hasMany(db.FmsFiles, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
 db.FmsFiles.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
 
@@ -131,6 +143,7 @@ db.FmsFiles.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKey: 'updater
 db.FmsCodes.hasMany(db.FmsFiles, { foreignKey: 'fileStatus', sourceKey: 'code' });
 db.FmsFiles.belongsTo(db.FmsCodes, { as: 'FmsFileStatusCodes', foreignKey: 'fileStatus', sourceKey: 'code' });
 
+// FmsFileImages
 db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageType', sourceKey: 'code' });
 db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageTypeCodes', foreignKey: 'fileImageType', sourceKey: 'code' });
 
@@ -140,6 +153,7 @@ db.FmsFileImages.belongsTo(db.FmsFiles, { as: 'FmsFiles', foreignKey: 'fileKey',
 db.FmsCodes.hasMany(db.FmsFileImages, { foreignKey: 'fileImageStatus', sourceKey: 'code' });
 db.FmsFileImages.belongsTo(db.FmsCodes, { as: 'FmsFileImageStatusCodes', foreignKey: 'fileImageStatus', sourceKey: 'code' });
 
+// FmsFileVersions
 db.FmsFiles.hasMany(db.FmsFileVersions, { foreignKey: 'fileKey', sourceKey: 'fileKey' });
 db.FmsFileVersions.belongsTo(db.FmsFiles, { as: 'FmsFiles', foreignKey: 'fileKey', sourceKey: 'fileKey' });
 
@@ -152,6 +166,7 @@ db.FmsFileVersions.belongsTo(db.FmsUsers, { as: 'FmsCreaterUsers', foreignKey: '
 db.FmsCodes.hasMany(db.FmsFileVersions, { foreignKey: 'fileVersionStatus', sourceKey: 'code' });
 db.FmsFileVersions.belongsTo(db.FmsCodes, { as: 'FmsFileVersionStatusCodes', foreignKey: 'fileVersionStatus', sourceKey: 'code' });
 
+// FmsFileDownloadUrls
 db.FmsUsers.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'downloadTargetUserKey', sourceKey: 'userKey' });
 db.FmsFileDownloadUrls.belongsTo(db.FmsUsers, { as: 'FmsFileDownloadUrlTargetUsers', foreignKey: 'downloadTargetUserKey', sourceKey: 'userKey' });
 
@@ -170,6 +185,7 @@ db.FmsFileDownloadUrls.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUsers', foreignKe
 db.FmsCodes.hasMany(db.FmsFileDownloadUrls, { foreignKey: 'fileDownloadUrlStatus', sourceKey: 'code' });
 db.FmsFileDownloadUrls.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadUrlStatusCodes', foreignKey: 'fileDownloadUrlStatus', sourceKey: 'code' });
 
+// FmsFileDownloadUrlAccessConditions
 db.FmsFileDownloadUrls.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'fileDownloadUrlKey', sourceKey: 'fileDownloadUrlKey' });
 db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsFileDownloadUrls, { as: 'FmsFileDownloadUrls', foreignKey: 'fileDownloadUrlKey', sourceKey: 'fileDownloadUrlKey' });
 
@@ -267,6 +283,83 @@ db.isExistTable = async(tableName) => {
     return false;
   }
 };
+
+
+
+db.insertLog = async(params) => {
+  /*
+    params.logType
+    params.createdIp
+
+    params.userKey
+    params.logContent
+    params.value1
+    params.value2
+  */
+  let logType = params.logType;
+  if (typeof logType !== 'string') {
+    logType = 'LOGTY00000001'; // 미지정
+  }
+
+  let createdIp = params.createdIp;
+  if (typeof createdIp !== 'string') {
+    createdIp = 'none';
+  }
+
+  let addInsert = ``;
+  const addInsertVariables = [];
+  const insertValues = {};
+
+  const logTableName = `FmsLogs${myDate().format('YYYYMM')}`;
+
+  insertValues.logKey = myGetMakeToken({ strlength: 20 });
+  insertValues.logType = logType;
+  insertValues.createdAt = myDate().format('YYYY-MM-DD HH:mm:ss');
+  insertValues.createdIp = createdIp;
+
+  if (typeof params.accessUniqueKey === 'string') {
+    addInsert += `, accessUniqueKey`;
+    addInsertVariables.push(', :accessUniqueKey');
+    insertValues.accessUniqueKey = params.accessUniqueKey;
+  }
+
+  if (typeof params.userKey === 'string') {
+    addInsert += `, userKey`;
+    addInsertVariables.push(', :userKey');
+    insertValues.userKey = params.userKey;
+  }
+
+  if (typeof params.logContent === 'string') {
+    addInsert += `, logContent`;
+    addInsertVariables.push(', :logContent');
+    insertValues.logContent = params.logContent;
+  }
+
+  if (typeof params.value1 === 'string') {
+    addInsert += `, value1`;
+    addInsertVariables.push(', :value1');
+    insertValues.value1 = params.value1;
+  }
+
+  if (typeof params.value2 === 'string') {
+    addInsert += `, value2`;
+    addInsertVariables.push(', :value2');
+    insertValues.value2 = params.value2;
+  }
+
+  const result = await db.sequelize.query(`
+      INSERT INTO \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${logTableName}\` 
+      (\`logKey\`, \`logType\`, \`createdAt\`, \`createdIp\`${addInsert}) VALUES 
+      (:logKey, :logType, :createdAt, :createdIp${addInsertVariables.join('')});
+    `, { 
+      replacements: insertValues,
+      type: QueryTypes.INSERT, 
+    }
+  );
+
+  return;
+};
+
 
 
 

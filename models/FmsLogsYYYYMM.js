@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       primaryKey: true,
     },
+    accessUniqueKey: DataTypes.STRING,
     logType: DataTypes.STRING,
     userKey: DataTypes.STRING,
     logContent: DataTypes.TEXT,

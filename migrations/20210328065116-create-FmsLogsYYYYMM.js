@@ -15,6 +15,11 @@ module.exports = {
         allowNull: false,
         comment: '로그 고유 식별키',
       },
+      accessUniqueKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '요청 식별 키',
+      },
       logType: {
         type: Sequelize.STRING(13),
         allowNull: false,

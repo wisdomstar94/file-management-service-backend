@@ -18,6 +18,12 @@ const login = wrapper(async(req, res, next) => {
     userPassword,
   } = req.body;
 
+  await db.insertLog({
+    logType: 'LOGTY00000002',
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+  });
+
   // userId 체크 : required
   if (typeof userId !== 'string') {
     res.status(200).json(myValueLog({
@@ -154,6 +160,13 @@ const login = wrapper(async(req, res, next) => {
     createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     createdIp: req.real_ip,
     endLineDateTime: myDate().add(540, 'minute').format('YYYY-MM-DD HH:mm:ss'),
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000003',
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: userInfo.userKey,
   });
 
   res.status(200).json(myValueLog({

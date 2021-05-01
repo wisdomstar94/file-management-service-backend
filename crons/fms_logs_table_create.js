@@ -52,6 +52,11 @@ cron.schedule('*/1 * * * *', async() => {
         allowNull: false,
         comment: '로그 고유 식별키',
       },
+      accessUniqueKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '요청 식별 키',
+      },
       logType: {
         type: Sequelize.STRING(13),
         allowNull: false,
@@ -143,6 +148,11 @@ cron.schedule('*/1 * * * *', async() => {
         primaryKey: true,
         allowNull: false,
         comment: '로그 고유 식별키',
+      },
+      accessUniqueKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '요청 식별 키',
       },
       logType: {
         type: Sequelize.STRING(13),

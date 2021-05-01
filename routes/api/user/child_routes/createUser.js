@@ -20,6 +20,16 @@ const createUser = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  await db.insertLog({
+    logType: 'LOGTY00000010', // 회원 생성 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isUserCreatePossible = await db.isActivePermission(loginInfo.userKey, 'F1619012225347uuKMhw');
   if (!isUserCreatePossible) {
     res.status(200).json(myValueLog({
@@ -479,7 +489,7 @@ const createUser = wrapper(async(req, res, next) => {
   // 새로운 회원 생성
   const newUserKey = myGetMakeToken({ strlength: 20 });
 
-  const createResult = await db.FmsUsers.create({
+  const create = {
     userKey: newUserKey,
     companyKey: companyKey,
     permissionGroupKey: permissionGroupKey,
@@ -492,6 +502,24 @@ const createUser = wrapper(async(req, res, next) => {
     createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     createdIp: req.real_ip,
     userStatus: userStatus,
+  };
+
+  const createResult = await db.FmsUsers.create(create);
+
+  await db.insertLog({
+    logType: 'LOGTY00000011', // 회원 생성 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(userId),
+    value2: JSON.stringify(newUserKey),
+    logContent: `
+      ※ 새롭게 생성된 회원 정보 : \`${JSON.stringify(create)}\`
+
+      ※ 새롭게 생성된 회원 ID : value1 값 참조
+
+      ※ 새롭게 생성된 회원 식별 키 : value2 값 참조
+    `,
   });
 
   res.status(200).json(myValueLog({

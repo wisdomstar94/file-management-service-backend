@@ -19,6 +19,20 @@ const deleteUser = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000012', // 회원 삭제 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(newUserKey),
+    // logContent: `
+    //   ※ 삭제하려는 회원 ID : value1 값 참조
+
+    //   ※ 새롭게 생성된 회원 식별 키 : value2 값 참조
+    // `,
+  });
+
   const isUserDeletePossible = await db.isActivePermission(loginInfo.userKey, 'gQdEs1617688259139el');
   if (!isUserDeletePossible) {
     res.status(200).json(myValueLog({
@@ -136,6 +150,18 @@ const deleteUser = wrapper(async(req, res, next) => {
     }
   }
 
+  // 삭제 처리 하기전 회원 정보 가져오기
+  const deleteBeforeUserInfo = await db.FmsUsers.findOne({
+    where: {
+      userKey: userKey,
+    },
+  });
+  let userId = undefined;
+  if (deleteBeforeUserInfo !== null) {
+    userId = deleteBeforeUserInfo.userId;
+  }
+
+
   // 회원 정보 삭제 처리
   const modifyResult = await db.FmsUsers.update({
     isDeletedRow: 'Y',
@@ -145,6 +171,20 @@ const deleteUser = wrapper(async(req, res, next) => {
     where: {
       userKey: userKey,
     },
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000013', // 회원 삭제 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(userId),
+    // value2: JSON.stringify(newUserKey),
+    logContent: `
+      ※ 삭제하려는 회원 ID : value1 값 참조
+
+      ※ 삭제 당시 회원 정보 : \`${JSON.stringify(deleteBeforeUserInfo)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({

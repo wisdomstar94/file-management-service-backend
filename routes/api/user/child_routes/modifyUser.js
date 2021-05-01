@@ -19,6 +19,12 @@ const modifyUser = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000004', // 회원 정보 수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+  });
     
   const isUserAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'ZXdQT1617688117620Kp');
 
@@ -638,8 +644,15 @@ const modifyUser = wrapper(async(req, res, next) => {
     }
   }
 
+  // 수정전 회원 정보
+  const modifyBeforeUserInfo = await db.FmsUsers.findOne({
+    where: {
+      userKey: userKey,
+    },
+  });
+
   // 회원 정보 업데이트
-  const modifyResult = await db.FmsUsers.update({
+  const update = {
     companyKey: companyKey,
     permissionGroupKey: permissionGroupKey,
     userLevel: userLevel,
@@ -650,10 +663,26 @@ const modifyUser = wrapper(async(req, res, next) => {
     userStatus: userStatus,
     updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     updatedIp: req.real_ip,
-  }, {
+  };
+  const modifyResult = await db.FmsUsers.update(update, {
     where: {
       userKey: userKey,
     },
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000005', // 회원 정보 수정 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(userKey),
+    logContent: `
+      ※ 수정 대상 회원 고유 식별키 : value1 값 참조
+
+      ※ 수정전 회원 정보 : \`${JSON.stringify(modifyBeforeUserInfo)}\`
+      
+      ※ 수정후 회원 정보 : \`${JSON.stringify(update)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({

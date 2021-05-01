@@ -18,6 +18,18 @@ const signUp = wrapper(async(req, res, next) => {
     userPhone,
   } = req.body;
 
+  await db.insertLog({
+    logType: 'LOGTY00000008', // 회원가입 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    value1: JSON.stringify(userId),
+    value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 가입 시도 ID : value1 값 참조
+      ※ 가입 시도 휴대폰번호 : value2 값 참조
+    `,
+  });
+
 
   // userId 체크 : required
   if (typeof userId !== 'string') {
@@ -227,6 +239,18 @@ const signUp = wrapper(async(req, res, next) => {
     createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     createdIp: req.real_ip,
     userStatus: 'USRST00000001',
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000009', // 회원가입 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    value1: JSON.stringify(userId),
+    value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 가입 성공 ID : value1 값 참조
+      ※ 가입 성공 휴대폰번호 : value2 값 참조
+    `,
   });
 
   res.status(200).json(myValueLog({
