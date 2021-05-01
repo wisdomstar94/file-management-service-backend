@@ -334,37 +334,39 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       return;
     }
 
-    if (fileVersionKey.length !== 20) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20031140,
-          msg: myResultCode[20031140].msg,
-        },
-      }));
-      return;
-    }
+    // if (fileVersionKey.length !== 20) {
+    //   res.status(200).json(myValueLog({
+    //     req: req,
+    //     obj: {
+    //       result: 'failure',
+    //       headTail: req.accessUniqueKey,
+    //       code: 20031140,
+    //       msg: myResultCode[20031140].msg,
+    //     },
+    //   }));
+    //   return;
+    // }
 
-    const fileVersionKeyResult = await db.FmsFileVersions.findOne({
-      where: {
-        fileKey: fileDownloadUrlKeyResult.fileKey,
-        fileVersionKey: fileVersionKey,
-        isDeletedRow: 'N',
-      },
-    });
-    if (fileVersionKeyResult === null) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20031150,
-          msg: myResultCode[20031150].msg,
+    if (fileVersionKey !== 'recent') {
+      const fileVersionKeyResult = await db.FmsFileVersions.findOne({
+        where: {
+          fileKey: fileDownloadUrlKeyResult.fileKey,
+          fileVersionKey: fileVersionKey,
+          isDeletedRow: 'N',
         },
-      }));
-      return;
+      });
+      if (fileVersionKeyResult === null) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031150,
+            msg: myResultCode[20031150].msg,
+          },
+        }));
+        return;
+      }
     }
   }
 
@@ -826,7 +828,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     const update = {
       downloadTargetUserKey: downloadTargetUserKey,
       // fileKey: fileKey,
-      fileVersionKey: fileVersionKey,
+      fileVersionKey: fileVersionKey === 'recent' ? null : fileVersionKey,
       fileDownloadPossibleDateTimeStart: fileDownloadPossibleDateTimeStart,
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
       fileDownloadLimitMaxCount: fileDownloadLimitMaxCount,

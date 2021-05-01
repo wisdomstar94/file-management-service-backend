@@ -29,8 +29,8 @@ module.exports = {
       },
       fileVersionKey: {
         type: Sequelize.STRING(20),
-        allowNull: false,
-        comment: '다운로드 대상의 파일 버전 고유 식별키',
+        allowNull: true,
+        comment: '다운로드 대상의 파일 버전 고유 식별키 (NULL 이면 최신 버전을 찾아 처리)',
         // FK
       },
       fileDownloadUrlAccessCount: {

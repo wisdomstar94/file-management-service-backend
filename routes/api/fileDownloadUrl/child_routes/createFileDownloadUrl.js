@@ -249,37 +249,39 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
     return;
   }
 
-  if (fileVersionKey.length !== 20) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20027110,
-        msg: myResultCode[20027110].msg,
-      },
-    }));
-    return;
-  }
+  // if (fileVersionKey.length !== 20) {
+  //   res.status(200).json(myValueLog({
+  //     req: req,
+  //     obj: {
+  //       result: 'failure',
+  //       headTail: req.accessUniqueKey,
+  //       code: 20027110,
+  //       msg: myResultCode[20027110].msg,
+  //     },
+  //   }));
+  //   return;
+  // }
 
-  const fileVersionKeyResult = await db.FmsFileVersions.findOne({
-    where: {
-      fileKey: fileKey, 
-      fileVersionKey: fileVersionKey,
-      isDeletedRow: 'N',
-    },
-  });
-  if (fileVersionKeyResult === null) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20027120,
-        msg: myResultCode[20027120].msg,
+  if (fileVersionKey !== 'recent') {
+    const fileVersionKeyResult = await db.FmsFileVersions.findOne({
+      where: {
+        fileKey: fileKey, 
+        fileVersionKey: fileVersionKey,
+        isDeletedRow: 'N',
       },
-    }));
-    return;
+    });
+    if (fileVersionKeyResult === null) {
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20027120,
+          msg: myResultCode[20027120].msg,
+        },
+      }));
+      return;
+    }
   }
 
   // fileDownloadPossibleDateTimeStart 체크 : required
@@ -635,7 +637,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
       fileDownloadUrlKey: newFileDownloadUrlKey,
       downloadTargetUserKey: downloadTargetUserKey,
       fileKey: fileKey,
-      fileVersionKey: fileVersionKey,
+      fileVersionKey: fileVersionKey === 'recent' ? null : fileVersionKey,
       fileDownloadUrlAccessCount: 0,
       fileDownloadPossibleDateTimeStart: fileDownloadPossibleDateTimeStart,
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
