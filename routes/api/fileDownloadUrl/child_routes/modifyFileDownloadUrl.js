@@ -66,6 +66,16 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  await db.insertLog({
+    logType: 'LOGTY00000023', // 파일 다운로드 URL 수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(newFileDownloadUrlKey),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isFileDownloadUrlAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'VlEX1619174971861yVJ');
 
   const {
@@ -813,7 +823,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
 
   try {
     // 다운로드 URL 정보 업데이트
-    const updateResult = await db.FmsFileDownloadUrls.update({
+    const update = {
       downloadTargetUserKey: downloadTargetUserKey,
       // fileKey: fileKey,
       fileVersionKey: fileVersionKey,
@@ -825,7 +835,9 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       updatedIp: req.real_ip,
       updaterUserKey: loginInfo.userKey,
       fileDownloadUrlStatus: fileDownloadUrlStatus,
-    }, {
+    };
+
+    const updateResult = await db.FmsFileDownloadUrls.update(update, {
       where: {
         fileDownloadUrlKey: fileDownloadUrlKey,
       },
@@ -889,6 +901,24 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
 
     await transaction.commit();
     myLogger.info(req.logHeadTail + 'transaction commit..!');
+
+    await db.insertLog({
+      logType: 'LOGTY00000024', // 파일 다운로드 URL 수정 성공
+      createdIp: req.real_ip,
+      accessUniqueKey: req.accessUniqueKey,
+      userKey: loginInfo.userKey,
+      value1: JSON.stringify(fileDownloadUrlKey),
+      // value2: JSON.stringify(userPhone),
+      logContent: `
+        ※ 수정 대상 파일 다운로드 URL의 식별키 : value1 값 참조
+
+        ※ 수정 전 파일 다운로드 URL 정보 : \`${JSON.stringify(fileDownloadUrlKeyResult)}\`
+
+        ※ 수정 후 파일 다운로드 URL 정보 : \`${JSON.stringify(update)}\`
+
+        ※ 적용된 접근 제한 정보 : \`${JSON.stringify(fileDownloadUrlAccessConditionInfo)}\`
+      `,
+    });
 
     res.status(200).json(myValueLog({
       req: req,

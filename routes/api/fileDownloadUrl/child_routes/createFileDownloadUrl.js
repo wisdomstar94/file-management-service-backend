@@ -66,6 +66,16 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+  await db.insertLog({
+    logType: 'LOGTY00000021', // 파일 다운로드 URL 등록 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isFileDownloadUrlCreatePossible = await db.isActivePermission(loginInfo.userKey, 'VvFc1617691345521eAM');
   if (!isFileDownloadUrlCreatePossible) {
     res.status(200).json(myValueLog({
@@ -621,7 +631,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
     // 새로운 파일 다운로드 URL 생성
     const newFileDownloadUrlKey = myGetMakeToken({ strlength: 20 });
 
-    const createResult = await db.FmsFileDownloadUrls.create({
+    const create = {
       fileDownloadUrlKey: newFileDownloadUrlKey,
       downloadTargetUserKey: downloadTargetUserKey,
       fileKey: fileKey,
@@ -635,7 +645,9 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
       createdIp: req.real_ip,
       createrUserKey: loginInfo.userKey,
       fileDownloadUrlStatus: fileDownloadUrlStatus,
-    }, {
+    };
+
+    const createResult = await db.FmsFileDownloadUrls.create(create, {
       transaction: transaction,
     });
     console.log('createResult', createResult);
@@ -696,6 +708,22 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
 
     await transaction.commit();
     myLogger.info(req.logHeadTail + 'transaction commit..!');
+
+    await db.insertLog({
+      logType: 'LOGTY00000022', // 파일 다운로드 URL 등록 성공
+      createdIp: req.real_ip,
+      accessUniqueKey: req.accessUniqueKey,
+      userKey: loginInfo.userKey,
+      value1: JSON.stringify(newFileDownloadUrlKey),
+      // value2: JSON.stringify(userPhone),
+      logContent: `
+        ※ 새로운 파일 다운로드 URL 식별 키 : value1 값 참조
+
+        ※ 새로운 파일 다운로드 URL 정보 : \`${JSON.stringify(create)}\`
+
+        ※ 접근 제한 정보 : \`${JSON.stringify(fileDownloadUrlAccessConditionInfo)}\`
+      `,
+    });
 
     res.status(200).json(myValueLog({
       req: req,
