@@ -19,6 +19,16 @@ const deleteCompany = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000031', // 회사 삭제 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  }); 
+
   const isCompanyDeletePossible = await db.isActivePermission(loginInfo.userKey, 'FJIyt1617685724474xG');
   if (!isCompanyDeletePossible) {
     res.status(200).json(myValueLog({
@@ -199,6 +209,18 @@ const deleteCompany = wrapper(async(req, res, next) => {
       companyKey: companyKey,
     },
   });
+
+  await db.insertLog({
+    logType: 'LOGTY00000032', // 회사 삭제 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 삭제 대상 회사 식별키 정보 : \`${JSON.stringify(companyKey)}\`
+    `,
+  }); 
 
   res.status(200).json(myValueLog({
     req: req,

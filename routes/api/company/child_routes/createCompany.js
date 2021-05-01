@@ -19,6 +19,16 @@ const createCompany = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000029', // 회사 등록 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  }); 
+
   const isCompanyCreatePossible = await db.isActivePermission(loginInfo.userKey, 'UY1619153982779QIVRq');
   if (!isCompanyCreatePossible) {
     res.status(200).json(myValueLog({
@@ -381,7 +391,7 @@ const createCompany = wrapper(async(req, res, next) => {
   // 새로운 회사 생성
   const newCompanyKey = myGetMakeToken({ strlength: 20 });
 
-  const createResult = await db.FmsCompanys.create({
+  const create = {
     companyKey: newCompanyKey,
     companyName: companyName,
     companyCEOName: companyCEOName,
@@ -394,7 +404,23 @@ const createCompany = wrapper(async(req, res, next) => {
     createdIp: req.real_ip,
     // createrUserKey: loginInfo.userKey,
     companyStatus: companyStatus,
-  });
+  };
+
+  const createResult = await db.FmsCompanys.create(create);
+
+  await db.insertLog({
+    logType: 'LOGTY00000030', // 회사 등록 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(newCompanyKey),
+    // value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 신규 회사 식별키 : value1 값 참조
+
+      ※ 신규 회사 정보 : \`${JSON.stringify(create)}\`
+    `,
+  }); 
 
   res.status(200).json(myValueLog({
     req: req,

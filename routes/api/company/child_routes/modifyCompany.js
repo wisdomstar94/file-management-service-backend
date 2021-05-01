@@ -18,6 +18,17 @@ const modifyCompany = wrapper(async(req, res, next) => {
     loginInfo.userName: '홍길동',
     loginInfo.ip: '::ffff:172.17.0.1'
   */
+
+  await db.insertLog({
+    logType: 'LOGTY00000033', // 회사 수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isCompanyAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'kuRI1617685328685PCL');
 
   
@@ -34,6 +45,8 @@ const modifyCompany = wrapper(async(req, res, next) => {
   } = req.body;
 
   // companyKey 체크 : required
+  let companyKeyResult = undefined;
+
   if (typeof companyKey !== 'string' && !Array.isArray(companyKey)) {
     res.status(200).json(myValueLog({
       req: req,
@@ -74,7 +87,7 @@ const modifyCompany = wrapper(async(req, res, next) => {
       return;
     }
 
-    const companyKeyResult = await db.FmsCompanys.findOne({
+    companyKeyResult = await db.FmsCompanys.findOne({
       where: {
         companyKey: companyKey,
         isDeletedRow: 'N',
@@ -149,7 +162,7 @@ const modifyCompany = wrapper(async(req, res, next) => {
       }
     }
 
-    const companyKeysResult = await db.FmsCompanys.findAndCountAll({
+    companyKeyResult = await db.FmsCompanys.findAndCountAll({
       where: {
         companyKey: {
           [Op.in]: companyKey,
@@ -157,7 +170,7 @@ const modifyCompany = wrapper(async(req, res, next) => {
         isDeletedRow: 'N',
       },
     });
-    if (companyKeysResult.count !== companyKey.length) {
+    if (companyKeyResult.count !== companyKey.length) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
@@ -639,7 +652,7 @@ const modifyCompany = wrapper(async(req, res, next) => {
   }
   
   // 회사 정보 업데이트
-  const modifyResult = await db.FmsCompanys.update({
+  const update = {
     companyName: companyName,
     companyCEOName: companyCEOName,
     companyCEOTel: companyCEOTel,
@@ -651,10 +664,26 @@ const modifyCompany = wrapper(async(req, res, next) => {
     updatedIp: req.real_ip,
     // updaterUserKey: loginInfo.userKey,
     companyStatus: companyStatus,
-  }, {
+  };
+
+  const modifyResult = await db.FmsCompanys.update(update, {
     where: {
       companyKey: companyKey,
     },
+  });
+
+  await db.insertLog({
+    logType: 'LOGTY00000034', // 회사 수정 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 수정 전 회사 정보 : \`${JSON.stringify(companyKeyResult)}\`
+
+      ※ 수정 후 회사 정보 : \`${JSON.stringify(update)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({
