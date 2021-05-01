@@ -92,6 +92,7 @@ const versionInfo = wrapper(async(req, res, next) => {
     ],
     where: {
       fileVersionKey: fileVersionKey,
+      isDeletedRow: 'N',
     },
     include: [
       {
