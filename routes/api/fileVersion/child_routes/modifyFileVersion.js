@@ -51,6 +51,16 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000017', // 파일 버전 수정 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
   const isFileVersionAllModifyPossible = await db.isActivePermission(loginInfo.userKey, 'SioYPe1619178659344f');
 
 
@@ -358,7 +368,7 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
   }
 
   // 파일 버전 정보 업데이트
-  const modifyResult = await db.FmsFileVersions.update({
+  const update = {
     fileOriginalName: versionFileInfo.originalname,
     fileDownloadName: versionFileInfo.originalname === undefined ? fileDownloadName : versionFileInfo.originalname,
     fileVersionMemo: fileVersionMemo,
@@ -370,10 +380,28 @@ const modifyFileVersion = wrapper(async(req, res, next) => {
     updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     updatedIp: req.real_ip,
     fileVersionStatus: fileVersionStatus,
-  }, {
+  };
+
+  const modifyResult = await db.FmsFileVersions.update(update, {
     where: {
       fileVersionKey: fileVersionKey,
     },
+  });
+  
+  await db.insertLog({
+    logType: 'LOGTY00000018', // 파일 버전 수정 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(fileVersionKey),
+    // value2: JSON.stringify(userPhone),
+    logContent: `
+      ※ 수정 대상의 파일버전 고유식별키 : value1 값 참조
+
+      ※ 수정 하기 전 파일버전 정보 : \`${JSON.stringify(fileVersionKeyResult)}\`
+
+      ※ 수정 후 파일버전 정보 : \`${JSON.stringify(update)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({

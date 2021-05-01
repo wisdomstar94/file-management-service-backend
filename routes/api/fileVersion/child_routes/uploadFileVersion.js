@@ -83,6 +83,30 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     loginInfo.ip: '::ffff:172.17.0.1'
   */
 
+  await db.insertLog({
+    logType: 'LOGTY00000019', // 파일 버전 업로드 시도
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    // value1: JSON.stringify(userId),
+    // value2: JSON.stringify(userPhone),
+    // logContent: ``,
+  });
+
+  const isFileVersionUploadPossible = await db.isActivePermission(loginInfo.userKey, 'u1617690905605MYBYVC');
+  if (!isFileVersionUploadPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'success',
+        headTail: req.accessUniqueKey,
+        code: 20024009,
+        msg: myResultCode[20024009].msg,
+      },
+    }));
+    return;
+  }
+
   const {
     fileKey,
     fileVersionName,
@@ -443,7 +467,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
   // 새로운 파일 버전 등록
   const newFileVersionKey = myGetMakeToken({ strlength: 20 });
 
-  const createResult = await db.FmsFileVersions.create({
+  const create = {
     fileVersionKey: newFileVersionKey,
     fileKey: fileKey,
     fileVersionName: fileVersionName,
@@ -459,6 +483,24 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
     createdIp: req.real_ip,
     fileVersionStatus: fileVersionStatus,
+  };
+
+  const createResult = await db.FmsFileVersions.create(create);
+
+  await db.insertLog({
+    logType: 'LOGTY00000020', // 파일 버전 업로드 성공
+    createdIp: req.real_ip,
+    accessUniqueKey: req.accessUniqueKey,
+    userKey: loginInfo.userKey,
+    value1: JSON.stringify(newFileVersionKey),
+    value2: JSON.stringify(fileVersionName),
+    logContent: `
+      ※ 새로운 파일 버전 고유 식별키 : value1 값 참조
+
+      ※ 새로운 파일 버전명 : value2 값 참조
+
+      ※ 새로운 파일 버전 정보 : \`${JSON.stringify(create)}\`
+    `,
   });
 
   res.status(200).json(myValueLog({
