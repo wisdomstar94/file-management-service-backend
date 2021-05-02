@@ -14,25 +14,11 @@ const { Op, Sequelize, QueryTypes } = require('sequelize');
 const myIPChecker = require('../../../librarys/myIPChecker');
 require('dotenv').config();
 
-
-function isUserGroupingListExist(userGroupingList, downloadTargetUserKey) {
-  let isExist = false;
-
-  for (let i = 0; i < userGroupingList.length; i++) {
-    if (userGroupingList[i].downloadTargetUserKey === downloadTargetUserKey) {
-      isExist = true;
-      break;
-    }
-  }
-
-  return isExist;
-}
-
-function getUserGroupingTargetUserKeyIndex(userGroupingList, downloadTargetUserKey) {
+function getDateIndex(datelyList, date) {
   let index = 0;
 
-  for (let i = 0; i < userGroupingList.length; i++) {
-    if (userGroupingList[i].downloadTargetUserKey === downloadTargetUserKey) {
+  for (let i = 0; i < datelyList.length; i++) {
+    if (datelyList[i].date === date) {
       index = i;
       break;
     }
@@ -67,7 +53,7 @@ function getFileDownloadUrlKeyGroupingIndex(fileDownloadUrlKeyGroupingList, file
   return index;
 }
 
-const statistics = wrapper(async(req, res, next) => {
+const statisticsDetailInfo = wrapper(async(req, res, next) => {
   const loginInfo = req.loginInfo;
   /*
     loginInfo.userKey: 'C1618033738099vtEiUg',
@@ -77,24 +63,14 @@ const statistics = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
-  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
-
   let addWhere = ``;
   const addWhereValues = {};
-
-  if (!isAllUserControl) {
-    const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
-
-    addWhere += `
-      AND \`FFDL\`.\`downloadTargetUserKey\` IN(:childUserKey) 
-    `;
-    addWhereValues.childUserKey = childUserKey;
-  }
 
 
 
   const {
     targetDateTime,
+    downloadTargetUserKey,
   } = req.body;
 
   if (typeof targetDateTime !== 'string') {
@@ -103,8 +79,8 @@ const statistics = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20051010,
-        msg: myResultCode[20051010].msg,
+        code: 20052010,
+        msg: myResultCode[20052010].msg,
       },
     }));
     return;
@@ -116,8 +92,8 @@ const statistics = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20051020,
-        msg: myResultCode[20051020].msg,
+        code: 20052020,
+        msg: myResultCode[20052020].msg,
       },
     }));
     return;
@@ -129,15 +105,77 @@ const statistics = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20051030,
-        msg: myResultCode[20051030].msg,
+        code: 20052030,
+        msg: myResultCode[20052030].msg,
       },
     }));
     return;
   }
+
+  // downloadTargetUserKey 체크 : required
+  if (typeof downloadTargetUserKey !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20052040,
+        msg: myResultCode[20052040].msg,
+      },
+    }));
+    return;
+  }
+
+  if (downloadTargetUserKey.trim() === '') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20052050,
+        msg: myResultCode[20052050].msg,
+      },
+    }));
+    return;
+  }
+
+  if (downloadTargetUserKey.length !== 20) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20052060,
+        msg: myResultCode[20052060].msg,
+      },
+    }));
+    return;
+  }
+
+  const downloadTargetUserKeyResult = await db.FmsUsers.findOne({
+    where: {
+      userKey: downloadTargetUserKey,
+    },
+  });
+  if (downloadTargetUserKeyResult === null) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20052070,
+        msg: myResultCode[20052070].msg,
+      },
+    }));
+    return;
+  }
+
+
   
   const targetYYYYMM = myDate(targetDateTime).format('YYYYMM');
   const targetTableName = `FmsFileDownloadLogs${targetYYYYMM}`;
+
+  addWhereValues.downloadTargetUserKey = downloadTargetUserKey;
 
   const result = await db.sequelize.query(`
       SELECT 
@@ -154,8 +192,11 @@ const statistics = wrapper(async(req, res, next) => {
       LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsCompanys\` AS \`FC\` 
       ON \`FC\`.\`companyKey\` = \`FU\`.\`companyKey\` 
 
-      WHERE 1 = 1
+      WHERE 1 = 1 
+      AND \`FFDL\`.\`downloadTargetUserKey\` = :downloadTargetUserKey
       ${addWhere}
+
+      ORDER BY \`FFDL\`.\`createdAt\` DESC 
     `, { 
       replacements: addWhereValues,
       type: QueryTypes.SELECT, 
@@ -165,34 +206,31 @@ const statistics = wrapper(async(req, res, next) => {
 
   console.log('result', result);
 
+  const dately = myDate(targetDateTime).getDately();
+  const datelyList = [];
+  for (let i = 0; i < dately.length; i++) {
+    datelyList.push({
+      date: dately[i],
+      fileDownloadUrlKeyGroupingList: [],
+    });
+  }
 
-  const userGroupingList = [];
-  
   for (let i = 0; i < result.length; i++) {
     const item = result[i];
+    const date = myDate(item.createdAt).format('YYYY-MM-DD');
+    const datelyIndex = getDateIndex(datelyList, date);
 
-    if (!isUserGroupingListExist(userGroupingList, item.downloadTargetUserKey)) {
-      userGroupingList.push({
-        downloadTargetUserKey: item.downloadTargetUserKey,
-        downloadTargetUserId: item.userId,
-        downloadTargetUserCompanyName: item.companyName,
-        fileDownloadUrlKeyGroupingList: [],
-      });
-    }
-
-    const targetUserGroupingIndex = getUserGroupingTargetUserKeyIndex(userGroupingList, item.downloadTargetUserKey);
-    if (!isFileDownloadUrlKeyGroupingExist(userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList, item.fileDownloadUrlKey)) {
-      userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList.push({
+    if (!isFileDownloadUrlKeyGroupingExist(datelyList[datelyIndex].fileDownloadUrlKeyGroupingList, item.fileDownloadUrlKey)) {
+      datelyList[datelyIndex].fileDownloadUrlKeyGroupingList.push({
         fileDownloadUrlKey: item.fileDownloadUrlKey,
-        downloadCount: 0,
+        downloadedCount: 0,
       });
     }
-    
-    const targetDownloadUrlKeyIndex = getFileDownloadUrlKeyGroupingIndex(userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList, item.fileDownloadUrlKey);
-    userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList[targetDownloadUrlKeyIndex].downloadCount++;
+
+    const fileDownloadUrlKeyGroupingIndex = getFileDownloadUrlKeyGroupingIndex(datelyList[datelyIndex].fileDownloadUrlKeyGroupingList, item.fileDownloadUrlKey);
+    datelyList[datelyIndex].fileDownloadUrlKeyGroupingList[fileDownloadUrlKeyGroupingIndex].downloadedCount++;
   }
-  
-  console.log('userGroupingList', userGroupingList);
+
 
   res.status(200).json(myValueLog({
     req: req,
@@ -200,10 +238,10 @@ const statistics = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      userGroupingList: userGroupingList,
+      datelyList: datelyList,
     },
   }));
   return;
 });
 
-module.exports = statistics;
+module.exports = statisticsDetailInfo;
