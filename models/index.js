@@ -400,6 +400,10 @@ db.insertFileDownloadLog = async(params) => {
     throw new Error(`db.insertFileDownloadLog 함수는 params.fileDownloadNameLogAt 문자열 인자가 필요합니다.`);
   }
 
+  if (isNaN(params.fileSizeLogAt)) {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileSizeLogAt 숫자형 인자가 필요합니다.`);
+  }
+
   if (typeof params.createdIp !== 'string') {
     throw new Error(`db.insertFileDownloadLog 함수는 params.createdIp 문자열 인자가 필요합니다.`);
   }
@@ -419,6 +423,7 @@ db.insertFileDownloadLog = async(params) => {
   insertValues.fileVersionNameLogAt = params.fileVersionNameLogAt;
   insertValues.fileOriginalNameLogAt = params.fileOriginalNameLogAt;
   insertValues.fileDownloadNameLogAt = params.fileDownloadNameLogAt;
+  insertValues.fileSizeLogAt = params.fileSizeLogAt;
   insertValues.createdAt = myDate().format('YYYY-MM-DD HH:mm:ss');
   insertValues.createdIp = params.createdIp;
 
@@ -426,11 +431,11 @@ db.insertFileDownloadLog = async(params) => {
       INSERT INTO \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${logTableName}\` 
       (\`downloadLogKey\`, \`downloadTargetUserKey\`, \`fileDownloadUrlKey\`, \`userIdLogAt\`,
       \`fileLabelNameLogAt\`, \`fileVersionCodeLogAt\`, \`fileVersionNameLogAt\`, \`fileOriginalNameLogAt\`,
-      \`fileDownloadNameLogAt\`, \`createdAt\`, \`createdIp\`) VALUES 
+      \`fileDownloadNameLogAt\`, \`fileSizeLogAt\`, \`createdAt\`, \`createdIp\`) VALUES 
 
       (:downloadLogKey, :downloadTargetUserKey, :fileDownloadUrlKey, :userIdLogAt,
       :fileLabelNameLogAt, :fileVersionCodeLogAt, :fileVersionNameLogAt, :fileOriginalNameLogAt,
-      :fileDownloadNameLogAt, :createdAt, :createdIp)
+      :fileDownloadNameLogAt, :fileSizeLogAt, :createdAt, :createdIp)
       ;
     `, { 
       replacements: insertValues,

@@ -408,6 +408,7 @@ const file = wrapper(async(req, res, next) => {
       fileVersionNameLogAt: fileVersionInfo.fileVersionName,
       fileOriginalNameLogAt: fileVersionInfo.fileOriginalName,
       fileDownloadNameLogAt: fileVersionInfo.fileDownloadName,
+      fileSizeLogAt: fileVersionInfo.fileSize,
       createdIp: req.real_ip,
     });
 

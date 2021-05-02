@@ -49,7 +49,7 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
     const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
 
     addWhere += `
-      AND \`ffv\`.\`createrUserKey\` IN(:childUserKey) 
+      AND \`FFDL\`.\`downloadTargetUserKey\` IN(:childUserKey) 
     `;
     addWhereValues.childUserKey = childUserKey;
   }
