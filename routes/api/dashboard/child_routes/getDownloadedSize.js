@@ -156,7 +156,7 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
     const result = await sequelize.query(`
         SELECT 
 
-        \`ffv\`.\`fileSize\` AS \`fileSize\` 
+        \`FFDL\`.\`fileSizeLogAt\` AS \`fileSize\` 
 
         FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${targetTableName}\` AS \`FFDL\` 
         
@@ -196,7 +196,7 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
     const result = await sequelize.query(`
         SELECT 
 
-        \`ffv\`.\`fileSize\` AS \`fileSize\` 
+        \`FFDL\`.\`fileSizeLogAt\` AS \`fileSize\` 
 
         FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${todayTableName}\` AS \`FFDL\` 
         

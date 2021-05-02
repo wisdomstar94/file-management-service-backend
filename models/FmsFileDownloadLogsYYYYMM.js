@@ -27,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     fileVersionNameLogAt: DataTypes.STRING,
     fileOriginalNameLogAt: DataTypes.STRING,
     fileDownloadNameLogAt: DataTypes.STRING,
+    fileSizeLogAt: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,
     isDeletedRow: DataTypes.ENUM(['Y', 'N']),

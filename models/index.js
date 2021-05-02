@@ -363,5 +363,84 @@ db.insertLog = async(params) => {
 
 
 
+db.insertFileDownloadLog = async(params) => {
+  if (params === undefined) {
+    throw new Error(`db.insertFileDownloadLog 함수는 params 인자가 필요합니다.`);
+  }
+
+  if (typeof params.downloadTargetUserKey !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.downloadTargetUserKey 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.fileDownloadUrlKey !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileDownloadUrlKey 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.userIdLogAt !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.userIdLogAt 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.fileLabelNameLogAt !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileLabelNameLogAt 문자열 인자가 필요합니다.`);
+  }
+
+  if (isNaN(params.fileVersionCodeLogAt)) {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileVersionCodeLogAt 숫자형 인자가 필요합니다.`);
+  }
+
+  if (typeof params.fileVersionNameLogAt !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileVersionNameLogAt 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.fileOriginalNameLogAt !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileOriginalNameLogAt 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.fileDownloadNameLogAt !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.fileDownloadNameLogAt 문자열 인자가 필요합니다.`);
+  }
+
+  if (typeof params.createdIp !== 'string') {
+    throw new Error(`db.insertFileDownloadLog 함수는 params.createdIp 문자열 인자가 필요합니다.`);
+  }
+
+  let addInsert = ``;
+  const addInsertVariables = [];
+  const insertValues = {};
+
+  const logTableName = `FmsFileDownloadLogs${myDate().format('YYYYMM')}`;
+
+  insertValues.downloadLogKey = myGetMakeToken({ strlength: 20 });
+  insertValues.downloadTargetUserKey = params.downloadTargetUserKey;
+  insertValues.fileDownloadUrlKey = params.fileDownloadUrlKey;
+  insertValues.userIdLogAt = params.userIdLogAt;
+  insertValues.fileLabelNameLogAt = params.fileLabelNameLogAt;
+  insertValues.fileVersionCodeLogAt = params.fileVersionCodeLogAt;
+  insertValues.fileVersionNameLogAt = params.fileVersionNameLogAt;
+  insertValues.fileOriginalNameLogAt = params.fileOriginalNameLogAt;
+  insertValues.fileDownloadNameLogAt = params.fileDownloadNameLogAt;
+  insertValues.createdAt = myDate().format('YYYY-MM-DD HH:mm:ss');
+  insertValues.createdIp = params.createdIp;
+
+  const result = await db.sequelize.query(`
+      INSERT INTO \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`${logTableName}\` 
+      (\`downloadLogKey\`, \`downloadTargetUserKey\`, \`fileDownloadUrlKey\`, \`userIdLogAt\`,
+      \`fileLabelNameLogAt\`, \`fileVersionCodeLogAt\`, \`fileVersionNameLogAt\`, \`fileOriginalNameLogAt\`,
+      \`fileDownloadNameLogAt\`, \`createdAt\`, \`createdIp\`) VALUES 
+
+      (:downloadLogKey, :downloadTargetUserKey, :fileDownloadUrlKey, :userIdLogAt,
+      :fileLabelNameLogAt, :fileVersionCodeLogAt, :fileVersionNameLogAt, :fileOriginalNameLogAt,
+      :fileDownloadNameLogAt, :createdAt, :createdIp)
+      ;
+    `, { 
+      replacements: insertValues,
+      type: QueryTypes.INSERT, 
+    }
+  );
+};
+
+
+
+
 // export module
 module.exports = db;

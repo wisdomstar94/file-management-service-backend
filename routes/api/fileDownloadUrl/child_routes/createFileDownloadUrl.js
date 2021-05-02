@@ -658,6 +658,11 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
     for (let i = 0; i < fileDownloadUrlAccessConditionInfo.length; i++) {
       const item = fileDownloadUrlAccessConditionInfo[i];
 
+      let insertValue = item.value;
+      if (typeof item.value === 'string' && item.conditionType === 'FDUCT00000003') {
+        insertValue = myCrypto.encrypt({ originalValue: item.value });
+      }
+
       if (item.type === 'new') {
         const newFileAccessConditionKey = myGetMakeToken({ strlength: 20 });
 
@@ -666,7 +671,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
           fileDownloadUrlKey: newFileDownloadUrlKey,
           conditionType: item.conditionType,
           key: item.key,
-          value: item.value, 
+          value: insertValue, 
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
           createrUserKey: loginInfo.userKey,
@@ -680,7 +685,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
         await db.FmsFileDownloadUrlAccessConditions.update({
           conditionType: item.conditionType,
           key: item.key,
-          value: item.value, 
+          value: insertValue, 
           updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           updatedIp: req.real_ip,
           updaterUserKey: loginInfo.userKey,

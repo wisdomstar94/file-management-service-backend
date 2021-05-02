@@ -42,6 +42,7 @@ const apiFileRouter = require('./routes/api/file/index');
 const apiFileVersionRouter = require('./routes/api/fileVersion/index');
 const apiFileDownloadUrlRouter = require('./routes/api/fileDownloadUrl/index');
 const apiDashboardRouter = require('./routes/api/dashboard/index');
+const apiDownloadRouter = require('./routes/api/download/index');
 
 // express declare
 const app = express();
@@ -93,6 +94,7 @@ app.use('/api/file', apiFileRouter);
 app.use('/api/fileVersion', apiFileVersionRouter);
 app.use('/api/fileDownloadUrl', apiFileDownloadUrlRouter);
 app.use('/api/dashboard', apiDashboardRouter);
+app.use('/api/download', apiDownloadRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));

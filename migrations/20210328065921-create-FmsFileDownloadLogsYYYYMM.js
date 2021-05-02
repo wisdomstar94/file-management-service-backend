@@ -57,6 +57,11 @@ module.exports = {
         allowNull: false,
         comment: '로그 생성 당시의 다운로드 될 때의 파일 이름',
       },
+      fileSizeLogAt: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        comment: '로그 생성 당시의 다운로드 될 때의 파일 용량 (byte)',
+      },
       createdAt: {
         type: Sequelize.DATE,
         allowNull: false,
