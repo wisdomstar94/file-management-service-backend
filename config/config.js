@@ -13,6 +13,12 @@ const config = {
       typeCast: true,
     },
     timezone: '+09:00',
+    pool: {
+      max: 10,
+      min: 5,
+      acquire: 30000,
+      idle: 10000
+    },
   },
   test: {
     username: process.env.MAIN_DB_USER,
@@ -26,6 +32,12 @@ const config = {
       typeCast: true,
     },
     timezone: '+09:00',
+    pool: {
+      max: 10,
+      min: 5,
+      acquire: 30000,
+      idle: 10000
+    },
   },
   production: {
     username: process.env.MAIN_DB_USER,
@@ -39,6 +51,12 @@ const config = {
       typeCast: true,
     },
     timezone: '+09:00',
+    pool: {
+      max: 10,
+      min: 5,
+      acquire: 30000,
+      idle: 10000
+    },
   }
 };
 
