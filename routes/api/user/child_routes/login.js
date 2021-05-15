@@ -152,6 +152,11 @@ const login = wrapper(async(req, res, next) => {
     issuer: process.env.PROJECT_NAME,
   });
 
+  res.clearCookie('accesstoken');
+  res.clearCookie('refreshtoken');
+  res.cookie('accesstoken', newAccessToken, { expires: new Date(Date.now() + 600000), httpOnly: true });
+  res.cookie('refreshtoken', newRefreshToken, { expires: new Date(Date.now() + 32400000), httpOnly: true });
+
   // logging refresh token
   await db.FmsJwtRefreshTokens.create({
     jwtRefreshTokenKey: newJwtRefreshTokenKey,
@@ -175,8 +180,8 @@ const login = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      accessToken: newAccessToken,
-      refreshToken: newRefreshToken,
+      // accessToken: newAccessToken,
+      // refreshToken: newRefreshToken,
     },
   }));
   return;

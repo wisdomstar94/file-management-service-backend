@@ -8,8 +8,8 @@ const db = require('../../models');
 require('dotenv').config();
 
 const jwtTokenCheck = async(req, res, next) => {
-  const accessToken = req.headers.accesstoken;
-  const refreshToken = req.headers.refreshtoken;
+  const accessToken = req.cookies.accesstoken;
+  const refreshToken = req.cookies.refreshtoken;
 
   // accessToken 검증
   let isAccessTokenValid = false;
@@ -107,6 +107,8 @@ const jwtTokenCheck = async(req, res, next) => {
       issuer: process.env.PROJECT_NAME,
     });
 
+    res.cookie('accesstoken', newAccessToken, { expires: new Date(Date.now() + 600000), httpOnly: true });
+
     res.status(401).json(myValueLog({
       req: req,
       obj: {
@@ -114,7 +116,7 @@ const jwtTokenCheck = async(req, res, next) => {
         headTail: req.accessUniqueKey,
         code: 20001014,
         msg: myResultCode[20001014].msg,
-        newAccessToken: newAccessToken,
+        // newAccessToken: newAccessToken,
       },
     }));
     return;

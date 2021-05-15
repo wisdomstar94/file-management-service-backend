@@ -42,6 +42,7 @@ const setRequestInfoLogging = function(req, res, next) {
     myLogger.info(req.logHeadTail + 'request path : ' + req.path);
     myLogger.info(req.logHeadTail + 'request originalUrl : ' + req.originalUrl);
     myLogger.info(req.logHeadTail + 'request header : ' + JSON.stringify(req.headers));
+    myLogger.info(req.logHeadTail + 'request cookies : ' + JSON.stringify(req.cookies));
     myLogger.info(req.logHeadTail + 'request body : ' + JSON.stringify(req.body));
     myLogger.info(req.logHeadTail + 'request query : ' + JSON.stringify(req.query));
     myLogger.info(req.logHeadTail + 'request params : ' + JSON.stringify(req.params));

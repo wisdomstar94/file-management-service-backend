@@ -12,6 +12,12 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
 
+const corsOptions = {
+  origin: 'http://localhost:4200',
+  credentials: true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
 // my librarys
 const myLogger = require('./routes/librarys/myLogger');
 
@@ -66,7 +72,7 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(express.raw());
 app.use(express.text());
-app.use(cookieParser());
+app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
 app.use(helmet());
 app.use(helmet.xssFilter());
 app.use(helmet.frameguard());
@@ -77,8 +83,11 @@ app.use(helmet.referrerPolicy({
   policy: 'same-origin'
 }));
 app.use(setRequestInfoLogging);
-app.use(cors());
+app.use(cors(corsOptions));
 // app.use(csrf());
+
+// static path match
+app.use('/public', express.static(path.join(__dirname, 'static', 'files/')));
 
 // router match
 app.use('/api/code', apiCodeRouter);
