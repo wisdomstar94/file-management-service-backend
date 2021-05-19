@@ -23,6 +23,8 @@ module.exports = (sequelize, DataTypes) => {
     },
     menuName: DataTypes.STRING,
     menuDescription: DataTypes.STRING,
+    menuIconPath: DataTypes.TEXT,
+    menuLink: DataTypes.STRING,
     sortNo: DataTypes.INTEGER,
     createdAt: DataTypes.DATE,
     createdIp: DataTypes.STRING,

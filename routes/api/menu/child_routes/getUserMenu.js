@@ -110,7 +110,7 @@ const getUserMenu = wrapper(async(req, res, next) => {
 
     const menuList = await db.FmsMenus.findAll({
       attributes: [
-        'menuCategoryKey', 'menuKey', 'menuName',
+        'menuCategoryKey', 'menuKey', 'menuName', 'menuIconPath', 'menuLink',
       ],
       where: where,
       order: [

@@ -37,6 +37,16 @@ module.exports = {
         allowNull: true,
         comment: '메뉴 설명',
       },
+      menuIconPath: {
+        type: Sequelize.TEXT,
+        allowNull: true,
+        comment: '메뉴 아이콘 path',
+      },
+      menuLink: {
+        type: Sequelize.STRING(100),
+        allowNull: true,
+        comment: '메뉴 이동 경로',
+      },
       sortNo: {
         type: Sequelize.INTEGER,
         allowNull: false,
