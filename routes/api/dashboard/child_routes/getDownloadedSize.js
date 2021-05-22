@@ -145,6 +145,8 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
 
   const monthlyInfo = [];
 
+  let targetDateTotalSize = 0;
+
   for (let i = targetYYYYMM.length - 1; i >= 0; i--) {
     const YYYYMM = targetYYYYMM[i]; // ex) 202104
     const targetTableName = `FmsFileDownloadLogs${YYYYMM}`;
@@ -178,6 +180,8 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
     result.map((x) => {
       totalSize += x.fileSize;
     });
+
+    targetDateTotalSize += totalSize;
 
     monthlyInfo.push({
       yyyymm: YYYYMM,
@@ -228,6 +232,7 @@ const getDownloadedSize = wrapper(async(req, res, next) => {
       headTail: req.accessUniqueKey,
       code: 10001000,
       monthlyInfo: monthlyInfo,
+      targetDateTotalSize: targetDateTotalSize,
       todayTotalSizeByte: todayTotalSize,
     },
   }));
