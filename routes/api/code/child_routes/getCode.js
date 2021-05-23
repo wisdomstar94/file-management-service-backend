@@ -106,11 +106,12 @@ const getCode = wrapper(async(req, res, next) => {
   // 조회
   const list = await db.FmsCodes.findAll({
     attributes: [
-      'seq', 'codeGroup', 'code', 'codeName', 'codeDescription', 'codeValue1', 'codeValue2', 'sortNo', 
+      // 'seq', 
+      'codeGroup', 'code', 'codeName', 'codeDescription', 'codeValue1', 'codeValue2', 'sortNo', 
       // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.createdAt'), '%Y-%m-%d %H:%i:%s'), 'createdAt'],
-      'createdAt', 
+      // 'createdAt', 
       // [db.Sequelize.fn('date_format', db.Sequelize.col('FmsCodes.updatedAt'), '%Y-%m-%d %H:%i:%s'), 'updatedAt'],
-      'updatedAt',
+      // 'updatedAt',
     ],
     where: {
       codeGroup: codeGroup,
