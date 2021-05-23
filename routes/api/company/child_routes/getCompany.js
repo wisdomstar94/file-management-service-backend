@@ -78,8 +78,8 @@ const getCompany = wrapper(async(req, res, next) => {
 
   // isAllUserControl 체크
   if (!isAllUserControl) {
-    const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
-    where.createrUserKey = childUserKey;
+    // const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
+    // where.createrUserKey = childUserKey;
   }
 
   
