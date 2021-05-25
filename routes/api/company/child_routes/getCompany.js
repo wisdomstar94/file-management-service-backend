@@ -1216,11 +1216,14 @@ const getCompany = wrapper(async(req, res, next) => {
     'mnNdpze1617685077300', // 등록일
     'ssO1617687189173zGlK', // 메모
     'uZdxER1617685091349q', // 상태
+    'vk1617685109763LDPNY', // 회사 목록-상세정보 접근권한 (companyKey)
   ]);
   const FmsCompanyAttributes = [];
   const FmsCompanyStatusCodesAttributes = [];
+  
 
   activePermissionKeys.includes('S1617684955017JFIumn') ? FmsCompanyAttributes.push('seq') : null;
+  activePermissionKeys.includes('vk1617685109763LDPNY') ? FmsCompanyAttributes.push('companyKey') : null;
   activePermissionKeys.includes('KL1617684973373YzQOa') ? FmsCompanyAttributes.push('companyName') : null;
   activePermissionKeys.includes('dNrN1617684996447qOA') ? FmsCompanyAttributes.push('companyBusinessNumber') : null;
   activePermissionKeys.includes('BfX1617685011279bGbM') ? FmsCompanyAttributes.push('companyAddress') : null;
@@ -1235,9 +1238,9 @@ const getCompany = wrapper(async(req, res, next) => {
     FmsCompanyStatusCodesAttributes.push('codeName');
   }
 
-  if (FmsCompanyAttributes.length !== 0) {
-    FmsCompanyAttributes.push('companyKey');
-  }
+  // if (FmsCompanyAttributes.length !== 0) {
+  //   FmsCompanyAttributes.push('companyKey');
+  // }
 
   const list = await db.FmsCompanys.findAll({
     attributes: FmsCompanyAttributes,
