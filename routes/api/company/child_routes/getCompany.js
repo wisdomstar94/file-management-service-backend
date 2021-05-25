@@ -1144,6 +1144,7 @@ const getCompany = wrapper(async(req, res, next) => {
   where[Op.and] = OpAndArray;
   where.isDeletedRow = 'N';
   order.push(['createdAt', 'DESC']);
+  order.push(['seq', 'DESC']);
 
   // 전체 리스트 가져오기 (전체 갯수)
   const totalResult = await db.FmsCompanys.findAndCountAll({
