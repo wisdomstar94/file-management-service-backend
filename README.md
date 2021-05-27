@@ -36,6 +36,9 @@
 * 설치형 Gitlab (https://about.gitlab.com/)
   - Git을 사용할 때 원격저장소로 사용한 Gitlab 입니다. AWS Ec2에 설치하여 사용을 하였습니다.
   <br>
+* Github (https://github.com/)
+  - 본 프로젝트를 공유할 목적으로 사용하였습니다.
+  <br>
 * AWS (https://aws.amazon.com/)
   - EC2 서비스를 통해 인스턴스를 생성 후, Gitlab을 설치하여 필요할 때마다 인스턴스를 실행하여 로컬 PC에서 커밋 및 푸쉬를 진행하였습니다.
   <br>
