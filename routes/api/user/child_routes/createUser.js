@@ -490,6 +490,7 @@ const createUser = wrapper(async(req, res, next) => {
   const newUserKey = myGetMakeToken({ strlength: 20 });
 
   const create = {
+    parentUserKey: loginInfo.userKey,
     userKey: newUserKey,
     companyKey: companyKey,
     permissionGroupKey: permissionGroupKey,
