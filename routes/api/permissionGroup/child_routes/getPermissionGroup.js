@@ -432,7 +432,9 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
     'Tz1617688611713wZfKg', // 생성일
     'M1617688625942lyFAFR', // 상태
   ]);
-  const FmsPermissionGroupsAttributes = [];
+  const FmsPermissionGroupsAttributes = [
+    'seq'
+  ];
   const FmsPermissionGroupStatusCodesAttributes = [];
 
   activePermissionKeys.includes('IuJ1617688567172AqFn') ? FmsPermissionGroupsAttributes.push('seq') : null;
