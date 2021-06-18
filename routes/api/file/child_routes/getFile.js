@@ -1251,9 +1251,11 @@ const getFile = wrapper(async(req, res, next) => {
     'zaYaP1617690026127Te', // 최신 버전 파일명
     'AbFp1617690053679MfC', // 최신 버전 업로드 날짜
     'BnjjNb1617690039693C', // 등록일
-    'M1617690067526aqQSFx', // 등록자 ID
+    'M1617690067526aqQSFx', // 파일 목록-최초 업로더 ID 칼럼 표시
+    'WW1617690088280AWXXu', // 파일 목록-최신버전 업로더 ID 칼럼 표시
     'wEZC1617690101921eeh', // 등록된 다운로드 URL 갯수
     'wCdVLb1617690115292m', // 상태
+    'B1617690143101zIeSOm', // 파일 상세정보 접근 권한 여부
   ]);
   const FmsFilesAttributes = [];
   const FmsCreaterUsersAttributes = [];
@@ -1261,9 +1263,12 @@ const getFile = wrapper(async(req, res, next) => {
   const FmsFileStatusCodesAttributes = [];
 
   activePermissionKeys.includes('jdKBH1617689963499uB') ? FmsFilesAttributes.push('seq') : null;
+  activePermissionKeys.includes('B1617690143101zIeSOm') ? FmsFilesAttributes.push('fileKey') : null;
   activePermissionKeys.includes('mbFzwxc1617689977402') ? FmsFilesAttributes.push('fileLabelName') : null;
   activePermissionKeys.includes('VgH1617689990860NtIb') ? FmsFilesAttributes.push('fileMemo') : null;
   activePermissionKeys.includes('LEjRdC1617690010717t') ? FmsFilesAttributes.push('fileDescription') : null;
+  
+
   if (activePermissionKeys.includes('zaYaP1617690026127Te')) {
     FmsFilesAttributes.push([
       db.Sequelize.literal(`(
@@ -1300,13 +1305,52 @@ const getFile = wrapper(async(req, res, next) => {
         LIMIT 1 
       )`),
       'recentFileVersionCreatedAt'
-    ],)
+    ]);
   }
   activePermissionKeys.includes('BnjjNb1617690039693C') ? FmsFilesAttributes.push('createdAt') : null;
   if (activePermissionKeys.includes('M1617690067526aqQSFx')) {
     FmsFilesAttributes.push('createrUserKey');
     FmsCreaterUsersAttributes.push('userKey');
     FmsCreaterUsersAttributes.push('userId');
+  }
+  if (activePermissionKeys.includes('WW1617690088280AWXXu')) {
+    FmsFilesAttributes.push([
+      db.Sequelize.literal(`(
+        SELECT 
+
+        \`FFV\`.\`createrUserKey\` 
+
+        FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileVersions\` AS \`FFV\` 
+
+        WHERE \`FFV\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+        AND \`FFV\`.\`isDeletedRow\` = 'N'
+        
+        ORDER BY \`FFV\`.\`createdAt\` DESC 
+
+        LIMIT 1 
+      )`),
+      'recentFileVersionCreaterUserKey'
+    ]);
+    FmsFilesAttributes.push([
+      db.Sequelize.literal(`(
+        SELECT 
+
+        \`FU\`.\`userId\` 
+
+        FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileVersions\` AS \`FFV\` 
+
+        LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsUsers\` AS \`FU\` 
+        ON \`FU\`.\`userKey\` = \`FFV\`.\`createrUserKey\` 
+
+        WHERE \`FFV\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+        AND \`FFV\`.\`isDeletedRow\` = 'N'
+        
+        ORDER BY \`FFV\`.\`createdAt\` DESC 
+
+        LIMIT 1 
+      )`),
+      'recentFileVersionCreaterUserId'
+    ]);
   }
   if (activePermissionKeys.includes('wCdVLb1617690115292m')) {
     FmsFilesAttributes.push('fileStatus');
@@ -1326,7 +1370,7 @@ const getFile = wrapper(async(req, res, next) => {
         AND \`FFDU\`.\`isDeletedRow\` = 'N'
       )`),
       'fileDownloadUrlCount'
-    ],)
+    ]);
   }
 
 

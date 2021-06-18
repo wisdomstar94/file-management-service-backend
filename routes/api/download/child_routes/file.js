@@ -185,6 +185,7 @@ const file = wrapper(async(req, res, next) => {
   const conditionFDUCT00000001 = [];
   const conditionFDUCT00000002 = [];
   const conditionFDUCT00000003 = [];
+  const conditionFDUCT00000004 = [];
 
   for (let i = 0; i < FmsFileDownloadUrlAccessConditionsResult.length; i++) {
     const item = FmsFileDownloadUrlAccessConditionsResult[i];
@@ -199,7 +200,56 @@ const file = wrapper(async(req, res, next) => {
       case 'FDUCT00000003': // 특정 암호 필요
         conditionFDUCT00000003.push(item);
         break;
+      case 'FDUCT00000004': // 파일 정보 확인 후 다운로드 (URL 직접 다운로드 제한)
+        conditionFDUCT00000004.push(item);
+        break;
     }
+  }
+
+  // 파일 정보 확인 후 다운로드 (URL 직접 다운로드 제한)
+  if (conditionFDUCT00000004.length > 0) {
+    const downloadjwt = req.cookies.downloadjwt;
+
+    if (typeof downloadjwt !== 'string' || downloadjwt === '') {
+      // 파일정보 확인 페이지로 리다이렉트 (프론트)
+      res.redirect('/file/download/' + fileDownloadUrlKey);
+      return;
+    }
+
+    try {
+      const downloadjwtDecodeed = jwt.verify(downloadjwt, process.env.JWT_FILE_DOWNLOAD_URL_SECRET);
+      const downloadjwtDecodeedInfo = {
+        fileDownloadUrlKey: myCrypto.decrypt({ hashedValue: downloadjwtDecodeed.a }),
+      };
+      if (downloadjwtDecodeedInfo.fileDownloadUrlKey !== fileDownloadUrlKey) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20049085,
+            msg: myResultCode[20049085].msg,
+          },
+        }));
+        return;
+      }
+    } catch (e) {
+      myLogger.error(req.logHeadTail + 'e.stack => ' + e.stack);
+      myLogger.error(req.logHeadTail + 'e => ' + JSON.stringify(e));
+      res.status(200).json(myValueLog({
+        req: req,
+        obj: {
+          result: 'failure',
+          headTail: req.accessUniqueKey,
+          code: 20049090,
+          msg: myResultCode[20049090].msg,
+        },
+      }));
+      return;
+    }
+
+    // downloadjwt 제거
+    res.clearCookie('downloadjwt');
   }
 
   // 특정 IP 제한
@@ -246,7 +296,7 @@ const file = wrapper(async(req, res, next) => {
 
     if (typeof passwordjwt !== 'string' || passwordjwt === '') {
       // 압호 임력 페이지로 리다이렉트 (프론트)
-      res.redirect('/file/download/' + fileDownloadUrlKey);
+      res.redirect('/file/download/' + fileDownloadUrlKey + '/requirePassword');
       return;
     }
 

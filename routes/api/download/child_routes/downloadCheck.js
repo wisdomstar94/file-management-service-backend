@@ -14,10 +14,9 @@ const { Op, Sequelize } = require('sequelize');
 const myIPChecker = require('../../../librarys/myIPChecker');
 require('dotenv').config();
 
-const downloadPasswordCheck = wrapper(async(req, res, next) => {
+const downloadCheck = wrapper(async(req, res, next) => {
   const {
     fileDownloadUrlKey,
-    password,
   } = req.body;
   
 
@@ -28,8 +27,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20050010,
-        msg: myResultCode[20050010].msg,
+        code: 20058010,
+        msg: myResultCode[20058010].msg,
       },
     }));
     return;
@@ -41,8 +40,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20050020,
-        msg: myResultCode[20050020].msg,
+        code: 20058020,
+        msg: myResultCode[20058020].msg,
       },
     }));
     return;
@@ -54,8 +53,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20050030,
-        msg: myResultCode[20050030].msg,
+        code: 20058030,
+        msg: myResultCode[20058030].msg,
       },
     }));
     return;
@@ -118,8 +117,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20050040,
-        msg: myResultCode[20050040].msg,
+        code: 20058040,
+        msg: myResultCode[20058040].msg,
       },
     }));
     return;
@@ -131,88 +130,23 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       obj: {
         result: 'failure',
         headTail: req.accessUniqueKey,
-        code: 20050050,
-        msg: myResultCode[20050050].msg,
+        code: 20058050,
+        msg: myResultCode[20058050].msg,
       },
     }));
     return;
   }
 
-  // condition 정보 가져오기
-  const FmsFileDownloadUrlAccessConditionsResult = await db.FmsFileDownloadUrlAccessConditions.findAll({
-    where: {
-      fileDownloadUrlKey: fileDownloadUrlKey,
-      isDeletedRow: 'N',
-      conditionType: 'FDUCT00000003',
-    },
-    order: [
-      ['createdAt', 'DESC'],
-    ],
-  });
-
-  if (FmsFileDownloadUrlAccessConditionsResult.length === 0) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20050060,
-        msg: myResultCode[20050060].msg,
-      },
-    }));
-    return;
-  }
-
-  // password 체크 : required
-  if (typeof password !== 'string') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20050070,
-        msg: myResultCode[20050070].msg,
-      },
-    }));
-    return;
-  }
-
-  if (password.trim() === '') {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20050080,
-        msg: myResultCode[20050080].msg,
-      },
-    }));
-    return;
-  }
-
-  if (password !== myCrypto.decrypt({ hashedValue: FmsFileDownloadUrlAccessConditionsResult[0].value })) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20050090,
-        msg: myResultCode[20050090].msg,
-      },
-    }));
-    return;
-  }
-
-  // passwordjwt 발급! 5초 동안만 유효하도록..
-  myLogger.info(req.logHeadTail + 'passwordjwt 발급! ');
-  const passwordjwt = jwt.sign({
+  // downloadjwt 발급! 5초 동안만 유효하도록..
+  myLogger.info(req.logHeadTail + 'downloadjwt 발급! ');
+  const downloadjwt = jwt.sign({
     a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
   }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
     expiresIn: '5s', 
     issuer: 'FileManageMentService',
   });
-  res.clearCookie('passwordjwt');
-  res.cookie('passwordjwt', passwordjwt, {
+  res.clearCookie('downloadjwt');
+  res.cookie('downloadjwt', downloadjwt, {
     maxAge: 5000,
   });
 
@@ -227,4 +161,4 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
   return;
 });
 
-module.exports = downloadPasswordCheck;
+module.exports = downloadCheck;
