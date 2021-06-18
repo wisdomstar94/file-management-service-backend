@@ -81,12 +81,24 @@ const getPermissionGroupUpload = wrapper(async(req, res, next) => {
 
   // 리스트 가져오기
   const list = await db.FmsPermissionGroupUploads.findAll({
+    attributes: [
+      'seq', 'permissionGroupUploadKey', 'permissionGroupKey', 'permissionKey',
+      'createdAt', 'createdIp', 'isActive',
+    ],
     include: [
       {
         model: db.FmsPermissions,
+        attributes: [
+          'menuKey', 'permissionKey', 'permissionName', 'permissionDescription',
+          'sortNo', 'createdAt',
+        ],
       },
       {
         model: db.FmsPermissionGroups,
+        attributes: [
+          'permissionGroupKey', 'permissionGroupName', 'permissionGroupDescription',
+          'sortNo', 'createdAt',
+        ],
       },
     ],
     where: {

@@ -43,6 +43,8 @@ const getPermission = wrapper(async(req, res, next) => {
     updatedAtStart, // optional
     updatedAtEnd, // optional
     updatedIp, // optional
+
+    isGroupping, // optional
   } = req.body;
 
 
@@ -571,6 +573,10 @@ const getPermission = wrapper(async(req, res, next) => {
   };
 
   const list = await db.FmsPermissions.findAll({
+    attributes: [
+      'seq', 'menuKey', 'permissionKey', 'permissionName', 'permissionDescription', 
+      'sortNo', 'createdAt',
+    ],
     where: where,
     order: [
       ['menuKey', 'ASC'],
@@ -580,7 +586,7 @@ const getPermission = wrapper(async(req, res, next) => {
       {
         model: db.FmsMenus,
         attributes: [
-          'menuName',
+          'menuKey', 'menuName',
         ],
         where: {
           [Op.and]: menuWhereOpAndArray,
@@ -589,15 +595,69 @@ const getPermission = wrapper(async(req, res, next) => {
     ],
   });
 
+  const grouping_object = {};
+  const groupping_list = [];
+
+  for (let i = 0; i < list.length; i++) {
+    // dataValues
+    const item = list[i];
+    /*
+      item.dataValues.FmsMenu.dataValues.menuKey
+      item.dataValues.FmsMenu.dataValues.menuName
+      item.dataValues.createdAt
+      item.dataValues.menuKey
+      item.dataValues.permissionDescription
+      item.dataValues.permissionKey
+      item.dataValues.permissionName
+      item.dataValues.seq
+      item.dataValues.sortNo
+    */
+    const targetObject = grouping_object[item.dataValues.menuKey];
+    if (targetObject === undefined) {
+      grouping_object[item.dataValues.menuKey] = {};
+    }
+    
+    if (grouping_object[item.dataValues.menuKey].permissionList === undefined) {
+      grouping_object[item.dataValues.menuKey].permissionList = [];
+    }
+
+    if (grouping_object[item.dataValues.menuKey].menuName === undefined) {
+      grouping_object[item.dataValues.menuKey].menuName = item.dataValues.FmsMenu.dataValues.menuName;
+    }
+
+    grouping_object[item.dataValues.menuKey].permissionList.push(item);
+  }
+
+  // console.log('grouping_object', grouping_object);
+  
+  const grouping_object_keys = Object.keys(grouping_object);
+  for (let i = 0; i < grouping_object_keys.length; i++) {
+    const menuKey = grouping_object_keys[i];
+    const menuName = grouping_object[menuKey].menuName;
+    const permissionList = grouping_object[menuKey].permissionList;
+
+    groupping_list.push({
+      menuKey: menuKey,
+      menuName: menuName,
+      permissionList: permissionList,
+    });
+  }
+
+  const result = {
+    result: 'success',
+    headTail: req.accessUniqueKey,
+    code: 10001000,
+  };
+
+  if (isGroupping === true) {
+    result.groupping_list = groupping_list;
+  } else {
+    result.list = list;
+  }
 
   res.status(200).json(myValueLog({
     req: req,
-    obj: {
-      result: 'success',
-      headTail: req.accessUniqueKey,
-      code: 10001000,
-      list: list,
-    },
+    obj: result,
   }));
   return;
 });
