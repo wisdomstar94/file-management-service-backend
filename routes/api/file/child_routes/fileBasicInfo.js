@@ -154,6 +154,7 @@ const fileBasicInfo = wrapper(async(req, res, next) => {
       where: {
         fileKey: fileKey,
         fileImageType: 'FIMST00000001',
+        fileImageStatus: 'FIMSS00000001',
         isDeletedRow: 'N',
       },
       order: [
@@ -175,11 +176,13 @@ const fileBasicInfo = wrapper(async(req, res, next) => {
       where: {
         fileKey: fileKey,
         fileImageType: 'FIMST00000002',
+        fileImageStatus: 'FIMSS00000001',
         isDeletedRow: 'N',
       },
       order: [
-        ['sortNo', 'ASC'],
-      ]
+        ['createdAt', 'DESC'],
+      ],
+      limit: 1,
     });
   }
 

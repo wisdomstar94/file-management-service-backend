@@ -108,6 +108,7 @@ app.use('/api/download', apiDownloadRouter);
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
+app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

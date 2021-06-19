@@ -310,6 +310,13 @@ const uploadFile = wrapper(async(req, res, next) => {
   myLogger.info(req.logHeadTail + 'transaction start..!');
 
   try {
+    const hostname = req.headers.host;
+    let httpHead = 'http://';
+    if (req.headers.host.indexOf(':') === -1) {
+      httpHead = 'https://';
+    }
+    const baseUrl = httpHead + hostname;
+
     const newFileKey = myGetMakeToken({ strlength: 20 });
 
     // 1) 파일 기본 정보 등록
@@ -348,7 +355,7 @@ const uploadFile = wrapper(async(req, res, next) => {
           fileYYYYMM: req.fileImageYYYYMM,
           fileSize: fileItem.size,
           filePath: fileItem.path,
-          fileAccessUrl: null,
+          fileAccessUrl: baseUrl + '/file/image/' + req.fileImageYYYYMM + '/' + fileItem.filename,
           sortNo: sortNo,
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
@@ -379,7 +386,7 @@ const uploadFile = wrapper(async(req, res, next) => {
           fileYYYYMM: req.fileImageYYYYMM,
           fileSize: fileItem.size,
           filePath: fileItem.path,
-          fileAccessUrl: null,
+          fileAccessUrl: baseUrl + '/file/image/' + req.fileImageYYYYMM + '/' + fileItem.filename,
           sortNo: sortNo,
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
