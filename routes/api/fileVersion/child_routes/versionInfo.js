@@ -106,14 +106,14 @@ const versionInfo = wrapper(async(req, res, next) => {
         as: 'FmsCreaterUsers',
         model: db.FmsUsers,
         // attributes: FmsCreaterUsersAttributes,
-        attributes: ['userKey', 'userName'],
+        attributes: ['userKey', 'userId'],
         required: true,
       },
       {
         as: 'FmsUpdaterUsers',
         model: db.FmsUsers,
         // attributes: FmsUpdaterUsersAttributes,
-        attributes: ['userKey', 'userName'],
+        attributes: ['userKey', 'userId'],
         required: false,
       },
       {
