@@ -138,7 +138,7 @@ const getFileVersion = wrapper(async(req, res, next) => {
 
   // fileKey 체크 : optional
   if (typeof fileKey === 'string') {
-    if (fileKey.trim() !== '' && fileKey.length !== 20) {
+    if (fileKey.trim() !== '' && fileKey.length === 20) {
       OpAndArray.push({
         fileKey: {
           [Op.eq]: fileKey,

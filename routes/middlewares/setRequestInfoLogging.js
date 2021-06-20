@@ -32,7 +32,7 @@ const setRequestInfoLogging = function(req, res, next) {
   // req 객체에 real_ip 심기
   req.real_ip = clientIP;
 
-  console.log('req', req);
+  // console.log('req', req);
 
   // 로그 미출력 대상이 아니면
   if (!notLoggingFileType.includes(request_url_file_basename_file_type)) {
