@@ -109,6 +109,8 @@ const modifyFile = wrapper(async(req, res, next) => {
     fileStoreVersionHistoryOpen,
     fileStoreDescriptionOpen,
     fileStatus,
+
+    isFileRepresentImageDelete, // Y or N
   } = req.body;
 
   /*
@@ -766,6 +768,24 @@ const modifyFile = wrapper(async(req, res, next) => {
       });
     }
 
+    // 3.5) 대표 이미지 삭제
+    if (isFileRepresentImageDelete === 'Y') {
+      const update = {
+        updatedAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+        updatedIp: req.real_ip,
+        fileStatus: 'FIMSS00000002',
+        isDeletedRow: 'Y',
+      };
+
+      await db.FmsFileImages.update(update, {
+        where: {
+          fileKey: fileKey,
+          fileImageType: 'FIMST00000002',
+        },
+        transaction: transaction,
+      });
+    }
+
     // 4) 파일 스크린샷 이미지 정보 등록
     if (Array.isArray(req.files.fileScreenShot)) {
       for (let i = 0; i < req.files.fileScreenShot.length; i++) {
@@ -782,7 +802,7 @@ const modifyFile = wrapper(async(req, res, next) => {
           fileYYYYMM: req.fileImageYYYYMM,
           fileSize: fileItem.size,
           filePath: fileItem.path,
-          fileAccessUrl: null,
+          fileAccessUrl: baseUrl + '/file/image/' + req.fileImageYYYYMM + '/' + fileItem.filename,
           sortNo: newImageScreenShotSort[i],
           createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
           createdIp: req.real_ip,
