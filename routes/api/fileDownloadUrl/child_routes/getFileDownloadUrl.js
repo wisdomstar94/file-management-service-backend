@@ -1273,6 +1273,11 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
             model: db.FmsCodes,
             attributes: ['code', 'codeName'],
           },
+          {
+            as: 'FmsFileDownloadAccessConditionStatusCodes',
+            model: db.FmsCodes,
+            attributes: ['code', 'codeName'],
+          }
         ],
         group: ['conditionType'],
       });

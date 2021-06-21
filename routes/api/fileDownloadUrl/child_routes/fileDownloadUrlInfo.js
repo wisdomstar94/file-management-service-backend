@@ -161,8 +161,8 @@ const fileDownloadUrlInfo = wrapper(async(req, res, next) => {
         as: 'FmsTargetFileVersions',
         model: db.FmsFileVersions,
         // attributes: FmsTargetFileVersionsAttributes,
-        attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode'],
-        required: true,
+        attributes: ['fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode', 'fileDownloadName'],
+        required: false,
       },
       {
         as: 'FmsCreaterUsers',
@@ -209,6 +209,11 @@ const fileDownloadUrlInfo = wrapper(async(req, res, next) => {
           model: db.FmsCodes,
           attributes: ['code', 'codeName'],
         },
+        {
+          as: 'FmsFileDownloadAccessConditionStatusCodes',
+          model: db.FmsCodes,
+          attributes: ['code', 'codeName'],
+        }
       ],
       group: ['conditionType'],
     });
