@@ -98,7 +98,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024009,
         msg: myResultCode[20024009].msg,
@@ -121,7 +121,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024010,
         msg: myResultCode[20024010].msg,
@@ -134,7 +134,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024020,
         msg: myResultCode[20024020].msg,
@@ -147,7 +147,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024030,
         msg: myResultCode[20024030].msg,
@@ -166,7 +166,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024040,
         msg: myResultCode[20024040].msg,
@@ -180,7 +180,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024050,
         msg: myResultCode[20024050].msg,
@@ -193,7 +193,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024060,
         msg: myResultCode[20024060].msg,
@@ -206,7 +206,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024070,
         msg: myResultCode[20024070].msg,
@@ -226,7 +226,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024080,
         msg: myResultCode[20024080].msg,
@@ -246,7 +246,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
-          result: 'fail',
+          result: 'failure',
           headTail: req.accessUniqueKey,
           code: 20024090,
           msg: myResultCode[20024090].msg,
@@ -261,7 +261,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024100,
         msg: myResultCode[20024100].msg,
@@ -281,7 +281,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024110,
         msg: myResultCode[20024110].msg,
@@ -301,7 +301,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
-          result: 'fail',
+          result: 'failure',
           headTail: req.accessUniqueKey,
           code: 20024120,
           msg: myResultCode[20024120].msg,
@@ -316,7 +316,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024130,
         msg: myResultCode[20024130].msg,
@@ -330,7 +330,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
-          result: 'fail',
+          result: 'failure',
           headTail: req.accessUniqueKey,
           code: 20024140,
           msg: myResultCode[20024140].msg,
@@ -345,7 +345,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024150,
         msg: myResultCode[20024150].msg,
@@ -359,7 +359,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
-          result: 'fail',
+          result: 'failure',
           headTail: req.accessUniqueKey,
           code: 20024160,
           msg: myResultCode[20024160].msg,
@@ -374,7 +374,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024170,
         msg: myResultCode[20024170].msg,
@@ -387,7 +387,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024180,
         msg: myResultCode[20024180].msg,
@@ -400,7 +400,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024190,
         msg: myResultCode[20024190].msg,
@@ -414,7 +414,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024200,
         msg: myResultCode[20024200].msg,
@@ -428,7 +428,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024210,
         msg: myResultCode[20024210].msg,
@@ -441,7 +441,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'fail',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20024220,
         msg: myResultCode[20024220].msg,

@@ -91,6 +91,8 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     fileKey,
     fileLabelName,
     fileVersionKey,
+    createdAtStart,
+    createdAtEnd,
     fileDownloadUrlAccessCountStart,
     fileDownloadUrlAccessCountEnd,
     fileDownloadPossibleDateTimeStart,
@@ -474,6 +476,60 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
       OpAndArray.push({
         fileVersionKey: {
           [Op.in]: fileVersionKey,
+        },
+      });
+    }
+  }
+
+  // createdAtStart 체크 : optional
+  if (typeof createdAtStart === 'string') {
+    if (myDate(createdAtStart).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'KbbF1617691303153rpx');
+        if (!isFileCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046042,
+              msg: myResultCode[20046042].msg,
+            },
+          }));
+          return;
+        }
+      }
+
+      OpAndArray.push({
+        createdAt:{
+          [Op.gte]: createdAtStart,
+        },
+      });
+    }
+  }
+
+  // createdAtEnd 체크 : optional
+  if (typeof createdAtEnd === 'string') {
+    if (myDate(createdAtEnd).isValid()) {
+      if (!isFileAllSearchPossible) {
+        const isFileCreatedAtSearchPossible = await db.isActivePermission(loginInfo.userKey, 'KbbF1617691303153rpx');
+        if (!isFileCreatedAtSearchPossible) {
+          res.status(200).json(myValueLog({
+            req: req,
+            obj: {
+              result: 'failure',
+              headTail: req.accessUniqueKey,
+              code: 20046043,
+              msg: myResultCode[20046043].msg,
+            },
+          }));
+          return;
+        }
+      }
+
+      OpAndArray.push({
+        createdAt:{
+          [Op.lte]: createdAtEnd,
         },
       });
     }
@@ -1093,7 +1149,7 @@ const getFileDownloadUrl = wrapper(async(req, res, next) => {
     'bezBsTe1617691493886', // URL 상태
     'lpIglo1617691523078e', // 다운로드 (접근)제한 표시
   ]);
-  const FmsFileDownloadUrlsAttributes = [];
+  const FmsFileDownloadUrlsAttributes = ['seq'];
   const FmsFileDownloadUrlTargetUsersAttributes = [];
   const FmsTargetFilesAttributes = [];
   const FmsTargetFileVersionsAttributes = [];
