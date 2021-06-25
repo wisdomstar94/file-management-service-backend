@@ -262,7 +262,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
   //   return;
   // }
 
-  if (fileVersionKey !== 'recent') {
+  if (fileVersionKey !== 'null') {
     const fileVersionKeyResult = await db.FmsFileVersions.findOne({
       where: {
         fileKey: fileKey, 
@@ -637,7 +637,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
       fileDownloadUrlKey: newFileDownloadUrlKey,
       downloadTargetUserKey: downloadTargetUserKey,
       fileKey: fileKey,
-      fileVersionKey: fileVersionKey === 'recent' ? null : fileVersionKey,
+      fileVersionKey: fileVersionKey === 'null' ? null : fileVersionKey,
       fileDownloadUrlAccessCount: 0,
       fileDownloadPossibleDateTimeStart: fileDownloadPossibleDateTimeStart,
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
@@ -660,7 +660,7 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
 
       let insertValue = item.value;
       if (typeof item.value === 'string' && item.conditionType === 'FDUCT00000003') {
-        insertValue = myCrypto.encrypt({ originalValue: item.value });
+        // insertValue = myCrypto.encrypt({ originalValue: item.value });
       }
 
       if (item.type === 'new') {

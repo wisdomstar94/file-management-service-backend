@@ -347,7 +347,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     //   return;
     // }
 
-    if (fileVersionKey !== 'recent') {
+    if (fileVersionKey !== 'null') {
       const fileVersionKeyResult = await db.FmsFileVersions.findOne({
         where: {
           fileKey: fileDownloadUrlKeyResult.fileKey,
@@ -828,7 +828,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     const update = {
       downloadTargetUserKey: downloadTargetUserKey,
       // fileKey: fileKey,
-      fileVersionKey: fileVersionKey === 'recent' ? null : fileVersionKey,
+      fileVersionKey: fileVersionKey === 'null' ? null : fileVersionKey,
       fileDownloadPossibleDateTimeStart: fileDownloadPossibleDateTimeStart,
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
       fileDownloadLimitMaxCount: fileDownloadLimitMaxCount,
@@ -853,7 +853,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
 
       let insertValue = item.value;
       if (typeof item.value === 'string' && item.conditionType === 'FDUCT00000003') {
-        insertValue = myCrypto.encrypt({ originalValue: item.value });
+        // insertValue = myCrypto.encrypt({ originalValue: item.value });
       }
 
       if (item.type === 'new') {
@@ -944,7 +944,7 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'success',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20031390,
         msg: myResultCode[20031390].msg,

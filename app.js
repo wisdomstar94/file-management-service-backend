@@ -84,6 +84,7 @@ app.use(helmet.referrerPolicy({
 }));
 app.use(setRequestInfoLogging);
 app.use(cors(corsOptions));
+// app.use(cors());
 // app.use(csrf());
 
 // static path match
