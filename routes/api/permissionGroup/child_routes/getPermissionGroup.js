@@ -31,7 +31,7 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
     return;
   }
 
-  // const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
+  const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
 
 
@@ -61,7 +61,20 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
   const order = [];
   const OpAndArray = [];
 
-
+  if (!isAllUserControl) {
+    const childUserKeys = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
+    const permissionGroupKeys = await db.FmsPermissionGroupInfos.findAll({
+      attributes: ['permissionGroupKey'],
+      where: {
+        createrUserKey: childUserKeys,
+      },
+    });
+    OpAndArray.push({
+      permissionGroupKey: {
+        [Op.in]: permissionGroupKeys.map((x) => { return x.permissionGroupKey; }),
+      },
+    });
+  }
 
   // permissionGroupKey 체크
   if (typeof permissionGroupKey === 'string') {

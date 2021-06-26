@@ -78,8 +78,18 @@ const getCompany = wrapper(async(req, res, next) => {
 
   // isAllUserControl 체크
   if (!isAllUserControl) {
-    // const childUserKey = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
-    // where.createrUserKey = childUserKey;
+    const childUserKeys = await db.FmsUsers.getChildAllUserKeys(loginInfo.userKey);
+    const companyKeys = await db.FmsCompanyInfos.findAll({
+      attributes: ['companyKey'],
+      where: {
+        createrUserKey: childUserKeys,
+      },
+    });
+    OpAndArray.push({
+      companyKey: {
+        [Op.in]: companyKeys.map((x) => { return x.companyKey; }),
+      },
+    });
   }
 
   

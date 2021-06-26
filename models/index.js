@@ -22,6 +22,8 @@ const FmsFileDownloadUrls = require('./FmsFileDownloadUrls');
 const FmsFileDownloadUrlAccessConditions = require('./FmsFileDownloadUrlAccessConditions');
 const myDate = require('../routes/librarys/myDate');
 const myGetMakeToken = require('../routes/librarys/myGetMakeToken').myGetMakeToken;
+const FmsCompanyInfos = require('./FmsCompanyInfos');
+const FmsPermissionGroupInfos = require('./FmsPermissionGroupInfos');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
 const config = require(__dirname + '/../config/config.js')[env];
@@ -71,6 +73,8 @@ db.FmsFileImages = FmsFileImages(sequelize, Sequelize);
 db.FmsFileVersions = FmsFileVersions(sequelize, Sequelize);
 db.FmsFileDownloadUrls = FmsFileDownloadUrls(sequelize, Sequelize);
 db.FmsFileDownloadUrlAccessConditions = FmsFileDownloadUrlAccessConditions(sequelize, Sequelize);
+db.FmsCompanyInfos = FmsCompanyInfos(sequelize, Sequelize);
+db.FmsPermissionGroupInfos = FmsPermissionGroupInfos(sequelize, Sequelize);
 
 // define association
 
@@ -200,6 +204,21 @@ db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsUsers, { as: 'FmsUpdaterUs
 
 db.FmsCodes.hasMany(db.FmsFileDownloadUrlAccessConditions, { foreignKey: 'conditionStatus', sourceKey: 'code' });
 db.FmsFileDownloadUrlAccessConditions.belongsTo(db.FmsCodes, { as: 'FmsFileDownloadAccessConditionStatusCodes', foreignKey: 'conditionStatus', sourceKey: 'code' });
+
+// FmsCompanyInfos
+db.FmsCompanys.hasMany(db.FmsCompanyInfos, { foreignKey: 'companyKey', sourceKey: 'companyKey' });
+db.FmsCompanyInfos.belongsTo(db.FmsCompanys, { as: 'FmsCompanyInfoCompany', foreignKey: 'companyKey', sourceKey: 'companyKey' });
+
+db.FmsUsers.hasMany(db.FmsCompanyInfos, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsCompanyInfos.belongsTo(db.FmsUsers, { as: 'FmsCompanyInfoUser', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
+// FmsPermissionGroupInfos
+db.FmsPermissionGroups.hasMany(db.FmsPermissionGroupInfos, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
+db.FmsPermissionGroupInfos.belongsTo(db.FmsPermissionGroups, { as: 'FmsPermissionGroupInfoPermissionGroup', foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
+
+db.FmsUsers.hasMany(db.FmsPermissionGroupInfos, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+db.FmsPermissionGroupInfos.belongsTo(db.FmsUsers, { as: 'FmsPermissionGroupInfoUser', foreignKey: 'createrUserKey', sourceKey: 'userKey' });
+
 
 
 

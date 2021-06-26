@@ -1,6 +1,7 @@
 const db = require('../../../../models');
 const wrapper = require('../../../librarys/myAsyncWrapper');
 const myCrypto = require('../../../librarys/myCrypto');
+const myLogger = require('../../../librarys/myLogger');
 const myValueLog = require('../../../librarys/myValueLog');
 const myResultCode = require('../../../librarys/myResultCode');
 const myDate = require('../../../librarys/myDate');
@@ -388,6 +389,10 @@ const createCompany = wrapper(async(req, res, next) => {
     return;
   }
 
+  // 트랜잭션 시작
+  const transaction = await db.sequelize.transaction();
+  myLogger.info(req.logHeadTail + 'transaction start..!');
+
   // 새로운 회사 생성
   const newCompanyKey = myGetMakeToken({ strlength: 20 });
 
@@ -406,7 +411,37 @@ const createCompany = wrapper(async(req, res, next) => {
     companyStatus: companyStatus,
   };
 
-  const createResult = await db.FmsCompanys.create(create);
+  try {
+    const createResult = await db.FmsCompanys.create(create, {
+      transaction: transaction,
+    });
+
+    await db.FmsCompanyInfos.create({
+      companyInfoKey: myGetMakeToken({ strlength: 20 }),
+      companyKey: newCompanyKey,
+      createrUserKey: loginInfo.userKey,
+    }, {
+      transaction: transaction,
+    });
+
+    await transaction.commit();
+  } catch (e) {
+    await transaction.rollback();
+    myLogger.info(req.logHeadTail + 'transaction rollback..!');
+    myLogger.error(req.logHeadTail + 'e.stack => ' + e.stack);
+    myLogger.error(req.logHeadTail + 'e => ' + JSON.stringify(e));
+
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20020750,
+        msg: myResultCode[20020750].msg,
+      },
+    }));
+    return;
+  }
 
   await db.insertLog({
     logType: 'LOGTY00000030', // 회사 등록 성공

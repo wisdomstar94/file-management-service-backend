@@ -413,6 +413,14 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
       });
 
       permissionGroupKeyReal = newPermissionGroupKey;
+
+      await db.FmsPermissionGroupInfos.create({
+        permissionGroupInfoKey: myGetMakeToken({ strlength: 20 }),
+        permissionGroupKey: newPermissionGroupKey,
+        createrUserKey: loginInfo.userKey,
+      }, {
+        transaction: transaction
+      });
     } else {
       isMode = 'modify';
 
@@ -563,7 +571,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
     res.status(200).json(myValueLog({
       req: req,
       obj: {
-        result: 'success',
+        result: 'failure',
         headTail: req.accessUniqueKey,
         code: 20016140,
         msg: myResultCode[20016140].msg,

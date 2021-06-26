@@ -153,15 +153,49 @@ const createPermissionGroup = wrapper(async(req, res, next) => {
   // 새로운 권한 종류 생성
   const newPermissionGroupKey = myGetMakeToken({ strlength: 20 });
 
-  const createResult = await db.FmsPermissionGroups.create({
-    permissionGroupKey: newPermissionGroupKey,
-    permissionGroupName: permissionGroupName,
-    permissionGroupDescription: permissionGroupDescription,
-    sortNo: sortNo,
-    createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
-    createdIp: req.real_ip,
-    permissionGroupStatus: 'PEGRS00000001',
-  });
+  // 트랜잭션 시작
+  const transaction = await db.sequelize.transaction();
+  myLogger.info(req.logHeadTail + 'transaction start..!');
+
+  try {
+    const createResult = await db.FmsPermissionGroups.create({
+      permissionGroupKey: newPermissionGroupKey,
+      permissionGroupName: permissionGroupName,
+      permissionGroupDescription: permissionGroupDescription,
+      sortNo: sortNo,
+      createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
+      createdIp: req.real_ip,
+      permissionGroupStatus: 'PEGRS00000001',
+    }, {
+      transaction: transaction
+    });
+
+    await db.FmsPermissionGroupInfos.create({
+      permissionGroupInfoKey: myGetMakeToken({ strlength: 20 }),
+      permissionGroupKey: newPermissionGroupKey,
+      createrUserKey: loginInfo.userKey,
+    }, {
+      transaction: transaction
+    });
+
+    await transaction.commit();
+  } catch (e) {
+    await transaction.rollback();
+    myLogger.info(req.logHeadTail + 'transaction rollback..!');
+    myLogger.error(req.logHeadTail + 'e.stack => ' + e.stack);
+    myLogger.error(req.logHeadTail + 'e => ' + JSON.stringify(e));
+
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20014090,
+        msg: myResultCode[20014090].msg,
+      },
+    }));
+    return;
+  }
 
   res.status(200).json(myValueLog({
     req: req,
