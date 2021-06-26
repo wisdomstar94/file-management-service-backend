@@ -14,6 +14,7 @@ const child_route__idDuplicateCheck = require('./child_routes/idDuplicateCheck')
 const child_route__signUp = require('./child_routes/signUp');
 const child_route__authCheck = require('./child_routes/authCheck');
 const child_route__getLoginInfo = require('./child_routes/getLoginInfo');
+const child_route__permissionCheck = require('./child_routes/permissionCheck');
 
 /*
   /api/user
@@ -30,5 +31,6 @@ router.post('/idDuplicateCheck', child_route__idDuplicateCheck);
 router.post('/signUp', child_route__signUp);
 router.post('/authCheck', jwtTokenCheck, child_route__authCheck);
 router.post('/getLoginInfo', jwtTokenCheck, child_route__getLoginInfo);
+router.post('/permissionCheck', jwtTokenCheck, child_route__permissionCheck);
 
 module.exports = router;

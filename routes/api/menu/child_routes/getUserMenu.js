@@ -129,7 +129,13 @@ const getUserMenu = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      menuCategoryListReal: menuCategoryListReal,
+      menuCategoryListReal: menuCategoryListReal.filter((x) => {
+        if (x.menuList.length > 0) {
+          return true;
+        } else {
+          return false;
+        }
+      }),
     },
   }));
   return;
