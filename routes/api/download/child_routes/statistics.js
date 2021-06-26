@@ -143,6 +143,8 @@ const statistics = wrapper(async(req, res, next) => {
       SELECT 
 
       \`FFDL\`.*, 
+      \`FF\`.\`fileLabelName\` AS \`fileLabelName\`, 
+      \`FFV\`.\`fileVersionName\` AS \`fileVersionName\`, 
       \`FU\`.\`userId\` AS \`userId\`, 
       \`FC\`.\`companyName\` AS \`companyName\` 
 
@@ -153,6 +155,15 @@ const statistics = wrapper(async(req, res, next) => {
 
       LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsCompanys\` AS \`FC\` 
       ON \`FC\`.\`companyKey\` = \`FU\`.\`companyKey\` 
+
+      LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileDownloadUrls\` AS \`FFDU\` 
+      ON \`FFDU\`.\`fileDownloadUrlKey\` = \`FFDL\`.\`fileDownloadUrlKey\`
+
+      LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFiles\` AS \`FF\` 
+      ON \`FF\`.\`fileKey\` = \`FFDU\`.\`fileKey\` 
+      
+      LEFT JOIN \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileVersions\` AS \`FFV\` 
+      ON \`FFV\`.\`fileVersionKey\` = \`FFDU\`.\`fileVersionKey\` 
 
       WHERE 1 = 1
       ${addWhere}
@@ -184,6 +195,8 @@ const statistics = wrapper(async(req, res, next) => {
     if (!isFileDownloadUrlKeyGroupingExist(userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList, item.fileDownloadUrlKey)) {
       userGroupingList[targetUserGroupingIndex].fileDownloadUrlKeyGroupingList.push({
         fileDownloadUrlKey: item.fileDownloadUrlKey,
+        fileLabelName: item.fileLabelName,
+        fileVersionName: item.fileVersionName,
         downloadCount: 0,
       });
     }
@@ -200,7 +213,7 @@ const statistics = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
-      userGroupingList: userGroupingList,
+      list: userGroupingList,
     },
   }));
   return;

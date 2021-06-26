@@ -7,6 +7,7 @@ const child_route__downloadPasswordCheck = require('./child_routes/downloadPassw
 const child_route__statistics = require('./child_routes/statistics');
 const child_route__statisticsDetailInfo = require('./child_routes/statisticsDetailInfo');
 const child_route__downloadCheck = require('./child_routes/downloadCheck');
+const child_route__yyyymmList = require('./child_routes/yyyymmList');
 
 
 /*
@@ -17,6 +18,7 @@ router.post('/downloadCheck', child_route__downloadCheck);
 router.post('/downloadPasswordCheck', child_route__downloadPasswordCheck);
 router.post('/statistics', jwtTokenCheck, child_route__statistics);
 router.post('/statistics/detailInfo', jwtTokenCheck, child_route__statisticsDetailInfo);
+router.post('/yyyymmList', jwtTokenCheck, child_route__yyyymmList);
 
 
 module.exports = router;
