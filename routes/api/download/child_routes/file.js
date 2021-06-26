@@ -212,7 +212,8 @@ const file = wrapper(async(req, res, next) => {
 
     if (typeof downloadjwt !== 'string' || downloadjwt === '') {
       // 파일정보 확인 페이지로 리다이렉트 (프론트)
-      res.redirect('/file/download/' + fileDownloadUrlKey);
+      console.log('redirect', req.front_base_url + '/file/download/' + fileDownloadUrlKey);
+      res.redirect(req.front_base_url + '/file/download/' + fileDownloadUrlKey);
       return;
     }
 
@@ -296,7 +297,8 @@ const file = wrapper(async(req, res, next) => {
 
     if (typeof passwordjwt !== 'string' || passwordjwt === '') {
       // 압호 임력 페이지로 리다이렉트 (프론트)
-      res.redirect('/file/download/' + fileDownloadUrlKey + '/requirePassword');
+      console.log('redirect', req.front_base_url + '/file/download/' + fileDownloadUrlKey);
+      res.redirect(req.front_base_url + '/file/download/' + fileDownloadUrlKey);
       return;
     }
 
@@ -458,6 +460,7 @@ const file = wrapper(async(req, res, next) => {
     await db.insertFileDownloadLog({
       downloadTargetUserKey: fileDownloadUrlKeyResult.downloadTargetUserKey,
       fileDownloadUrlKey: fileDownloadUrlKey,
+      fileVersionKey: fileVersionInfo.fileVersionKey,
       userIdLogAt: targetUserInfo.userId,
       fileLabelNameLogAt: fileDownloadUrlKeyResult.FmsTargetFiles.fileLabelName,
       fileVersionCodeLogAt: fileVersionInfo.fileVersionCode,

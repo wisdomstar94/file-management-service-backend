@@ -21,6 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     downloadTargetUserKey: DataTypes.STRING,
     fileDownloadUrlKey: DataTypes.STRING,
+    fileVersionKey: DataTypes.STRING,
     userIdLogAt: DataTypes.STRING,
     fileLabelNameLogAt: DataTypes.STRING,
     fileVersionCodeLogAt: DataTypes.INTEGER,

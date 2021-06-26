@@ -64,6 +64,12 @@ cron.schedule('*/1 * * * *', async() => {
         comment: '파일 다운로드시의 다운로드 URL 고유 식별키',
         // FK
       },
+      fileVersionKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '파일 다운로드시의 이 다운로드 URL 에 설정된 파일 버전 식별키',
+        // FK
+      },
       userIdLogAt: {
         type: Sequelize.STRING(50),
         allowNull: false,
@@ -138,6 +144,15 @@ cron.schedule('*/1 * * * *', async() => {
         field: 'fileDownloadUrlKey',
       },
     });
+    await queryInterface.addConstraint(now_table_name, {
+      fields: ['fileVersionKey'],
+      type: 'foreign key',
+      name: `ffdlog${now_YYYYMM}_fileVersionKey_fk`,
+      references: { // Required field
+        table: 'FmsFileVersions',
+        field: 'fileVersionKey',
+      },
+    });
   }
 
 
@@ -174,6 +189,12 @@ cron.schedule('*/1 * * * *', async() => {
         type: Sequelize.STRING(20),
         allowNull: false,
         comment: '파일 다운로드시의 다운로드 URL 고유 식별키',
+        // FK
+      },
+      fileVersionKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '파일 다운로드시의 이 다운로드 URL 에 설정된 파일 버전 식별키',
         // FK
       },
       userIdLogAt: {
@@ -248,6 +269,15 @@ cron.schedule('*/1 * * * *', async() => {
       references: { // Required field
         table: 'FmsFileDownloadUrls',
         field: 'fileDownloadUrlKey',
+      },
+    });
+    await queryInterface.addConstraint(tomorrow_table_name, {
+      fields: ['fileVersionKey'],
+      type: 'foreign key',
+      name: `ffdlog${tomorrow_YYYYMM}_fileVersionKey_fk`,
+      references: { // Required field
+        table: 'FmsFileVersions',
+        field: 'fileVersionKey',
       },
     });
   }

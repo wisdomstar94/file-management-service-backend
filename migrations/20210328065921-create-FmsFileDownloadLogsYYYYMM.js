@@ -21,6 +21,12 @@ module.exports = {
         comment: '파일 다운로드시의 통계 대상 회원 고유키',
         // FK
       },
+      fileVersionKey: {
+        type: Sequelize.STRING(20),
+        allowNull: true,
+        comment: '파일 다운로드시의 이 다운로드 URL 에 설정된 파일 버전 식별키파일 다운로드시의 통계 대상 회원 고유키',
+        // FK
+      },
       fileDownloadUrlKey: {
         type: Sequelize.STRING(20),
         allowNull: false,

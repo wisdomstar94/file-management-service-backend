@@ -133,9 +133,11 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
     return;
   }
 
+  console.log('fileDownloadUrlKeyResult', fileDownloadUrlKeyResult);
+
   // fileDownloadUrlKeyResult.fileVersionKey 체크
   let fileVersionInfo = null;
-  if (typeof fileDownloadUrlKeyResult.fileVersionKey !== 'string') {
+  if (fileDownloadUrlKeyResult.fileVersionKey === null) {
     // 최신버전 정보 가져오기
     fileVersionInfo = await db.FmsFileVersions.findOne({
       where: {
@@ -172,11 +174,28 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
     return;
   }
 
+  // 접근 제한 종류 체크
+  const conditionResult = await db.FmsFileDownloadUrlAccessConditions.findAll({
+    where: {
+      fileDownloadUrlKey: fileDownloadUrlKey,
+      conditionType: 'FDUCT00000003',
+      conditionStatus: 'FDUCS00000001',
+      isDeletedRow: 'N',
+    },
+  });
+
+  let requirePassword = false;
+  if (conditionResult.length > 0) {
+    requirePassword = true;
+  }
+
+
   // 다운로드 되기 전 외부에 공개될 파일의 간단한 정보 가져오기
   const fileNormalInfo = {
     fileDownloadName: fileVersionInfo.fileDownloadName,
     fileSize: fileVersionInfo.fileSize,
     fileMimeType: fileVersionInfo.fileMimeType,
+    requirePassword: requirePassword,
   };
 
   if (fileKeyResult.fileStoreDescriptionOpen === 'Y') {

@@ -33,6 +33,13 @@ const setRequestInfoLogging = function(req, res, next) {
   req.real_ip = clientIP;
 
   // console.log('req', req);
+  // console.log('req.hostname', req.hostname);
+  req.is_localling = false;
+  req.front_base_url = '';
+  if (req.hostname === 'localhost') {
+    req.is_localling = true;
+    req.front_base_url = 'http://localhost:4200';
+  }
 
   // 로그 미출력 대상이 아니면
   if (!notLoggingFileType.includes(request_url_file_basename_file_type)) {

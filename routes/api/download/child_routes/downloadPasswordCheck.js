@@ -190,7 +190,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
     return;
   }
 
-  if (password !== myCrypto.decrypt({ hashedValue: FmsFileDownloadUrlAccessConditionsResult[0].value })) {
+  // if (password !== myCrypto.decrypt({ hashedValue: FmsFileDownloadUrlAccessConditionsResult[0].value })) {
+  if (password !== FmsFileDownloadUrlAccessConditionsResult[0].value) {    
     res.status(200).json(myValueLog({
       req: req,
       obj: {

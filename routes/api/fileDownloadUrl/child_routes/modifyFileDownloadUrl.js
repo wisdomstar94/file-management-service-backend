@@ -461,44 +461,46 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
   }
 
   // fileDownloadPossibleDateTimeStart & fileDownloadPossibleDateTimeEnd 체크
-  if (fileDownloadPossibleDateTimeStart !== undefined || fileDownloadPossibleDateTimeEnd !== undefined) {
-    if (typeof fileDownloadPossibleDateTimeStart !== 'string') {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20031200,
-          msg: myResultCode[20031200].msg,
-        },
-      }));
-      return;
-    }
+  if (typeof fileDownloadPossibleDateTimeStart === 'string' && typeof fileDownloadPossibleDateTimeEnd === 'string') {
+    if (myDate(fileDownloadPossibleDateTimeStart).isValid() && myDate(fileDownloadPossibleDateTimeEnd).isValid()) {
+      if (typeof fileDownloadPossibleDateTimeStart !== 'string') {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031200,
+            msg: myResultCode[20031200].msg,
+          },
+        }));
+        return;
+      }
 
-    if (typeof fileDownloadPossibleDateTimeEnd !== 'string') {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20031210,
-          msg: myResultCode[20031210].msg,
-        },
-      }));
-      return;
-    }
+      if (typeof fileDownloadPossibleDateTimeEnd !== 'string') {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031210,
+            msg: myResultCode[20031210].msg,
+          },
+        }));
+        return;
+      }
 
-    if (myDate(fileDownloadPossibleDateTimeStart).getTime() > myDate(fileDownloadPossibleDateTimeEnd).getTime()) {
-      res.status(200).json(myValueLog({
-        req: req,
-        obj: {
-          result: 'failure',
-          headTail: req.accessUniqueKey,
-          code: 20031220,
-          msg: myResultCode[20031220].msg,
-        },
-      }));
-      return;
+      if (myDate(fileDownloadPossibleDateTimeStart).getTime() > myDate(fileDownloadPossibleDateTimeEnd).getTime()) {
+        res.status(200).json(myValueLog({
+          req: req,
+          obj: {
+            result: 'failure',
+            headTail: req.accessUniqueKey,
+            code: 20031220,
+            msg: myResultCode[20031220].msg,
+          },
+        }));
+        return;
+      }
     }
   }
 

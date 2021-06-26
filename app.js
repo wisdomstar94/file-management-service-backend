@@ -3,11 +3,12 @@ const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
 // const logger = require('morgan');
 const compression = require('compression');
 // const geoip = require('geoip-lite');
 // const requestIP = require('request-ip');
-// const csrf = require("csurf");
+const csrf = require("csurf");
 const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
@@ -35,6 +36,8 @@ const fmsLogsTableCreateCron = require('./crons/fms_logs_table_create');
 const sequelize = require('./models').sequelize;
 
 // router declare
+const angularFrontRouter = require('./routes/angularFront');
+
 const apiCodeRouter = require('./routes/api/code/index');
 const apiCodeGroupRouter = require('./routes/api/codeGroup/index');
 const apiUserRouter = require('./routes/api/user/index');
@@ -73,7 +76,18 @@ app.use(express.urlencoded({ extended: false, limit: '50mb' }));
 app.use(express.raw());
 app.use(express.text());
 app.use(cookieParser(process.env.COOKIE_SECRET_KEY));
-app.use(helmet());
+app.use(session({
+  resave: true,
+  saveUninitialized: false,
+  secret: process.env.COOKIE_SECRET_KEY,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    maxAge: 60 * 60 * 1000,
+    // sameSite: 'strict'
+  },
+}))
+// app.use(helmet());
 app.use(helmet.xssFilter());
 app.use(helmet.frameguard());
 app.use(helmet.noSniff());
@@ -82,10 +96,19 @@ app.use(helmet.dnsPrefetchControl());
 app.use(helmet.referrerPolicy({
   policy: 'same-origin'
 }));
+// app.use(helmet.contentSecurityPolicy({
+//   directives: {
+//     defaultSrc: ["'self'"],
+//     styleSrc: ["'self'", "'unsafe-inline'", "'nonce'"],
+//     scriptSrc: ["'self'"],
+//     connectSrc: ["'self'"]
+//   },
+// }))
+// app.use(csrf());
 app.use(setRequestInfoLogging);
 app.use(cors(corsOptions));
 // app.use(cors());
-// app.use(csrf());
+
 
 // static path match
 app.use('/public', express.static(path.join(__dirname, 'static', 'files/')));
@@ -110,6 +133,8 @@ app.use('/api/download', apiDownloadRouter);
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
 app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
+
+app.use('*', angularFrontRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
