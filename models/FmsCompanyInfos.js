@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   FmsCompanyInfos.init({
     seq: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.BIGINT.UNSIGNED,
       unique: true,
       allowNull: false,
       autoIncrement: true,
@@ -52,8 +52,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsCompanyInfos',
+    tableName: 'FmsCompanyInfos',
     updatedAt: false,
     createdAt: false,
+    comment: '회사 부가 정보 테이블',
   });
   return FmsCompanyInfos;
 };

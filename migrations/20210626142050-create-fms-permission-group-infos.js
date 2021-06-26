@@ -39,6 +39,8 @@ module.exports = {
         allowNull: true,
         comment: '수정일',
       }
+    }, {
+      comment: '권한 그룹 부가 정보 테이블',
     });
   },
   down: async (queryInterface, Sequelize) => {

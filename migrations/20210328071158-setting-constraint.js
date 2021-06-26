@@ -408,6 +408,15 @@ module.exports = {
         field: 'fileDownloadUrlKey',
       },
     });
+    await queryInterface.addConstraint('FmsFileDownloadLogsYYYYMM', {
+      fields: ['fileVersionKey'],
+      type: 'foreign key',
+      name: `ffdlog_fileVersionKey_fk`,
+      references: { // Required field
+        table: 'FmsFileVersions',
+        field: 'fileVersionKey',
+      },
+    });
 
     // FmsJwtRefreshTokens
     await queryInterface.addConstraint('FmsJwtRefreshTokens', {

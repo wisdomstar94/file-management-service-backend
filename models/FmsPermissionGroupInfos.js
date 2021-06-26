@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   };
   FmsPermissionGroupInfos.init({
     seq: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.BIGINT.UNSIGNED,
       unique: true,
       allowNull: false,
       autoIncrement: true,
@@ -32,11 +32,13 @@ module.exports = (sequelize, DataTypes) => {
       unique: true,
       allowNull: false,
       comment: '권한 그룹 고유 식별키',
+      // FK
     },
     createrUserKey: {
       type: DataTypes.STRING(20),
       allowNull: false,
       comment: '회원 고유 식별키',
+      // FK
     },
     createdAt: {
       type: DataTypes.DATE,
@@ -44,7 +46,7 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
       comment: '생성일',
     },
-    updateAt: {
+    updatedAt: {
       type: DataTypes.DATE,
       allowNull: true,
       comment: '수정일',
@@ -52,8 +54,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'FmsPermissionGroupInfos',
+    tableName: 'FmsPermissionGroupInfos',
     updatedAt: false,
     createdAt: false,
+    comment: '권한 그룹 부가 정보 테이블',
   });
   return FmsPermissionGroupInfos;
 };

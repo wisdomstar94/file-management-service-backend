@@ -28,22 +28,59 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   FmsJwtRefreshTokens.init({
-    seq: DataTypes.BIGINT,
-    jwtRefreshTokenKey: {
-      type: DataTypes.STRING,
-      primaryKey: true,
+    seq: {
+      type: DataTypes.BIGINT.UNSIGNED,
+      unique: true,
+      allowNull: false,
+      autoIncrement: true,
+      comment: '대체키 숫자값',
     },
-    userKey: DataTypes.STRING,
-    agent: DataTypes.STRING,
-    createdAt: DataTypes.DATE,
-    createdIp: DataTypes.STRING,
-    endLineDateTime: DataTypes.DATE,
-    isDeletedRow: DataTypes.ENUM(['Y', 'N']),
+    jwtRefreshTokenKey: {
+      type: DataTypes.STRING(20),
+      primaryKey: true,
+      allowNull: false,
+      comment: 'JWT 리프레쉬 토큰 고유 식별키',
+    },
+    userKey: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      comment: '회원 고유 식별키',
+      // FK
+    },
+    agent: {
+      type: DataTypes.STRING(300),
+      allowNull: false,
+      comment: '리프레시 토큰 발급 당시 클라이언트로부터 온 헤더의 user-agent 값',
+    },
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: sequelize.literal('CURRENT_TIMESTAMP'),
+      comment: '생성일',
+    },
+    createdIp: {
+      type: DataTypes.STRING(40),
+      allowNull: false,
+      comment: '생성시 요청 IP',
+    },
+    endLineDateTime: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      comment: '토큰 유효 만료 날짜',
+    },
+    isDeletedRow: {
+      type: DataTypes.ENUM(['Y', 'N']),
+      allowNull: false,
+      defaultValue: 'N',
+      comment: '행 삭제 여부',
+    },
   }, {
     sequelize,
     modelName: 'FmsJwtRefreshTokens',
+    tableName: 'FmsJwtRefreshTokens',
     updatedAt: false,
     createdAt: false,
+    comment: 'JWT 리프레시 토큰 테이블',
   });
   return FmsJwtRefreshTokens;
 };

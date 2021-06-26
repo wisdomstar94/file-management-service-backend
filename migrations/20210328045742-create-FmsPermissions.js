@@ -67,8 +67,7 @@ module.exports = {
     }, {
       comment: `각 메뉴별로 권한 내용이 지정된 테이블 
 (권한 그룹 생성 페이지에서 여기에 해당하는 내용이 모두 표시되며, 
-여기중에 원하는 권한만 체크를 하면 FmsPermissionGroupUploads에 
-행이 생성된다)`,
+여기중에 원하는 권한만 체크를 하면 FmsPermissionGroupUploads에 행이 생성된다)`,
     });
     await queryInterface.addIndex('FmsPermissions', ['isDeletedRow']);
   },

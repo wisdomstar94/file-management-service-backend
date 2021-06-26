@@ -39,6 +39,8 @@ module.exports = {
         allowNull: true,
         comment: '수정일',
       }
+    }, {
+      comment: '회사 부가 정보 테이블',
     });
   },
   down: async (queryInterface, Sequelize) => {
