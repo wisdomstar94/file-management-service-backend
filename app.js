@@ -13,6 +13,18 @@ const cors = require('cors');
 const helmet = require('helmet');
 require('dotenv').config();
 
+const redis = require('redis');
+const RedisStore = require('connect-redis')(session);
+const RedisClient = redis.createClient(process.env.MAIN_REDIS_PORT, process.env.MAIN_REDIS_IP);
+const redisConnectionResult = RedisClient.auth(process.env.MAIN_REDIS_PW, function(err) {
+  if (err) {
+    console.log('Redis 에러 발생');
+    console.log(err, " 에러 발생했습니다.");
+  } else {
+    console.log('Redis 연결 성공');
+  }
+});
+
 const corsOptions = {
   origin: 'http://localhost:4200',
   credentials: true,
@@ -86,6 +98,13 @@ app.use(session({
     maxAge: 60 * 60 * 1000,
     // sameSite: 'strict'
   },
+  store: new RedisStore({
+    client: RedisClient,
+    host: process.env.MAIN_REDIS_IP,
+    port: process.env.MAIN_REDIS_PORT,
+    pass: process.env.MAIN_REDIS_PW,
+    logErrors: true,
+  }),
 }))
 // app.use(helmet());
 app.use(helmet.xssFilter());
@@ -104,9 +123,9 @@ app.use(helmet.referrerPolicy({
 //     connectSrc: ["'self'"]
 //   },
 // }))
-// app.use(csrf());
 app.use(setRequestInfoLogging);
-app.use(cors(corsOptions));
+app.use(csrf());
+// app.use(cors(corsOptions));
 // app.use(cors());
 
 

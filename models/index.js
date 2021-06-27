@@ -78,9 +78,13 @@ db.FmsPermissionGroupInfos = FmsPermissionGroupInfos(sequelize, Sequelize);
 
 // define association
 
-// FmsCodeGroups
-db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
-db.FmsCodeGroups.belongsTo(db.FmsCodes, { foreignKey: 'codeGroup', targetKey: 'codeGroup' });
+// // FmsCodeGroups
+// db.FmsCodes.hasMany(db.FmsCodeGroups, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
+// db.FmsCodeGroups.belongsTo(db.FmsCodes, { foreignKey: 'codeGroup', targetKey: 'codeGroup' });
+
+// FmsCodes
+db.FmsCodeGroups.hasMany(db.FmsCodes, { foreignKey: 'codeGroup', sourceKey: 'codeGroup' });
+db.FmsCodes.belongsTo(db.FmsCodeGroups, { foreignKey: 'codeGroup', targetKey: 'codeGroup' });
 
 // FmsMenuCategorys
 db.FmsCodes.hasMany(db.FmsMenuCategorys, { foreignKey: 'menuCategoryStatus', sourceKey: 'code' });
