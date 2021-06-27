@@ -104,6 +104,9 @@ db.FmsPermissions.belongsTo(db.FmsMenus, { foreignKey: 'menuKey', sourceKey: 'me
 db.FmsCodes.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 db.FmsPermissionGroups.belongsTo(db.FmsCodes, { as: 'FmsPermissionGroupStatusCodes', foreignKey: 'permissionGroupStatus', sourceKey: 'code' });
 
+// db.FmsPermissionGroupInfos.hasMany(db.FmsPermissionGroups, { foreignKey: 'permissionGroupInfoKey', sourceKey: 'permissionGroupInfoKey' });
+// db.FmsPermissionGroups.belongsTo(db.FmsPermissionGroupInfos, { as: 'FmsPermissionGroupInfo', foreignKey: 'permissionGroupInfoKey', sourceKey: 'permissionGroupInfoKey' });
+
 // FmsPermissionGroupUploads
 db.FmsPermissionGroups.hasMany(db.FmsPermissionGroupUploads, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' });
 db.FmsPermissionGroupUploads.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey', sourceKey: 'permissionGroupKey' })
@@ -136,6 +139,9 @@ db.FmsUsers.belongsTo(db.FmsPermissionGroups, { foreignKey: 'permissionGroupKey'
 // FmsCompanys
 db.FmsCodes.hasMany(db.FmsCompanys, { foreignKey: 'companyStatus', sourceKey: 'code' });
 db.FmsCompanys.belongsTo(db.FmsCodes, { as: 'FmsCompanyStatusCodes', foreignKey: 'companyStatus', sourceKey: 'code' });
+
+// db.FmsCompanyInfos.hasMany(db.FmsCompanys, { foreignKey: 'companyInfoKey', sourceKey: 'companyInfoKey' });
+// db.FmsCompanys.belongsTo(db.FmsCompanyInfos, { as: 'FmsCompanyInfo', foreignKey: 'companyInfoKey', sourceKey: 'companyInfoKey' });
 
 // FmsFiles
 db.FmsUsers.hasMany(db.FmsFiles, { foreignKey: 'createrUserKey', sourceKey: 'userKey' });

@@ -152,6 +152,7 @@ const createPermissionGroup = wrapper(async(req, res, next) => {
 
   // 새로운 권한 종류 생성
   const newPermissionGroupKey = myGetMakeToken({ strlength: 20 });
+  const newPermissionGroupInfoKey = myGetMakeToken({ strlength: 20 });
 
   // 트랜잭션 시작
   const transaction = await db.sequelize.transaction();
@@ -166,12 +167,13 @@ const createPermissionGroup = wrapper(async(req, res, next) => {
       createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
       createdIp: req.real_ip,
       permissionGroupStatus: 'PEGRS00000001',
+      // permissionGroupInfoKey: newPermissionGroupInfoKey,
     }, {
       transaction: transaction
     });
 
     await db.FmsPermissionGroupInfos.create({
-      permissionGroupInfoKey: myGetMakeToken({ strlength: 20 }),
+      permissionGroupInfoKey: newPermissionGroupInfoKey,
       permissionGroupKey: newPermissionGroupKey,
       createrUserKey: loginInfo.userKey,
     }, {

@@ -1231,7 +1231,8 @@ const getCompany = wrapper(async(req, res, next) => {
   ]);
   const FmsCompanyAttributes = [];
   const FmsCompanyStatusCodesAttributes = [];
-  
+  const FmsCompanyInfoCompanyAttributes = ['companyKey', 'createrUserKey'];
+  const FmsCompanyInfoCompanyUserAttributes = ['userKey', 'userId'];
 
   activePermissionKeys.includes('S1617684955017JFIumn') ? FmsCompanyAttributes.push('seq') : null;
   activePermissionKeys.includes('vk1617685109763LDPNY') ? FmsCompanyAttributes.push('companyKey') : null;
@@ -1268,6 +1269,17 @@ const getCompany = wrapper(async(req, res, next) => {
         attributes: FmsCompanyStatusCodesAttributes,
         // attributes: ['code', 'codeName'],
       },
+      // {
+      //   as: 'FmsCompanyInfoCompany',
+      //   model: db.FmsCompanyInfos,
+      //   attributes: FmsCompanyInfoCompanyAttributes,
+      //   include: [
+      //     {
+      //       model: db.FmsUsers,
+      //       attributes: FmsCompanyInfoCompanyUserAttributes,
+      //     }
+      //   ],
+      // }
     ],
     offset: getPageInfo.startIndex,
     limit: getPageInfo.pageLength,

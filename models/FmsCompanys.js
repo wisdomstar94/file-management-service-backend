@@ -90,6 +90,13 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       comment: '회사 상태',
     },
+    // companyInfoKey: {
+    //   type: DataTypes.STRING(20),
+    //   unique: true,
+    //   allowNull: false,
+    //   comment: '회사 정보 식별키',
+    //   // FK
+    // },
     isDeletedRow: {
       type: DataTypes.ENUM(['Y', 'N']),
       allowNull: false,

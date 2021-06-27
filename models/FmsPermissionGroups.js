@@ -70,6 +70,13 @@ module.exports = (sequelize, DataTypes) => {
       comment: '권한 그룹 상태',
       // FK
     },
+    // permissionGroupInfoKey: {
+    //   type: DataTypes.STRING(20),
+    //   unique: true,
+    //   allowNull: true,
+    //   comment: '권한 그룹 정보 식별키',
+    //   // FK
+    // },
     isDeletedRow: {
       type: DataTypes.ENUM(['Y', 'N']),
       allowNull: false,

@@ -58,6 +58,13 @@ module.exports = {
         comment: '권한 그룹 상태',
         // FK
       },
+      // permissionGroupInfoKey: {
+      //   type: Sequelize.STRING(20),
+      //   unique: true,
+      //   allowNull: true,
+      //   comment: '권한 그룹 정보 식별키',
+      //   // FK
+      // },
       isDeletedRow: {
         type: Sequelize.ENUM(['Y', 'N']),
         allowNull: false,

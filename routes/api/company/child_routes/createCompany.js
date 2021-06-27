@@ -395,6 +395,7 @@ const createCompany = wrapper(async(req, res, next) => {
 
   // 새로운 회사 생성
   const newCompanyKey = myGetMakeToken({ strlength: 20 });
+  const newCompanyInfoKey = myGetMakeToken({ strlength: 20 });
 
   const create = {
     companyKey: newCompanyKey,
@@ -409,6 +410,7 @@ const createCompany = wrapper(async(req, res, next) => {
     createdIp: req.real_ip,
     // createrUserKey: loginInfo.userKey,
     companyStatus: companyStatus,
+    // companyInfoKey: newCompanyInfoKey,
   };
 
   try {
@@ -417,7 +419,7 @@ const createCompany = wrapper(async(req, res, next) => {
     });
 
     await db.FmsCompanyInfos.create({
-      companyInfoKey: myGetMakeToken({ strlength: 20 }),
+      companyInfoKey: newCompanyInfoKey,
       companyKey: newCompanyKey,
       createrUserKey: loginInfo.userKey,
     }, {

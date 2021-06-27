@@ -397,6 +397,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
     if (permissionGroupKey === undefined) {
       // 새로운 권한 종류 생성
       const newPermissionGroupKey = myGetMakeToken({ strlength: 20 });
+      const newPermissionGroupInfoKey = myGetMakeToken({ strlength: 20 });
 
       createOrUpdate = {
         permissionGroupKey: newPermissionGroupKey,
@@ -406,6 +407,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
         createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
         createdIp: req.real_ip,
         permissionGroupStatus: 'PEGRS00000001',
+        // permissionGroupInfoKey: newPermissionGroupInfoKey,
       };
 
       await db.FmsPermissionGroups.create(createOrUpdate, {
@@ -415,7 +417,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
       permissionGroupKeyReal = newPermissionGroupKey;
 
       await db.FmsPermissionGroupInfos.create({
-        permissionGroupInfoKey: myGetMakeToken({ strlength: 20 }),
+        permissionGroupInfoKey: newPermissionGroupInfoKey,
         permissionGroupKey: newPermissionGroupKey,
         createrUserKey: loginInfo.userKey,
       }, {

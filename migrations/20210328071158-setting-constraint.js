@@ -87,6 +87,15 @@ module.exports = {
         field: 'code',
       },
     });
+    // await queryInterface.addConstraint('FmsCompanys', {
+    //   fields: ['companyInfoKey'],
+    //   type: 'foreign key',
+    //   name: 'fcp_companyInfoKey_fk',
+    //   references: { // Required field
+    //     table: 'FmsCompanyInfos',
+    //     field: 'companyInfoKey',
+    //   },
+    // });
 
     // FmsPermissionGroups
     await queryInterface.addConstraint('FmsPermissionGroups', {
@@ -98,6 +107,15 @@ module.exports = {
         field: 'code',
       },
     });
+    // await queryInterface.addConstraint('FmsPermissionGroups', {
+    //   fields: ['permissionGroupInfoKey'],
+    //   type: 'foreign key',
+    //   name: 'fpg_permissionGroupInfoKey_fk',
+    //   references: { // Required field
+    //     table: 'FmsPermissionGroupInfos',
+    //     field: 'permissionGroupInfoKey',
+    //   },
+    // });
 
     // FmsMenus
     await queryInterface.addConstraint('FmsMenus', {
