@@ -90,7 +90,7 @@ const getCompany = wrapper(async(req, res, next) => {
         [Op.in]: companyKeys.map((x) => { return x.companyKey; }),
       },
     });
-  }
+  } 
 
   
   // companyKey 체크 : optional
@@ -1269,21 +1269,42 @@ const getCompany = wrapper(async(req, res, next) => {
         attributes: FmsCompanyStatusCodesAttributes,
         // attributes: ['code', 'codeName'],
       },
-      // {
-      //   as: 'FmsCompanyInfoCompany',
-      //   model: db.FmsCompanyInfos,
-      //   attributes: FmsCompanyInfoCompanyAttributes,
-      //   include: [
-      //     {
-      //       model: db.FmsUsers,
-      //       attributes: FmsCompanyInfoCompanyUserAttributes,
-      //     }
-      //   ],
-      // }
     ],
     offset: getPageInfo.startIndex,
     limit: getPageInfo.pageLength,
   });
+
+  // console.log('list', list);
+
+  const companyKeyOnly = [];
+  for (let i = 0; i < list.length; i++) {
+    companyKeyOnly.push(list[i].dataValues.companyKey);
+    list[i].dataValues.FmsCompanyInfoUser = null;
+  }
+
+  const companyInfos = await db.FmsCompanyInfos.findAll({
+    attributes: ['companyKey', 'createrUserKey'],
+    where: {
+      companyKey: companyKeyOnly,
+    },
+    include: [
+      {
+        as: 'FmsCompanyInfoUser',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId'],
+      },
+    ],
+  });
+  console.log('companyInfos', companyInfos);
+
+  for (let i = 0; i < list.length; i++) {
+    for (let k = 0; k < companyInfos.length; k++) {
+      if (companyInfos[k].dataValues.companyKey === list[i].dataValues.companyKey) {
+        list[i].dataValues.FmsCompanyInfoUser = companyInfos[k].dataValues.FmsCompanyInfoUser;
+        break;
+      }
+    }
+  }
 
   res.status(200).json(myValueLog({
     req: req,

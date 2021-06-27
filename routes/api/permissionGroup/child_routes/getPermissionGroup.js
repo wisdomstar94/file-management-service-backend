@@ -487,6 +487,38 @@ const getPermissionGroup = wrapper(async(req, res, next) => {
     limit: getPageInfo.pageLength,
   });
 
+
+  const permissionGroupKeyOnly = [];
+  for (let i = 0; i < list.length; i++) {
+    permissionGroupKeyOnly.push(list[i].dataValues.permissionGroupKey);
+    list[i].dataValues.FmsPermissionGroupInfoUser = null;
+  }
+
+  const permissionGroupInfos = await db.FmsPermissionGroupInfos.findAll({
+    attributes: ['permissionGroupKey', 'createrUserKey'],
+    where: {
+      permissionGroupKey: permissionGroupKeyOnly,
+    },
+    include: [
+      {
+        as: 'FmsPermissionGroupInfoUser',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId'],
+      },
+    ],
+  });
+  // console.log('permissionGroupInfos', permissionGroupInfos);
+
+  for (let i = 0; i < list.length; i++) {
+    for (let k = 0; k < permissionGroupInfos.length; k++) {
+      if (permissionGroupInfos[k].dataValues.permissionGroupKey === list[i].dataValues.permissionGroupKey) {
+        list[i].dataValues.FmsPermissionGroupInfoUser = permissionGroupInfos[k].dataValues.FmsPermissionGroupInfoUser;
+        break;
+      }
+    }
+  }
+
+
   res.status(200).json(myValueLog({
     req: req,
     obj: {

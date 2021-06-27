@@ -144,6 +144,24 @@ const getPermissionGroupInfo = wrapper(async(req, res, next) => {
     return;
   }
 
+  permissionGroupInfo.dataValues.FmsPermissionGroupInfos = null;
+
+  const permissionGroupInfos = await db.FmsPermissionGroupInfos.findOne({
+    attributes: ['permissionGroupKey'],
+    where: {
+      permissionGroupKey: permissionGroupInfo.dataValues.permissionGroupKey,
+    },
+    include: [
+      {
+        as: 'FmsPermissionGroupInfoUser',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId'],
+      },
+    ],
+  });
+
+  permissionGroupInfo.dataValues.FmsPermissionGroupInfos = permissionGroupInfos;
+
 
   res.status(200).json(myValueLog({
     req: req,

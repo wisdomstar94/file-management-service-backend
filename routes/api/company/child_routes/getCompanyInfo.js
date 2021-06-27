@@ -168,6 +168,25 @@ const getCompanyInfo = wrapper(async(req, res, next) => {
   }
 
 
+  companyInfo.dataValues.FmsCompanyInfos = null;
+
+  const companyInfos = await db.FmsCompanyInfos.findOne({
+    attributes: ['companyKey'],
+    where: {
+      companyKey: companyInfo.dataValues.companyKey,
+    },
+    include: [
+      {
+        as: 'FmsCompanyInfoUser',
+        model: db.FmsUsers,
+        attributes: ['userKey', 'userId'],
+      },
+    ],
+  });
+
+  companyInfo.dataValues.FmsCompanyInfos = companyInfos;
+
+
   res.status(200).json(myValueLog({
     req: req,
     obj: {
