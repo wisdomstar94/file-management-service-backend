@@ -64,6 +64,7 @@ const file = wrapper(async(req, res, next) => {
   const fileDownloadUrlKeyResult = await db.FmsFileDownloadUrls.findOne({
     where: {
       fileDownloadUrlKey: fileDownloadUrlKey,
+      // fileDownloadUrlStatus: 'FDUST00000001',
       isDeletedRow: 'N',
     },
     include: [
@@ -144,6 +145,45 @@ const file = wrapper(async(req, res, next) => {
         headTail: req.accessUniqueKey,
         code: 20049050,
         msg: myResultCode[20049050].msg,
+      },
+    }));
+    return;
+  }
+
+  // 버전 정보 가져오기
+  let fileVersionInfo = null;
+  if (fileDownloadUrlKeyResult.fileVersionKey === null) {
+    // 최신버전
+    fileVersionInfo = await db.FmsFileVersions.findOne({
+      where: {
+        fileKey: fileDownloadUrlKeyResult.fileKey,
+        isDeletedRow: 'N',
+        fileVersionStatus: 'FVSTS00000001',
+      },
+      order: [
+        ['createdAt', 'DESC'],
+      ],
+    })
+  } else {
+    // 특정버전
+    fileVersionInfo = await db.FmsFileVersions.findOne({
+      where: {
+        fileKey: fileDownloadUrlKeyResult.fileKey,
+        fileVersionKey: fileDownloadUrlKeyResult.fileVersionKey,
+        isDeletedRow: 'N',
+        fileVersionStatus: 'FVSTS00000001',
+      },
+    });
+  }
+
+  if (fileVersionInfo === null) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20049100,
+        msg: myResultCode[20049100].msg,
       },
     }));
     return;
@@ -341,44 +381,44 @@ const file = wrapper(async(req, res, next) => {
     res.clearCookie('passwordjwt');
   }
 
-  // 버전 정보 가져오기
-  let fileVersionInfo = null;
-  if (fileDownloadUrlKeyResult.fileVersionKey === null) {
-    // 최신버전
-    fileVersionInfo = await db.FmsFileVersions.findOne({
-      where: {
-        fileKey: fileDownloadUrlKeyResult.fileKey,
-        isDeletedRow: 'N',
-        fileVersionStatus: 'FVSTS00000001',
-      },
-      order: [
-        ['createdAt', 'DESC'],
-      ],
-    })
-  } else {
-    // 특정버전
-    fileVersionInfo = await db.FmsFileVersions.findOne({
-      where: {
-        fileKey: fileDownloadUrlKeyResult.fileKey,
-        fileVersionKey: fileDownloadUrlKeyResult.fileVersionKey,
-        isDeletedRow: 'N',
-        fileVersionStatus: 'FVSTS00000001',
-      },
-    });
-  }
+  // // 버전 정보 가져오기
+  // let fileVersionInfo = null;
+  // if (fileDownloadUrlKeyResult.fileVersionKey === null) {
+  //   // 최신버전
+  //   fileVersionInfo = await db.FmsFileVersions.findOne({
+  //     where: {
+  //       fileKey: fileDownloadUrlKeyResult.fileKey,
+  //       isDeletedRow: 'N',
+  //       fileVersionStatus: 'FVSTS00000001',
+  //     },
+  //     order: [
+  //       ['createdAt', 'DESC'],
+  //     ],
+  //   })
+  // } else {
+  //   // 특정버전
+  //   fileVersionInfo = await db.FmsFileVersions.findOne({
+  //     where: {
+  //       fileKey: fileDownloadUrlKeyResult.fileKey,
+  //       fileVersionKey: fileDownloadUrlKeyResult.fileVersionKey,
+  //       isDeletedRow: 'N',
+  //       fileVersionStatus: 'FVSTS00000001',
+  //     },
+  //   });
+  // }
 
-  if (fileVersionInfo === null) {
-    res.status(200).json(myValueLog({
-      req: req,
-      obj: {
-        result: 'failure',
-        headTail: req.accessUniqueKey,
-        code: 20049100,
-        msg: myResultCode[20049100].msg,
-      },
-    }));
-    return;
-  }
+  // if (fileVersionInfo === null) {
+  //   res.status(200).json(myValueLog({
+  //     req: req,
+  //     obj: {
+  //       result: 'failure',
+  //       headTail: req.accessUniqueKey,
+  //       code: 20049100,
+  //       msg: myResultCode[20049100].msg,
+  //     },
+  //   }));
+  //   return;
+  // }
 
   // 파일 존재 유무 파악
   if (!fs.existsSync(fileVersionInfo.filePath)) {

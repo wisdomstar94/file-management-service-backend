@@ -78,11 +78,17 @@ const onlyFileVersionList = wrapper(async(req, res, next) => {
     },
   });
 
-  // OpAndArray.push({
-  //   fileVersionStatus: {
-  //     [Op.eq]: 'FVSTS00000001'
-  //   },
-  // });
+  OpAndArray.push({
+    fileVersionStatus: {
+      [Op.eq]: 'FVSTS00000001'
+    },
+  });
+
+  OpAndArray.push({
+    isDeletedRow: {
+      [Op.eq]: 'N',
+    },
+  });
 
   where[Op.and] = OpAndArray;
 

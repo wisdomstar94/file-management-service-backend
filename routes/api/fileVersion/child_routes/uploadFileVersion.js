@@ -239,6 +239,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     attributes: ['fileVersionName'],
     where: {
       fileKey: fileKey,
+      isDeletedRow: 'N',
     },
   });
   for (let i = 0; i < fileVersionNameCheck.length; i++) {
@@ -294,6 +295,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     attributes: ['fileVersionCode'],
     where: {
       fileKey: fileKey,
+      isDeletedRow: 'N',
     },
   });
   for (let i = 0; i < fileVersionCodeCheck.length; i++) {

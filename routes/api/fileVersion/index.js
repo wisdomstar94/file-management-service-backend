@@ -115,6 +115,7 @@ const child_route__modifyFileVersion = require('./child_routes/modifyFileVersion
 const child_route__getFileVersion = require('./child_routes/getFileVersion');
 const child_route__versionInfo = require('./child_routes/versionInfo');
 const child_route__onlyFileVersionList = require('./child_routes/onlyFileVersionList');
+const child_route__deleteFileVersion = require('./child_routes/deleteFileVersion');
 
 
 /*
@@ -139,5 +140,7 @@ router.post('/getFileVersion', jwtTokenCheck, child_route__getFileVersion);
 router.post('/versionInfo', jwtTokenCheck, child_route__versionInfo);
 
 router.post('/onlyFileVersionList', jwtTokenCheck, child_route__onlyFileVersionList);
+
+router.post('/deleteFileVersion', jwtTokenCheck, child_route__deleteFileVersion);
 
 module.exports = router;
