@@ -196,8 +196,28 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
     fileSize: fileVersionInfo.fileSize,
     fileMimeType: fileVersionInfo.fileMimeType,
     requirePassword: requirePassword,
+    fileVersionHistoryList: [],
+    fileDescription: '',
   };
 
+  // 외부에 파일 버전의 변경 이력 노출 여부가 Y 이면
+  if (fileKeyResult.fileStoreVersionHistoryOpen === 'Y') {
+    fileNormalInfo.fileVersionHistoryList = await db.FmsFileVersions.findAll({
+      attributes: [
+        'fileVersionName', 'fileVersionDescription', 'createdAt'
+      ],
+      where: {
+        fileKey: fileDownloadUrlKeyResult.fileKey,
+        isDeletedRow: 'N',
+        fileVersionStatus: 'FVSTS00000001',
+      },
+      order: [
+        ['fileVersionCode', 'DESC'],
+      ],
+    })
+  }
+
+  // 외부에 파일 설명글 노출 여부가 Y 이면
   if (fileKeyResult.fileStoreDescriptionOpen === 'Y') {
     fileNormalInfo.fileDescription = fileKeyResult.fileDescription; // 버전이 아니라 파일의 설명글
   }
