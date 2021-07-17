@@ -197,6 +197,60 @@ const deleteCompany = wrapper(async(req, res, next) => {
       return;
     }
   }
+
+  // 삭제하려는 회사 정보로 등록되어 있는 회원이 존재하는지 체크하기
+  const companyKeyCheckResult = await db.FmsUsers.findAll({
+    attributes: [
+      'companyKey',
+    ],
+    where: {
+      companyKey: companyKey,
+      isDeletedRow: 'N',
+    },
+    include: [
+      {
+        model: db.FmsCompanys,
+        attributes: [
+          'companyKey', 'companyName',
+        ],
+        required: false,
+      }
+    ],
+    group: [
+      'companyKey'
+    ]
+  });
+  // res.json(companyKeyCheckResult); return;
+  /*
+    [
+      {
+        "companyKey": "ovau1623568601311tXN",
+        "FmsCompany": {
+          "companyKey": "ovau1623568601311tXN",
+          "companyName": "선택안함"
+        }
+      }
+    ]
+  */
+  const companyNameList = [];
+  if (companyKeyCheckResult.length > 0) {
+    companyKeyCheckResult.map((x) => {
+      const item = x.dataValues;
+      const companyInfo = item.FmsCompany.dataValues;
+      companyNameList.push(companyInfo.companyName);
+    });
+
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20022110,
+        msg: companyNameList.map((x) => { return `"${x}"`; }).join(',') + ' ' + myResultCode[20022110].msg,
+      },
+    }));
+    return;
+  }
   
   // 회사 정보 업데이트
   const modifyResult = await db.FmsCompanys.update({

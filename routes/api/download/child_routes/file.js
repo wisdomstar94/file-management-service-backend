@@ -80,6 +80,9 @@ const file = wrapper(async(req, res, next) => {
         // attributes: FmsTargetFilesAttributes,
         attributes: ['fileKey', 'fileLabelName', 'fileStatus'],
         required: true,
+        where: {
+          isDeletedRow: 'N',
+        },
       },
       // {
       //   as: 'FmsTargetFileVersions',

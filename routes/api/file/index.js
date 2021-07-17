@@ -145,6 +145,7 @@ const child_route__modifyFile = require('./child_routes/modifyFile');
 const child_route__getFile = require('./child_routes/getFile');
 const child_route__fileBasicInfo = require('./child_routes/fileBasicInfo');
 const child_route__fileDownloadUrlOuterInfo = require('./child_routes/fileDownloadUrlOuterInfo');
+const child_route__deleteFile = require('./child_routes/deleteFile');
 
 
 /*
@@ -175,6 +176,6 @@ router.post('/modifyFile', jwtTokenCheck, modifyFileUpload.fields([
 router.post('/getFile', jwtTokenCheck, child_route__getFile);
 router.post('/fileBasicInfo', jwtTokenCheck, child_route__fileBasicInfo);
 router.post('/fileDownloadUrlOuterInfo', child_route__fileDownloadUrlOuterInfo);
-
+router.post('/deleteFile', jwtTokenCheck, child_route__deleteFile);
 
 module.exports = router;

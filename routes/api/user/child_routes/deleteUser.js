@@ -150,16 +150,36 @@ const deleteUser = wrapper(async(req, res, next) => {
     }
   }
 
-  // 삭제 처리 하기전 회원 정보 가져오기
-  const deleteBeforeUserInfo = await db.FmsUsers.findOne({
+  // 삭제 처리 하기 전 해당 회원정보로 등록된 파일 다운로드 URL 정보가 있는지 확인하기
+  const fileDownloadUrlResult = await db.FmsFileDownloadUrls.findAll({
+    where: {
+      downloadTargetUserKey: userKey,
+      isDeletedRow: 'N',
+    },
+  });
+  if (fileDownloadUrlResult.length > 0) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20019580,
+        msg: myResultCode[20019580].msg,
+      },
+    }));
+    return;
+  }
+
+  // 삭제 처리 전 회원 상태 가져오기
+  const deleteBeforeUserInfo = await db.FmsUsers.findAll({
     where: {
       userKey: userKey,
     },
   });
-  let userId = undefined;
-  if (deleteBeforeUserInfo !== null) {
-    userId = deleteBeforeUserInfo.userId;
-  }
+  // let userId = undefined;
+  // if (deleteBeforeUserInfo !== null) {
+  //   userId = deleteBeforeUserInfo.userId;
+  // }
 
 
   // 회원 정보 삭제 처리
@@ -178,7 +198,7 @@ const deleteUser = wrapper(async(req, res, next) => {
     createdIp: req.real_ip,
     accessUniqueKey: req.accessUniqueKey,
     userKey: loginInfo.userKey,
-    value1: JSON.stringify(userId),
+    // value1: JSON.stringify(userId),
     // value2: JSON.stringify(newUserKey),
     logContent: `
       ※ 삭제하려는 회원 ID : value1 값 참조

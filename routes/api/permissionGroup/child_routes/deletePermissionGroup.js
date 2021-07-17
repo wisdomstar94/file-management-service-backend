@@ -143,6 +143,25 @@ const deletePermissionGroup = wrapper(async(req, res, next) => {
     }
   }
 
+  // 해당 권한 그룹으로 등록된 회원이 존재하는지 체크
+  const userCheckResult = await db.FmsUsers.findAll({
+    where: {
+      permissionGroupKey: permissionGroupKey,
+      isDeletedRow: 'N',
+    },
+  }); 
+  if (userCheckResult.length > 0) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20015080,
+        msg: myResultCode[20015080].msg,
+      },
+    }));
+    return;
+  }
 
   // 권한 그룹 정보 업데이트
   const modifyResult = await db.FmsPermissionGroups.update({
