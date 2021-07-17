@@ -104,8 +104,8 @@ const getDownloadedCount = wrapper(async(req, res, next) => {
   } else if (targetStartDatetime === undefined && typeof targetEndDatetime === 'string') {
     targetStartDatetime = myDate(targetEndDatetime).add(-3, 'month').format('YYYY-MM-DD 00:00:00');
   } else {
-    targetStartDatetime = myDate().add(-3, 'month').format('YYYY-MM-DD 00:00:00');
-    targetEndDatetime = myDate().format('YYYY-MM-DD 23:59:59');
+    // targetStartDatetime = myDate().add(-3, 'month').format('YYYY-MM-DD 00:00:00');
+    // targetEndDatetime = myDate().format('YYYY-MM-DD 23:59:59');
   }
 
   console.log('targetStartDatetime', targetStartDatetime);
