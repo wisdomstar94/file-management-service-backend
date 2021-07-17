@@ -9,6 +9,7 @@ const child_route__getPermissionGroupInfo = require('./child_routes/getPermissio
 const child_route__modifyPermissionGroup = require('./child_routes/modifyPermissionGroup');
 const child_route__deletePermissionGroup = require('./child_routes/deletePermissionGroup');
 const child_route__restorePermissionGroup = require('./child_routes/restorePermissionGroup');
+const child_route__copyPermissionGroup = require('./child_routes/copyPermissionGroup');
 
 
 /*
@@ -20,7 +21,7 @@ router.post('/getPermissionGroupInfo', jwtTokenCheck, child_route__getPermission
 router.post('/modifyPermissionGroup', jwtTokenCheck, child_route__modifyPermissionGroup);
 router.post('/deletePermissionGroup', jwtTokenCheck, child_route__deletePermissionGroup);
 router.post('/restorePermissionGroup', jwtTokenCheck, child_route__restorePermissionGroup);
-
+router.post('/copyPermissionGroup', jwtTokenCheck, child_route__copyPermissionGroup);
 
 
 module.exports = router;
