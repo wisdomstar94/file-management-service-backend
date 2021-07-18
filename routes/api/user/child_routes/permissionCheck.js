@@ -27,25 +27,25 @@ const permissionCheck = wrapper(async(req, res, next) => {
   let permissionKey = '';
 
   switch (true) {
-    case /^\/dashboard/.test(url): permissionKey = 'JB1617682637993GaPCK'; break;
+    case /^\/dashboard$/.test(url): permissionKey = 'JB1617682637993GaPCK'; break;
 
-    case /^\/company/.test(url): permissionKey = 'U1617683411475etYgFO'; break;
-    case /^\/company\/info\/\:/.test(url): permissionKey = 'vk1617685109763LDPNY'; break;
-    case /^\/company\/upload/.test(url): permissionKey = 'UY1619153982779QIVRq'; break; 
+    case /^\/company$/.test(url): permissionKey = 'U1617683411475etYgFO'; break;
+    case /^\/company\/info\//.test(url): permissionKey = 'vk1617685109763LDPNY'; break;
+    case /^\/company\/upload$/.test(url): permissionKey = 'UY1619153982779QIVRq'; break; 
 
-    case /^\/user/.test(url): permissionKey = 'ku1617685799109yKitW'; break;
-    case /^\/user\/info\/\:/.test(url): permissionKey = 'ZVbPFm1617686493277o'; break;
-    case /^\/user\/upload/.test(url): permissionKey = 'F1619012225347uuKMhw'; break; 
+    case /^\/user$/.test(url): permissionKey = 'ku1617685799109yKitW'; break;
+    case /^\/user\/info\//.test(url): permissionKey = 'ZVbPFm1617686493277o'; break;
+    case /^\/user\/upload$/.test(url): permissionKey = 'F1619012225347uuKMhw'; break; 
 
-    case /^\/permissionGroup/.test(url): permissionKey = 'CZp1617688337684iIEj'; break;
-    case /^\/permissionGroup\/info\/\:/.test(url): permissionKey = 'a1617688685796Oslkvi'; break;
-    case /^\/permissionGroup\/upload/.test(url): permissionKey = 'yQWpkir1617688667026'; break; 
+    case /^\/permissionGroup$/.test(url): permissionKey = 'CZp1617688337684iIEj'; break;
+    case /^\/permissionGroup\/info\//.test(url): permissionKey = 'a1617688685796Oslkvi'; break;
+    case /^\/permissionGroup\/upload$/.test(url): permissionKey = 'yQWpkir1617688667026'; break; 
 
-    case /^\/file/.test(url): permissionKey = 'qVZe1617688959308fKJ'; break;
-    case /^\/file\/info\/\:/.test(url): permissionKey = 'B1617690143101zIeSOm'; break;
-    case /^\/file\/upload/.test(url): permissionKey = 'wSSQFD1617690129416s'; break; 
+    case /^\/file$/.test(url): permissionKey = 'qVZe1617688959308fKJ'; break;
+    case /^\/file\/info\//.test(url): permissionKey = 'B1617690143101zIeSOm'; break;
+    case /^\/file\/upload$/.test(url): permissionKey = 'wSSQFD1617690129416s'; break; 
 
-    case /^\/fileDownloadState/.test(url): permissionKey = 'gaXltl1617692064737B'; break;
+    case /^\/fileDownloadState$/.test(url): permissionKey = 'gaXltl1617692064737B'; break;
   }
 
   if (permissionKey === '') {

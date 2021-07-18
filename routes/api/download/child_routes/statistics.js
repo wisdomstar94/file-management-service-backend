@@ -77,6 +77,23 @@ const statistics = wrapper(async(req, res, next) => {
   */
   loginInfo.userLevel = await db.FmsUsers.getUserLevel(loginInfo.userKey);
 
+
+  const isDownloadStatisticsViewPossible = await db.isActivePermission(loginInfo.userKey, 'm1617692177732ZCXxbX');
+  if (!isDownloadStatisticsViewPossible) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20051009,
+        msg: myResultCode[20051009].msg,
+      },
+    }));
+    return;
+  }
+
+
+
   const isAllUserControl = await db.isActivePermission(loginInfo.userKey, 'IEjNkA1619012061260L');
 
   let addWhere = ``;
@@ -92,7 +109,7 @@ const statistics = wrapper(async(req, res, next) => {
   }
 
 
-
+  
   const {
     targetDateTime,
   } = req.body;
