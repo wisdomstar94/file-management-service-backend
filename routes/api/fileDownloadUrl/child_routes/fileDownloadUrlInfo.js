@@ -219,6 +219,22 @@ const fileDownloadUrlInfo = wrapper(async(req, res, next) => {
     });
   }
 
+  // 버전이 최신버전인 경우 체크 (null)
+  // console.log('fileDownloadUrlInfo', fileDownloadUrlInfo);
+  if (fileDownloadUrlInfo.dataValues.FmsTargetFileVersions === null) {
+    const recentVersionInfo = await db.FmsFileVersions.findOne({
+      where: {
+        fileKey: fileDownloadUrlInfo.dataValues.fileKey,
+        isDeletedRow: 'N',
+        fileVersionStatus: 'FVSTS00000001',
+      },
+      order: [
+        ['createdAt', 'DESC'],
+      ],
+    });
+
+    fileDownloadUrlInfo.dataValues.FmsTargetFileVersions = recentVersionInfo;
+  }
 
   res.status(200).json(myValueLog({
     req: req,

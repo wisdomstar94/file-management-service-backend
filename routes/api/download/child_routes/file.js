@@ -163,7 +163,7 @@ const file = wrapper(async(req, res, next) => {
       order: [
         ['createdAt', 'DESC'],
       ],
-    })
+    });
   } else {
     // 특정버전
     fileVersionInfo = await db.FmsFileVersions.findOne({
