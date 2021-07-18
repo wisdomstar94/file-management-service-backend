@@ -137,12 +137,12 @@ const downloadCheck = wrapper(async(req, res, next) => {
     return;
   }
 
-  // downloadjwt 발급! 5초 동안만 유효하도록..
+  // downloadjwt 발급! 8초 동안만 유효하도록..
   myLogger.info(req.logHeadTail + 'downloadjwt 발급! ');
   const downloadjwt = jwt.sign({
     a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
   }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
-    expiresIn: '5s', 
+    expiresIn: '8s', 
     issuer: 'FileManageMentService',
   });
   res.clearCookie('downloadjwt');
