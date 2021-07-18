@@ -3405,6 +3405,12 @@ const myResultCode = {
   20065080: {
     msg: `파일 다운로드 URL을 삭제하는 도중 오류가 발생하였습니다.`,
   },
+
+
+  20066010: {
+    msg: `매칭되는 권한이 없습니다.`,
+  },
+  
 };
 
 module.exports = myResultCode;
