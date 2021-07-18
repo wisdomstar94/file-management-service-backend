@@ -147,7 +147,7 @@ const downloadCheck = wrapper(async(req, res, next) => {
   });
   res.clearCookie('downloadjwt');
   res.cookie('downloadjwt', downloadjwt, {
-    maxAge: 5000,
+    maxAge: 8000,
   });
 
   res.status(200).json(myValueLog({
