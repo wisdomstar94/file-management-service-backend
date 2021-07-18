@@ -251,7 +251,7 @@ const file = wrapper(async(req, res, next) => {
 
   // 파일 정보 확인 후 다운로드 (URL 직접 다운로드 제한)
   if (conditionFDUCT00000004.length > 0) {
-    const downloadjwt = req.cookies.downloadjwt;
+    const downloadjwt = req.query.downloadjwt;
 
     if (typeof downloadjwt !== 'string' || downloadjwt === '') {
       // 파일정보 확인 페이지로 리다이렉트 (프론트)
@@ -336,7 +336,7 @@ const file = wrapper(async(req, res, next) => {
 
   // 특정 암호 필요
   if (conditionFDUCT00000003.length > 0) {
-    const passwordjwt = req.cookies.passwordjwt;
+    const passwordjwt = req.query.passwordjwt;
 
     if (typeof passwordjwt !== 'string' || passwordjwt === '') {
       // 압호 임력 페이지로 리다이렉트 (프론트)

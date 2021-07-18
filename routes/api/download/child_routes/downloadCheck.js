@@ -137,18 +137,18 @@ const downloadCheck = wrapper(async(req, res, next) => {
     return;
   }
 
-  // downloadjwt 발급! 8초 동안만 유효하도록..
+  // downloadjwt 발급! 4초 동안만 유효하도록..
   myLogger.info(req.logHeadTail + 'downloadjwt 발급! ');
   const downloadjwt = jwt.sign({
     a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
   }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
-    expiresIn: '8s', 
+    expiresIn: '4s', 
     issuer: 'FileManageMentService',
   });
-  res.clearCookie('downloadjwt');
-  res.cookie('downloadjwt', downloadjwt, {
-    maxAge: 8000,
-  });
+  // res.clearCookie('downloadjwt');
+  // res.cookie('downloadjwt', downloadjwt, {
+  //   maxAge: 4000,
+  // });
 
   res.status(200).json(myValueLog({
     req: req,
@@ -156,6 +156,7 @@ const downloadCheck = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
+      downloadjwt: downloadjwt,
     },
   }));
   return;

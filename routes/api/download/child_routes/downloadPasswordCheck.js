@@ -209,26 +209,26 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
   const downloadjwt = jwt.sign({
     a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
   }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
-    expiresIn: '8s', 
+    expiresIn: '4s', 
     issuer: 'FileManageMentService',
   });
-  res.clearCookie('downloadjwt');
-  res.cookie('downloadjwt', downloadjwt, {
-    maxAge: 8000,
-  });
+  // res.clearCookie('downloadjwt');
+  // res.cookie('downloadjwt', downloadjwt, {
+  //   maxAge: 4000,
+  // });
 
   // passwordjwt 발급! 8초 동안만 유효하도록..
   myLogger.info(req.logHeadTail + 'passwordjwt 발급! ');
   const passwordjwt = jwt.sign({
     a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
   }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
-    expiresIn: '8s', 
+    expiresIn: '4s', 
     issuer: 'FileManageMentService',
   });
-  res.clearCookie('passwordjwt');
-  res.cookie('passwordjwt', passwordjwt, {
-    maxAge: 8000,
-  });
+  // res.clearCookie('passwordjwt');
+  // res.cookie('passwordjwt', passwordjwt, {
+  //   maxAge: 4000,
+  // });
 
   res.status(200).json(myValueLog({
     req: req,
@@ -236,6 +236,8 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
       result: 'success',
       headTail: req.accessUniqueKey,
       code: 10001000,
+      downloadjwt: downloadjwt,
+      passwordjwt: passwordjwt,
     },
   }));
   return;
