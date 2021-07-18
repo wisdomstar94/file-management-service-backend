@@ -217,6 +217,19 @@ const downloadPasswordCheck = wrapper(async(req, res, next) => {
     maxAge: 5000,
   });
 
+  // downloadjwt 발급! 5초 동안만 유효하도록..
+  myLogger.info(req.logHeadTail + 'downloadjwt 발급! ');
+  const downloadjwt = jwt.sign({
+    a: myCrypto.encrypt({ originalValue: fileDownloadUrlKey }),
+  }, process.env.JWT_FILE_DOWNLOAD_URL_SECRET, {
+    expiresIn: '5s', 
+    issuer: 'FileManageMentService',
+  });
+  res.clearCookie('downloadjwt');
+  res.cookie('downloadjwt', downloadjwt, {
+    maxAge: 5000,
+  });
+
   res.status(200).json(myValueLog({
     req: req,
     obj: {
