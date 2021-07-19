@@ -70,6 +70,12 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       comment: '파일 다운로드 된 수 (초기화 가능)',
     },
+    isPossibleDatetimeShow: {
+      type: Sequelize.ENUM(['Y', 'N']),
+      allowNull: false,
+      defaultValue: 'N',
+      comment: '파일 다운로드 가능일 외부에 표시 여부',
+    },
     createdAt: {
       type: DataTypes.DATE,
       allowNull: false,
