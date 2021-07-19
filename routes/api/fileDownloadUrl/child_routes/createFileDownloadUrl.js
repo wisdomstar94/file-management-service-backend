@@ -101,6 +101,8 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
     // fileDownloadCount,
     fileDownloadUrlAccessConditionInfo,
     fileDownloadUrlStatus,
+    isPossibleDatetimeShow,
+    isDownloadCountInfoShow,
   } = req.body;
 
 
@@ -622,6 +624,63 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
     return;
   }
 
+  // isPossibleDatetimeShow 체크
+  if (typeof isPossibleDatetimeShow !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20027330,
+        msg: myResultCode[20027330].msg,
+      },
+    }));
+    return;
+  }
+
+  if (!['Y', 'N'].includes(isPossibleDatetimeShow)) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20027340,
+        msg: myResultCode[20027340].msg,
+      },
+    }));
+    return;
+  }
+
+  // isDownloadCountInfoShow 체크
+  if (typeof isDownloadCountInfoShow !== 'string') {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20027350,
+        msg: myResultCode[20027350].msg,
+      },
+    }));
+    return;
+  }
+
+  if (!['Y', 'N'].includes(isDownloadCountInfoShow)) {
+    res.status(200).json(myValueLog({
+      req: req,
+      obj: {
+        result: 'failure',
+        headTail: req.accessUniqueKey,
+        code: 20027360,
+        msg: myResultCode[20027360].msg,
+      },
+    }));
+    return;
+  }
+
+
+
+
 
   // transaction start
 
@@ -643,6 +702,8 @@ const createFileDownloadUrl = wrapper(async(req, res, next) => {
       fileDownloadPossibleDateTimeEnd: fileDownloadPossibleDateTimeEnd,
       fileDownloadLimitMaxCount: fileDownloadLimitMaxCount,
       fileDownloadCount: 0,
+      isPossibleDatetimeShow: isPossibleDatetimeShow,
+      isDownloadCountInfoShow: isDownloadCountInfoShow,
       createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
       createdIp: req.real_ip,
       createrUserKey: loginInfo.userKey,

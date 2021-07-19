@@ -135,7 +135,7 @@ const fileDownloadUrlInfo = wrapper(async(req, res, next) => {
     attributes: [
       'fileDownloadUrlKey', 'downloadTargetUserKey', 'fileKey', 'fileVersionKey',
       'fileDownloadUrlAccessCount', 'fileDownloadPossibleDateTimeStart', 'fileDownloadPossibleDateTimeEnd', 
-      'fileDownloadLimitMaxCount', 'fileDownloadCount', 'createdAt', 'createdIp', 'createrUserKey', 
+      'fileDownloadLimitMaxCount', 'fileDownloadCount', 'isPossibleDatetimeShow', 'isDownloadCountInfoShow', 'createdAt', 'createdIp', 'createrUserKey', 
       'updatedAt', 'updatedIp', 'updaterUserKey', 'fileDownloadUrlStatus',
     ],
     where: {

@@ -90,6 +90,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
     fileDownloadCount,
     fileDownloadUrlAccessConditionInfo,
     fileDownloadUrlStatus,
+    isPossibleDatetimeShow,
+    isDownloadCountInfoShow,
   } = req.body;
 
 
@@ -839,6 +841,8 @@ const modifyFileDownloadUrl = wrapper(async(req, res, next) => {
       updatedIp: req.real_ip,
       updaterUserKey: loginInfo.userKey,
       fileDownloadUrlStatus: fileDownloadUrlStatus,
+      isPossibleDatetimeShow: isPossibleDatetimeShow,
+      isDownloadCountInfoShow: isDownloadCountInfoShow,
     };
 
     const updateResult = await db.FmsFileDownloadUrls.update(update, {

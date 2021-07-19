@@ -60,7 +60,9 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
 
   const fileDownloadUrlKeyResult = await db.FmsFileDownloadUrls.findOne({
     attributes: [
-      'fileDownloadUrlKey', 'fileKey', 'fileVersionKey', 'fileDownloadUrlStatus',
+      'fileDownloadUrlKey', 'fileKey', 'fileVersionKey', 'fileDownloadUrlStatus', 
+      'isPossibleDatetimeShow', 'fileDownloadPossibleDateTimeStart', 'fileDownloadPossibleDateTimeEnd',
+      'isDownloadCountInfoShow', 'fileDownloadCount', 'fileDownloadLimitMaxCount',
     ],
     where: {
       fileDownloadUrlKey: fileDownloadUrlKey,
@@ -83,6 +85,7 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
     fileDownloadUrlKeyResult.fileKey
     fileDownloadUrlKeyResult.fileVersionKey
     fileDownloadUrlKeyResult.fileDownloadUrlStatus
+    fileDownloadUrlKeyResult.isPossibleDatetimeShow
   */
   
 
@@ -198,7 +201,20 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
     requirePassword: requirePassword,
     fileVersionHistoryList: [],
     fileDescription: '',
+    isPossibleDatetimeShow: fileDownloadUrlKeyResult.isPossibleDatetimeShow,
+    isDownloadCountInfoShow: fileDownloadUrlKeyResult.isDownloadCountInfoShow,
   };
+
+  if (fileNormalInfo.isPossibleDatetimeShow === 'Y') {
+    fileNormalInfo.fileDownloadPossibleDateTimeStart = fileDownloadUrlKeyResult.fileDownloadPossibleDateTimeStart;
+    fileNormalInfo.fileDownloadPossibleDateTimeEnd = fileDownloadUrlKeyResult.fileDownloadPossibleDateTimeEnd;
+  }
+
+  if (fileNormalInfo.isDownloadCountInfoShow === 'Y') {
+    fileNormalInfo.fileDownloadCount = fileDownloadUrlKeyResult.fileDownloadCount;
+    fileNormalInfo.fileDownloadLimitMaxCount = fileDownloadUrlKeyResult.fileDownloadLimitMaxCount;
+  }
+
 
   // 외부에 파일 버전의 변경 이력 노출 여부가 Y 이면
   if (fileKeyResult.fileStoreVersionHistoryOpen === 'Y') {
