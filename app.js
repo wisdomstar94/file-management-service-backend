@@ -37,6 +37,7 @@ const myLogger = require('./routes/librarys/myLogger');
 // my middlewares
 const setRequestUnique = require('./routes/middlewares/setRequestUnique');
 const setRequestInfoLogging = require('./routes/middlewares/setRequestInfoLogging');
+const checkIPPermission = require('./routes/middlewares/checkIPPermission');
 const errorHandler = require('./routes/middlewares/errorHandler');
 const sequelizeTest = require('./routes/middlewares/sequelizeTest');
 
@@ -153,7 +154,8 @@ app.use('/api/download', apiDownloadRouter);
 app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
 app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
 
-app.use('*', angularFrontRouter);
+app.use('/file/download', angularFrontRouter);
+app.use('*', checkIPPermission, angularFrontRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
