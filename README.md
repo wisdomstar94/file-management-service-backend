@@ -50,9 +50,11 @@
   <br>
 * winston (https://www.npmjs.com/package/winston)
   - 로그를 효율적으로 남기기 위해 winston 패키지를 사용하였습니다. 모든 요청에 대해 요청 Method, 요청 IP, 요청 Header, 요청 Body 등이 로그에 쌓이도록 하였습니다.
-  <br>
-  <br>
+<br>
+<br>
+
 # 사용방법
+<br>
 1) 도커 이미지를 pull 받는다.<br>
 docker pull jwisedom/file-management-service-image:latest<br>
 <br>
@@ -70,17 +72,19 @@ ID : test123<br>
 PW : 123456<br>
 <br>
 <br>
-# 참고 및 주의 사항<br>
+
+# 참고 및 주의 사항
+<br>
 1) 컨테이너 내부의 /home2/file-management-service 경로에 가면 프로젝트 파일이 존재합니다. 원하시는 대로 커스터마이징 가능합니다.<br>
 <br>
 2) 파일 관리 서비스의 버전 업된 이미지를 사용 하실 경우에 데이터 마이그레이션 작업은 직접 고려 및 작업하셔야 합니다.<br>
 <br>
 3) 실제로 다운로드 URL 링크를 외부에 공유하는 등 실무에서 사용하시려면 아래와 같은 작업을 반드시 진행해주세요.<br>
-- mariadb 포트 및 redis 포트 변경 (47221 -> 다른 포트, 6379 -> 다른 포트)
-- 프로젝트 포트 변경 (47220 -> 다른 포트)
-- 기본 test123 계정의 비밀번호 변경 (되도록이면 ID도 DB에 직접 접근하여 변경)
-- .env 파일에 있는 secret key 값 및 포트 변경
-- 도메인을 연결하여 사용 및 https 적용 (프록시패스 이용 등)
+- mariadb 포트 및 redis 포트 변경 (47221 -> 다른 포트, 6379 -> 다른 포트)<br>
+- 프로젝트 포트 변경 (47220 -> 다른 포트)<br>
+- 기본 test123 계정의 비밀번호 변경 (되도록이면 ID도 DB에 직접 접근하여 변경)<br>
+- .env 파일에 있는 secret key 값 및 포트 변경<br>
+- 도메인을 연결하여 사용 및 https 적용 (프록시패스 이용 등)<br>
 - 특정 파일 확장자만 업로드 되게 수정 (routes/api/fileVersion/index.js 파일을 수정하면 됨)
 <br>
 <br>
