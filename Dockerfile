@@ -127,11 +127,11 @@ RUN /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
 # COPY go.sum /home2/file-management-service/file-management-service-backend/go.sum
 # WORKDIR /home2/file-management-service/file-management-service-backend
 
-# 컨테이너 실행시 file-management-service 가 자동 실행되도록 설정
-RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd" /etc/bash.bashrc
-
 # 컨테이너 실행시 npx sequelize db:migrate 실행되도록 설정
 RUN sed -i'' -r -e "/service mariadb start/a\pushd /home2/file-management-service/file-management-service-backend\nnpx sequelize db:migrate\npopd" /etc/bash.bashrc
+
+# 컨테이너 실행시 file-management-service 가 자동 실행되도록 설정
+RUN sed -i'' -r -e "/npx sequelize db:migrate/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd" /etc/bash.bashrc
 
 # 루트 경로로 이동
 WORKDIR /
