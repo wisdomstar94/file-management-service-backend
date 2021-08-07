@@ -44,6 +44,7 @@ const sequelizeTest = require('./routes/middlewares/sequelizeTest');
 // crons
 const fmsFileDownloadLogsTableCreateCron = require('./crons/fms_file_download_logs_table_create');
 const fmsLogsTableCreateCron = require('./crons/fms_logs_table_create');
+const db_init_check_cron = require('./crons/db_init_check');
 
 // sequelize
 const sequelize = require('./models').sequelize;

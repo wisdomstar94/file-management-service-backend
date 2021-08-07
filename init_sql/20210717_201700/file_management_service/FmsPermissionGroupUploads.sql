@@ -25,12 +25,12 @@ CREATE TABLE IF NOT EXISTS `FmsPermissionGroupUploads` (
   `isActive` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'Y' COMMENT '활성(체크)여부 (Y:활성(체크), N:미활성(미체크))',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`permissionGroupUploadKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_permission_group_uploads_is_deleted_row` (`isDeletedRow`),
-  KEY `fpgu_permissionGroupKey_fk` (`permissionGroupKey`),
-  KEY `fpgu_permissionKey_fk` (`permissionKey`),
-  CONSTRAINT `fpgu_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`),
-  CONSTRAINT `fpgu_permissionKey_fk` FOREIGN KEY (`permissionKey`) REFERENCES `FmsPermissions` (`permissionKey`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_permission_group_uploads_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fpgu_permissionGroupKey_fk` (`permissionGroupKey`),
+  -- KEY `fpgu_permissionKey_fk` (`permissionKey`),
+  -- CONSTRAINT `fpgu_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`),
+  -- CONSTRAINT `fpgu_permissionKey_fk` FOREIGN KEY (`permissionKey`) REFERENCES `FmsPermissions` (`permissionKey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=848 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='그룹 권한별 활성화된 권한 정보 테이블 \n(행이 존재하지 않으면 비활성(미체크)으로 인식하여 백엔드에서 처리)';
 
 -- 테이블 데이터 file_management_service.FmsPermissionGroupUploads:~282 rows (대략적) 내보내기

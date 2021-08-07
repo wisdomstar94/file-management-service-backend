@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `FmsPermissionGroups` (
   `permissionGroupStatus` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '권한 그룹 상태',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`permissionGroupKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_permission_groups_is_deleted_row` (`isDeletedRow`),
-  KEY `fpg_permissionGroupStatus_fk` (`permissionGroupStatus`),
-  CONSTRAINT `fpg_permissionGroupStatus_fk` FOREIGN KEY (`permissionGroupStatus`) REFERENCES `FmsCodes` (`code`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_permission_groups_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fpg_permissionGroupStatus_fk` (`permissionGroupStatus`),
+  -- CONSTRAINT `fpg_permissionGroupStatus_fk` FOREIGN KEY (`permissionGroupStatus`) REFERENCES `FmsCodes` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='권한 그룹 테이블';
 
 -- 테이블 데이터 file_management_service.FmsPermissionGroups:~0 rows (대략적) 내보내기

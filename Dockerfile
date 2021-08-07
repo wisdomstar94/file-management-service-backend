@@ -99,10 +99,11 @@ RUN npm i
 RUN ng build --configuration production --deploy-url=sync/port/
 
 # MariaDB 초기설정
-# RUN service mariadb start
-# RUN (echo "" ; echo "Y"; echo "Y"; echo "112233!@#"; echo "112233!@#"; echo "Y"; echo "Y"; echo "Y"; echo "Y") | mysql_secure_installation
+RUN service mariadb start
 COPY mariadb.sh /home2/file-management-service/file-management-service-backend/mariadb.sh
-RUN sh /home2/file-management-service/file-management-service-backend/mariadb.sh
+WORKDIR /home2/file-management-service/file-management-service-backend
+RUN sed -i 's/\r$//' mariadb.sh
+RUN sh mariadb.sh 
 
 # 컨테이너가 LISTEN 할 포트 지정
 EXPOSE 6379
@@ -121,29 +122,16 @@ WORKDIR /home2/file-management-service/file-management-service-backend
 RUN /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
 
 # db init
-COPY db_init.go /home2/file-management-service/file-management-service-backend/db_init.go
-COPY go.mod /home2/file-management-service/file-management-service-backend/go.mod
-COPY go.sum /home2/file-management-service/file-management-service-backend/go.sum
-WORKDIR /home2/file-management-service/file-management-service-backend
-# RUN npx sequelize-cli db:migrate
-RUN service mariadb start 
-# RUN service mariadb restart 
-# RUN (echo "CREATE DATABASE file_management_service default CHARACTER SET=utf8mb4 COLLATE=utf8mb4_unicode_ci;" ; echo "exit") | mysql
-# RUN /usr/local/go/bin/go run db_init.go
-# RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsCodeGroups.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsCodeGroups.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsCodes.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsCodes.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsPermissionGroups.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsPermissionGroups.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsMenuCategorys.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsMenuCategorys.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsMenus.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsMenus.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsCompanys.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsCompanys.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsPermissions.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsPermissions.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsUsers.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsUsers.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsPermissionGroupUploads.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsPermissionGroupUploads.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsCompanyInfos.sql" /etc/bash.bashrc
-# RUN sed -i'' -r -e "/FmsCompanyInfos.sql/a\mysql -h localhost -u root file_management_service \< /home2/file-management-service/file-management-service-backend/init_sql/20210717_201700/file_management_service/FmsPermissionGroupInfos.sql" /etc/bash.bashrc
+# COPY db_init.go /home2/file-management-service/file-management-service-backend/db_init.go
+# COPY go.mod /home2/file-management-service/file-management-service-backend/go.mod
+# COPY go.sum /home2/file-management-service/file-management-service-backend/go.sum
+# WORKDIR /home2/file-management-service/file-management-service-backend
 
 # 컨테이너 실행시 file-management-service 가 자동 실행되도록 설정
 RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd" /etc/bash.bashrc
+
+# 컨테이너 실행시 npx sequelize db:migrate 실행되도록 설정
+RUN sed -i'' -r -e "/service mariadb start/a\pushd /home2/file-management-service/file-management-service-backend\nnpx sequelize db:migrate\npopd" /etc/bash.bashrc
 
 # 루트 경로로 이동
 WORKDIR /

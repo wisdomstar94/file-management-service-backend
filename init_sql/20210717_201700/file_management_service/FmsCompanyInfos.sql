@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS `FmsCompanyInfos` (
   `updatedAt` datetime DEFAULT NULL COMMENT '수정일',
   PRIMARY KEY (`companyInfoKey`),
   UNIQUE KEY `seq` (`seq`),
-  UNIQUE KEY `companyKey` (`companyKey`),
-  KEY `fcis_createrUserKey_fk` (`createrUserKey`),
-  CONSTRAINT `fcis_companyKey_fk` FOREIGN KEY (`companyKey`) REFERENCES `FmsCompanys` (`companyKey`),
-  CONSTRAINT `fcis_createrUserKey_fk` FOREIGN KEY (`createrUserKey`) REFERENCES `FmsUsers` (`userKey`)
+  UNIQUE KEY `companyKey` (`companyKey`)
+  -- KEY `fcis_createrUserKey_fk` (`createrUserKey`),
+  -- CONSTRAINT `fcis_companyKey_fk` FOREIGN KEY (`companyKey`) REFERENCES `FmsCompanys` (`companyKey`),
+  -- CONSTRAINT `fcis_createrUserKey_fk` FOREIGN KEY (`createrUserKey`) REFERENCES `FmsUsers` (`userKey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='회사 부가 정보 테이블';
 
 -- 테이블 데이터 file_management_service.FmsCompanyInfos:~0 rows (대략적) 내보내기

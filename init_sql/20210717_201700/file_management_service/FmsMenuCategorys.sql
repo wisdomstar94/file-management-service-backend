@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `FmsMenuCategorys` (
   `menuCategoryStatus` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '메뉴 카테고리 상태',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`menuCategoryKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_menu_categorys_is_deleted_row` (`isDeletedRow`),
-  KEY `fmct_menuCategoryStatus_fk` (`menuCategoryStatus`),
-  CONSTRAINT `fmct_menuCategoryStatus_fk` FOREIGN KEY (`menuCategoryStatus`) REFERENCES `FmsCodes` (`code`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_menu_categorys_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fmct_menuCategoryStatus_fk` (`menuCategoryStatus`),
+  -- CONSTRAINT `fmct_menuCategoryStatus_fk` FOREIGN KEY (`menuCategoryStatus`) REFERENCES `FmsCodes` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='관리자 메뉴 카테고리 테이블';
 
 -- 테이블 데이터 file_management_service.FmsMenuCategorys:~3 rows (대략적) 내보내기

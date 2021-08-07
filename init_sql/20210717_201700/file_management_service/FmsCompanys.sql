@@ -30,10 +30,10 @@ CREATE TABLE IF NOT EXISTS `FmsCompanys` (
   `companyStatus` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '회사 상태',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`companyKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_companys_is_deleted_row` (`isDeletedRow`),
-  KEY `fcp_companyStatus_fk` (`companyStatus`),
-  CONSTRAINT `fcp_companyStatus_fk` FOREIGN KEY (`companyStatus`) REFERENCES `FmsCodes` (`code`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_companys_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fcp_companyStatus_fk` (`companyStatus`),
+  -- CONSTRAINT `fcp_companyStatus_fk` FOREIGN KEY (`companyStatus`) REFERENCES `FmsCodes` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='회사 테이블';
 
 -- 테이블 데이터 file_management_service.FmsCompanys:~0 rows (대략적) 내보내기

@@ -27,11 +27,11 @@ CREATE TABLE IF NOT EXISTS `FmsCodes` (
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '코드 상태 (1: 사용, 2: 미사용)',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`code`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_codes_status` (`status`),
-  KEY `fms_codes_is_deleted_row` (`isDeletedRow`),
-  KEY `fc_codeGroup_fk` (`codeGroup`),
-  CONSTRAINT `fc_codeGroup_fk` FOREIGN KEY (`codeGroup`) REFERENCES `FmsCodeGroups` (`codeGroup`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_codes_status` (`status`),
+  -- KEY `fms_codes_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fc_codeGroup_fk` (`codeGroup`),
+  -- CONSTRAINT `fc_codeGroup_fk` FOREIGN KEY (`codeGroup`) REFERENCES `FmsCodeGroups` (`codeGroup`)
 ) ENGINE=InnoDB AUTO_INCREMENT=88 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='코드 테이블';
 
 -- 테이블 데이터 file_management_service.FmsCodes:~66 rows (대략적) 내보내기

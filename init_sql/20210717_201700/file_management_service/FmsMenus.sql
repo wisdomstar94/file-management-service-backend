@@ -30,14 +30,14 @@ CREATE TABLE IF NOT EXISTS `FmsMenus` (
   `menuStatus` varchar(13) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT '메뉴 상태',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`menuKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_menus_is_deleted_row` (`isDeletedRow`),
-  KEY `fm_parentMenuKey_fk` (`parentMenuKey`),
-  KEY `fm_menuCategoryKey_fk` (`menuCategoryKey`),
-  KEY `fm_menuStatus_fk` (`menuStatus`),
-  CONSTRAINT `fm_menuCategoryKey_fk` FOREIGN KEY (`menuCategoryKey`) REFERENCES `FmsMenuCategorys` (`menuCategoryKey`),
-  CONSTRAINT `fm_menuStatus_fk` FOREIGN KEY (`menuStatus`) REFERENCES `FmsCodes` (`code`),
-  CONSTRAINT `fm_parentMenuKey_fk` FOREIGN KEY (`parentMenuKey`) REFERENCES `FmsMenus` (`menuKey`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_menus_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fm_parentMenuKey_fk` (`parentMenuKey`),
+  -- KEY `fm_menuCategoryKey_fk` (`menuCategoryKey`),
+  -- KEY `fm_menuStatus_fk` (`menuStatus`),
+  -- CONSTRAINT `fm_menuCategoryKey_fk` FOREIGN KEY (`menuCategoryKey`) REFERENCES `FmsMenuCategorys` (`menuCategoryKey`),
+  -- CONSTRAINT `fm_menuStatus_fk` FOREIGN KEY (`menuStatus`) REFERENCES `FmsCodes` (`code`),
+  -- CONSTRAINT `fm_parentMenuKey_fk` FOREIGN KEY (`parentMenuKey`) REFERENCES `FmsMenus` (`menuKey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='관리자 메뉴 테이블';
 
 -- 테이블 데이터 file_management_service.FmsMenus:~6 rows (대략적) 내보내기

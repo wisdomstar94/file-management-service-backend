@@ -26,10 +26,10 @@ CREATE TABLE IF NOT EXISTS `FmsPermissions` (
   `updatedIp` varchar(40) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT '수정시 요청 IP',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`permissionKey`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_permissions_is_deleted_row` (`isDeletedRow`),
-  KEY `fp_menuKey_fk` (`menuKey`),
-  CONSTRAINT `fp_menuKey_fk` FOREIGN KEY (`menuKey`) REFERENCES `FmsMenus` (`menuKey`)
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_permissions_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fp_menuKey_fk` (`menuKey`),
+  -- CONSTRAINT `fp_menuKey_fk` FOREIGN KEY (`menuKey`) REFERENCES `FmsMenus` (`menuKey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=293 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='각 메뉴별로 권한 내용이 지정된 테이블 \n(권한 그룹 생성 페이지에서 여기에 해당하는 내용이 모두 표시되며, \n여기중에 원하는 권한만 체크를 하면 FmsPermissionGroupUploads에 행이 생성된다)';
 
 -- 테이블 데이터 file_management_service.FmsPermissions:~282 rows (대략적) 내보내기

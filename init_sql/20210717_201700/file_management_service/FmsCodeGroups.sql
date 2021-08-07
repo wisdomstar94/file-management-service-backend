@@ -23,10 +23,10 @@ CREATE TABLE IF NOT EXISTS `FmsCodeGroups` (
   `status` tinyint(1) NOT NULL DEFAULT 1 COMMENT '코드 그룹 상태 (1: 사용, 2:미사용)',
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`codeGroup`),
-  UNIQUE KEY `seq` (`seq`),
-  KEY `fms_code_groups_status` (`status`),
-  KEY `fms_code_groups_is_deleted_row` (`isDeletedRow`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='코드 그룹 테이블';
+  UNIQUE KEY `seq` (`seq`)
+  -- KEY `fms_code_groups_status` (`status`),
+  -- KEY `fms_code_groups_is_deleted_row` (`isDeletedRow`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='코드 그룹 테이블';
 
 -- 테이블 데이터 file_management_service.FmsCodeGroups:~14 rows (대략적) 내보내기
 /*!40000 ALTER TABLE `FmsCodeGroups` DISABLE KEYS */;

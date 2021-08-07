@@ -22,10 +22,10 @@ CREATE TABLE IF NOT EXISTS `FmsPermissionGroupInfos` (
   `updatedAt` datetime DEFAULT NULL COMMENT '수정일',
   PRIMARY KEY (`permissionGroupInfoKey`),
   UNIQUE KEY `seq` (`seq`),
-  UNIQUE KEY `permissionGroupKey` (`permissionGroupKey`),
-  KEY `fpgis_createrUserKey_fk` (`createrUserKey`),
-  CONSTRAINT `fpgis_createrUserKey_fk` FOREIGN KEY (`createrUserKey`) REFERENCES `FmsUsers` (`userKey`),
-  CONSTRAINT `fpgis_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`)
+  UNIQUE KEY `permissionGroupKey` (`permissionGroupKey`)
+  -- KEY `fpgis_createrUserKey_fk` (`createrUserKey`),
+  -- CONSTRAINT `fpgis_createrUserKey_fk` FOREIGN KEY (`createrUserKey`) REFERENCES `FmsUsers` (`userKey`),
+  -- CONSTRAINT `fpgis_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='권한 그룹 부가 정보 테이블';
 
 -- 테이블 데이터 file_management_service.FmsPermissionGroupInfos:~0 rows (대략적) 내보내기

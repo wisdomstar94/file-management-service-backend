@@ -33,18 +33,18 @@ CREATE TABLE IF NOT EXISTS `FmsUsers` (
   `isDeletedRow` enum('Y','N') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'N' COMMENT '행 삭제 여부',
   PRIMARY KEY (`userKey`),
   UNIQUE KEY `seq` (`seq`),
-  UNIQUE KEY `userId` (`userId`),
-  KEY `fms_users_is_deleted_row` (`isDeletedRow`),
-  KEY `fu_parentUserKey_fk` (`parentUserKey`),
-  KEY `fu_companyKey_fk` (`companyKey`),
-  KEY `fu_permissionGroupKey_fk` (`permissionGroupKey`),
-  KEY `fu_userLevel_fk` (`userLevel`),
-  KEY `fu_userStatus_fk` (`userStatus`),
-  CONSTRAINT `fu_companyKey_fk` FOREIGN KEY (`companyKey`) REFERENCES `FmsCompanys` (`companyKey`),
-  CONSTRAINT `fu_parentUserKey_fk` FOREIGN KEY (`parentUserKey`) REFERENCES `FmsUsers` (`userKey`),
-  CONSTRAINT `fu_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`),
-  CONSTRAINT `fu_userLevel_fk` FOREIGN KEY (`userLevel`) REFERENCES `FmsCodes` (`code`),
-  CONSTRAINT `fu_userStatus_fk` FOREIGN KEY (`userStatus`) REFERENCES `FmsCodes` (`code`)
+  UNIQUE KEY `userId` (`userId`)
+  -- KEY `fms_users_is_deleted_row` (`isDeletedRow`),
+  -- KEY `fu_parentUserKey_fk` (`parentUserKey`),
+  -- KEY `fu_companyKey_fk` (`companyKey`),
+  -- KEY `fu_permissionGroupKey_fk` (`permissionGroupKey`),
+  -- KEY `fu_userLevel_fk` (`userLevel`),
+  -- KEY `fu_userStatus_fk` (`userStatus`),
+  -- CONSTRAINT `fu_companyKey_fk` FOREIGN KEY (`companyKey`) REFERENCES `FmsCompanys` (`companyKey`),
+  -- CONSTRAINT `fu_parentUserKey_fk` FOREIGN KEY (`parentUserKey`) REFERENCES `FmsUsers` (`userKey`),
+  -- CONSTRAINT `fu_permissionGroupKey_fk` FOREIGN KEY (`permissionGroupKey`) REFERENCES `FmsPermissionGroups` (`permissionGroupKey`),
+  -- CONSTRAINT `fu_userLevel_fk` FOREIGN KEY (`userLevel`) REFERENCES `FmsCodes` (`code`),
+  -- CONSTRAINT `fu_userStatus_fk` FOREIGN KEY (`userStatus`) REFERENCES `FmsCodes` (`code`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='회원 테이블';
 
 -- 테이블 데이터 file_management_service.FmsUsers:~0 rows (대략적) 내보내기
