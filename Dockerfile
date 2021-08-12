@@ -91,6 +91,9 @@ WORKDIR /home2/file-management-service
 RUN /usr/local/git/bin/git clone https://github.com/shinjaehyeon/file-management-service-backend.git
 RUN /usr/local/git/bin/git clone https://github.com/shinjaehyeon/file-management-service-frontend.git
 
+# .env.sample 파일을 /home2/file-management-service/file-management-service-backend/.env 파일로 복사
+COPY .env.sample /home2/file-management-service/file-management-service-backend/.env
+
 # npm 패키지 모듈 설치하기
 WORKDIR /home2/file-management-service/file-management-service-backend
 RUN npm i
