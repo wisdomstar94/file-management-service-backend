@@ -1,7 +1,9 @@
 const cron = require('node-cron');
 const myDate = require('../routes/librarys/myDate');
 const myLogger = require('../routes/librarys/myLogger');
+const myCrypto = require('../routes/librarys/myCrypto');
 // const { sequelize } = require('../models');
+const db = require('../models');
 const { Sequelize, QueryTypes } = require('sequelize');
 require('dotenv').config();
 
@@ -40,7 +42,6 @@ cron.schedule('*/10 * * * * *', async() => {
   myLogger.info(`table_name_exist_result.length = ${table_name_exist_result.length}`);
   
   if (table_name_exist_result.length === 0) {
-
     // 초기 필요 데이터 삽입 시작
     // FmsCodeGroups
     await sequelize.query(`
@@ -815,6 +816,17 @@ cron.schedule('*/10 * * * * *', async() => {
         type: QueryTypes.INSERT 
       }
     );
+
+
+
+    // 초기 test123 계정의 비밀번호 설정
+    const modifyResult = await db.FmsUsers.update({
+      userPassword: myCrypto.oneRootEncrypt({ originalValue: '123456' }),
+    }, {
+      where: {
+        userKey: 'C1618033738099vtEiUg',
+      },
+    });
 
 
 
