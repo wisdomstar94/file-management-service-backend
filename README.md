@@ -62,7 +62,7 @@ https://github.com/shinjaehyeon/file-management-service-frontend
 <br>
 <br>
 
-# 사용방법
+# 기본 사용방법
 <br>
 1) 도커 이미지를 pull 받는다.<br>
 docker pull jwisedom/file-management-service-image:latest<br>
@@ -70,19 +70,22 @@ docker pull jwisedom/file-management-service-image:latest<br>
 2) 컨테이너를 생성한다. (이미 이용중인 포트라면 호스트의 다른 가용 포트를 연결하시면 됩니다.)<br>
 docker run -i -t -d --privileged -p 47220:47220 -p 47221:47221 --name 컨테이너명 jwisedom/file-management-service-image:latest<br>
 <br>
-3) .env 파일에서 key 값을 변경한다 (원래 입력된 key의 자리수와 동일하게)<br>
-(ENCRYPT_KEY, ONE_ROOT_ENCRYPT_SALT, COOKIE_SECRET_KEY, JWT_SECRET, JWT_FILE_DOWNLOAD_URL_SECRET)<br>
-<br>
-4) 컨테이너를 실행한다.<br>
+3) 컨테이너를 실행한다.<br>
 docker exec -it 컨테이너명 bash<br>
+<br>
+4) /home2/file-management-service/file-management-service-backend/.env 파일에서 key 값을 변경한다 (원래 입력된 key의 자리수와 동일하게)<br>
+(ENCRYPT_KEY, ONE_ROOT_ENCRYPT_SALT, COOKIE_SECRET_KEY, JWT_SECRET, JWT_FILE_DOWNLOAD_URL_SECRET)<br>
 <br>
 5) /home2/file-management-service/file-management-service-backend 경로로 가서<br>
 node user_password_init.js 명령어를 실행한다.<br>
 <br>
-6) 아래 주소로 접근한다.<br>
+6) /home2/file-management-service/file-management-service-backend 경로에서<br>
+pm2 delete FileManagementService && pm2 start pm2.config.js 명령어를 실행한다.<br>
+<br>
+7) 아래 주소로 접근한다.<br>
 http://localhost:47220<br>
 <br>
-7) 아래 기본 계정으로 로그인 한 후, 회원 관리에서 비밀번호를 변경하여 이용한다.<br>
+8) 아래 기본 계정으로 로그인 한 후, 회원 관리에서 비밀번호를 변경하여 이용한다.<br>
 ID : test123<br>
 PW : 123456<br>
 <br>
