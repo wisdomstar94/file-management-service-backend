@@ -2,3 +2,4 @@ node_modules
 logs
 client
 .env
+allow_ip.js

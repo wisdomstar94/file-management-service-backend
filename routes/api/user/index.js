@@ -23,7 +23,7 @@ const rateRedisLimiter = new RateLimit({
     expiry: 60, // 60초
   }),
   // windowMs: 1000,
-  max: 5, // 최대 5개 request
+  max: 3, // 최대 3개 request
   handler: function(req, res) {
     res.json({
       result: 'fail',

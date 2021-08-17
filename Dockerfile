@@ -94,6 +94,9 @@ RUN /usr/local/git/bin/git clone https://github.com/shinjaehyeon/file-management
 # .env.sample 파일을 /home2/file-management-service/file-management-service-backend/.env 파일로 복사
 COPY .env.sample /home2/file-management-service/file-management-service-backend/.env
 
+# allow_ip.js.sample 파일을 /home2/file-management-service/file-management-service-backend/allow_ip.js 파일로 복사
+COPY allow_ip.js.sample /home2/file-management-service/file-management-service-backend/allow_ip.js
+
 # npm 패키지 모듈 설치하기
 WORKDIR /home2/file-management-service/file-management-service-backend
 RUN npm i
