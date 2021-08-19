@@ -44,7 +44,7 @@ const sequelizeTest = require('./routes/middlewares/sequelizeTest');
 // crons
 const fmsFileDownloadLogsTableCreateCron = require('./crons/fms_file_download_logs_table_create');
 const fmsLogsTableCreateCron = require('./crons/fms_logs_table_create');
-const db_init_check_cron = require('./crons/db_init_check');
+// const db_init_check_cron = require('./crons/db_init_check.js.legacy');
 
 // sequelize
 const sequelize = require('./models').sequelize;
@@ -66,6 +66,12 @@ const apiFileVersionRouter = require('./routes/api/fileVersion/index');
 const apiFileDownloadUrlRouter = require('./routes/api/fileDownloadUrl/index');
 const apiDashboardRouter = require('./routes/api/dashboard/index');
 const apiDownloadRouter = require('./routes/api/download/index');
+
+// csrf
+const csrfMiddleware = csrf();
+
+// cors
+const corsMiddleware = cors(corsOptions);
 
 // express declare
 const app = express();
@@ -126,37 +132,38 @@ app.use(helmet.referrerPolicy({
 //   },
 // }))
 app.use(setRequestInfoLogging);
-app.use(csrf());
+// app.use(csrf());
 // app.use(cors(corsOptions));
 // app.use(cors());
 
 
 // static path match
 app.use('/public', express.static(path.join(__dirname, 'static', 'files/')));
+app.use('/favicon.ico', express.static(path.join(__dirname, 'static', 'files', 'images', 'favicon/favicon.ico')));
 
 // router match
-app.use('/api/code', apiCodeRouter);
-app.use('/api/codeGroup', apiCodeGroupRouter);
-app.use('/api/user', apiUserRouter);
-app.use('/api/menuCategory', apiMenuCategoryRouter);
-app.use('/api/menu', apiMenuRouter);
-app.use('/api/permission', apiPermissionRouter);
-app.use('/api/permissionGroup', apiPermissionGroupRouter);
-app.use('/api/permissionGroupUpload', apiPermissionGroupUploadRouter);
-app.use('/api/company', apiCompanyRouter);
-app.use('/api/file', apiFileRouter);
-app.use('/api/fileVersion', apiFileVersionRouter);
-app.use('/api/fileDownloadUrl', apiFileDownloadUrlRouter);
-app.use('/api/dashboard', apiDashboardRouter);
-app.use('/api/download', apiDownloadRouter);
+app.use('/api/code', corsMiddleware, apiCodeRouter);
+app.use('/api/codeGroup', corsMiddleware, apiCodeGroupRouter);
+app.use('/api/user', corsMiddleware, apiUserRouter);
+app.use('/api/menuCategory', corsMiddleware, apiMenuCategoryRouter);
+app.use('/api/menu', corsMiddleware, apiMenuRouter);
+app.use('/api/permission', corsMiddleware, apiPermissionRouter);
+app.use('/api/permissionGroup', corsMiddleware, apiPermissionGroupRouter);
+app.use('/api/permissionGroupUpload', corsMiddleware, apiPermissionGroupUploadRouter);
+app.use('/api/company', corsMiddleware, apiCompanyRouter);
+app.use('/api/file', corsMiddleware, apiFileRouter);
+app.use('/api/fileVersion', corsMiddleware, apiFileVersionRouter);
+app.use('/api/fileDownloadUrl', corsMiddleware, apiFileDownloadUrlRouter);
+app.use('/api/dashboard', corsMiddleware, apiDashboardRouter);
+app.use('/api/download', corsMiddleware, apiDownloadRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
 app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
 app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
 
-app.use('/file/download', angularFrontRouter);
-app.use('*', checkIPPermission, angularFrontRouter);
+app.use('/file/download', csrfMiddleware, angularFrontRouter);
+app.use('*', csrfMiddleware, checkIPPermission, angularFrontRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

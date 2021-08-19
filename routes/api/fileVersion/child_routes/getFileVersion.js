@@ -1303,6 +1303,8 @@ const getFileVersion = wrapper(async(req, res, next) => {
     'JB1617690933433tLluC', // 버전명
     'SeRnu1619347424736oW', // 버전코드
     'nliXBpe1619346980735', // 원본 파일명
+    'kFqlnMS1629362524666', // 파일 용량
+    'wLaZVRy1629376506306', // 파일 다운로드버튼
     'vUQXMVa1617690946162', // 다운로드 될 파일명
     'uo1617690962543egYFj', // 등록자 ID
     'hk1617690976759OMcvp', // 등록일
@@ -1319,9 +1321,12 @@ const getFileVersion = wrapper(async(req, res, next) => {
   const FmsUpdaterUsersAttributes = [];
   const FmsFileVersionStatusCodesAttributes = [];
 
+  const isShowFileDownloadButton = activePermissionKeys.includes('wLaZVRy1629376506306');
+
   activePermissionKeys.includes('JB1617690933433tLluC') ? FmsFileVersionsAttributes.push('fileVersionName') : null;
   activePermissionKeys.includes('SeRnu1619347424736oW') ? FmsFileVersionsAttributes.push('fileVersionCode') : null;
   activePermissionKeys.includes('nliXBpe1619346980735') ? FmsFileVersionsAttributes.push('fileOriginalName') : null;
+  activePermissionKeys.includes('kFqlnMS1629362524666') ? FmsFileVersionsAttributes.push('fileSize') : null;
   activePermissionKeys.includes('vUQXMVa1617690946162') ? FmsFileVersionsAttributes.push('fileDownloadName') : null;
   if (activePermissionKeys.includes('uo1617690962543egYFj')) {
     FmsFileVersionsAttributes.push('createrUserKey');
@@ -1407,6 +1412,7 @@ const getFileVersion = wrapper(async(req, res, next) => {
       list: list,
       totalCount: totalCount,
       getBoardCountInfo: getBoardCountInfo,
+      isShowFileDownloadButton: isShowFileDownloadButton,
     },
   }));
   return;
