@@ -92,8 +92,9 @@ const onlyFileVersionList = wrapper(async(req, res, next) => {
 
   where[Op.and] = OpAndArray;
 
-  order.push(['fileVersionName', 'DESC']);
-  order.push(['createdAt', 'DESC']);
+  // order.push(['fileVersionName', 'DESC']);
+  // order.push(['createdAt', 'DESC']);
+  order.push(['fileVersionCode', 'DESC']);
 
   const FmsFileVersionsAttributes = [
     'fileVersionKey', 'fileKey', 'fileVersionName', 'fileVersionCode', 

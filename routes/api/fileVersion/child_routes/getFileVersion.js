@@ -1209,8 +1209,9 @@ const getFileVersion = wrapper(async(req, res, next) => {
   }
   where[Op.and] = OpAndArray;
   where.isDeletedRow = 'N';
-  order.push(['fileKey', 'DESC']);
-  order.push(['createdAt', 'DESC']);
+  // order.push(['fileKey', 'DESC']);
+  // order.push(['createdAt', 'DESC']);
+  order.push(['fileVersionCode', 'DESC']);
 
   // 전체 리스트 가져오기 (전체 갯수)
   const totalResult = await db.FmsFileVersions.findAndCountAll({

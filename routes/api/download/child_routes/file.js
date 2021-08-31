@@ -161,7 +161,7 @@ const file = wrapper(async(req, res, next) => {
         fileVersionStatus: 'FVSTS00000001',
       },
       order: [
-        ['createdAt', 'DESC'],
+        ['fileVersionCode', 'DESC'],
       ],
     });
   } else {

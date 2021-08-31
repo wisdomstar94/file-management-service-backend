@@ -243,7 +243,8 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     },
   });
   for (let i = 0; i < fileVersionNameCheck.length; i++) {
-    if (fileVersionNameCheck[i].fileVersionName >= fileVersionName) {
+    // console.log('fileVersionNameCheck[i].fileVersionName', fileVersionNameCheck[i].fileVersionName);
+    if (fileVersionNameCheck[i].fileVersionName === fileVersionName) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
@@ -299,7 +300,7 @@ const uploadFileVersion = wrapper(async(req, res, next) => {
     },
   });
   for (let i = 0; i < fileVersionCodeCheck.length; i++) {
-    if (fileVersionCodeCheck[i].fileVersionCode >= fileVersionCode) {
+    if (fileVersionCodeCheck[i].fileVersionCode === fileVersionCode) {
       res.status(200).json(myValueLog({
         req: req,
         obj: {
