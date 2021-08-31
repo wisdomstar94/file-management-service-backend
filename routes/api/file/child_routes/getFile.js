@@ -1372,6 +1372,23 @@ const getFile = wrapper(async(req, res, next) => {
       'fileDownloadUrlCount'
     ]);
   }
+  FmsFilesAttributes.push([
+    db.Sequelize.literal(`(
+      SELECT 
+
+      \`FFI\`.\`fileAccessUrl\` AS \`fileAccessUrl\` 
+
+      FROM \`${process.env.MAIN_DB_DEFAULT_DATABASE}\`.\`FmsFileImages\` AS \`FFI\` 
+
+      WHERE \`FFI\`.\`fileKey\` = \`FmsFiles\`.\`fileKey\` 
+      AND \`FFI\`.\`isDeletedRow\` = 'N'
+
+      ORDER BY \`FFI\`.\`createdAt\` DESC 
+
+      LIMIT 1
+    )`),
+    'fileRepresentImageAccessUrl'
+  ]);
 
 
   const list = await db.FmsFiles.findAll({
