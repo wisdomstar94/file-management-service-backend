@@ -82,6 +82,7 @@ const file = wrapper(async(req, res, next) => {
         attributes: ['fileKey', 'fileLabelName', 'fileStatus'],
         required: true,
         where: {
+          fileStatus: 'FISTS00000001',
           isDeletedRow: 'N',
         },
       },

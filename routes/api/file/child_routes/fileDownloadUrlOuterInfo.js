@@ -149,7 +149,7 @@ const fileDownloadUrlOuterInfo = wrapper(async(req, res, next) => {
         isDeletedRow: 'N',
       },
       order: [
-        ['createdAt', 'DESC'],
+        ['fileVersionCode', 'DESC'],
       ],
     });
   } else {
