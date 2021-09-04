@@ -16,6 +16,7 @@ const child_route__modifyFileDownloadUrl = require('./child_routes/modifyFileDow
 const child_route__getFileDownloadUrl = require('./child_routes/getFileDownloadUrl');
 const child_route__fileDownloadUrlInfo = require('./child_routes/fileDownloadUrlInfo');
 const child_route__deleteFileDownloadUrl = require('./child_routes/deleteFileDownloadUrl');
+const child_route__getFileDownloadUrlLog = require('./child_routes/getFileDownloadUrlLog');
 
 
 
@@ -27,6 +28,7 @@ router.post('/modifyFileDownloadUrl', jwtTokenCheck, child_route__modifyFileDown
 router.post('/getFileDownloadUrl', jwtTokenCheck, child_route__getFileDownloadUrl);
 router.post('/fileDownloadUrlInfo', jwtTokenCheck, child_route__fileDownloadUrlInfo);
 router.post('/deleteFileDownloadUrl', jwtTokenCheck, child_route__deleteFileDownloadUrl);
+router.post('/getFileDownloadUrlLog', jwtTokenCheck, child_route__getFileDownloadUrlLog);
 
 
 

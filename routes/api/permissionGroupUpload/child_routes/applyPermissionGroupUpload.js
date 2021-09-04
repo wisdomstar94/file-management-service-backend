@@ -406,7 +406,7 @@ const applyPermissionGroupUpload = wrapper(async(req, res, next) => {
         sortNo: sortNo,
         createdAt: myDate().format('YYYY-MM-DD HH:mm:ss'),
         createdIp: req.real_ip,
-        permissionGroupStatus: 'PEGRS00000001',
+        permissionGroupStatus: permissionGroupStatus,
         // permissionGroupInfoKey: newPermissionGroupInfoKey,
       };
 

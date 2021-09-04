@@ -215,8 +215,10 @@ const fileDownloadUrlInfo = wrapper(async(req, res, next) => {
           attributes: ['code', 'codeName'],
         }
       ],
-      group: ['conditionType'],
+      // group: ['conditionType'],
     });
+
+    console.log('why?? conditionInfo', conditionInfo);
   }
 
   // 버전이 최신버전인 경우 체크 (null)
