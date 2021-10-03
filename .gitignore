@@ -1,5 +1,6 @@
 node_modules
 logs
 client
+client-old
 .env
 allow_ip.js
