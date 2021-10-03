@@ -82,12 +82,14 @@ node user_password_init.js 명령어를 실행한다.<br>
 6) /home2/file-management-service/file-management-service-backend 경로에서<br>
 pm2 delete FileManagementService && pm2 start pm2.config.js 명령어를 실행한다.<br>
 <br>
-7) 아래 주소로 접근한다.<br>
-http://localhost:47220<br>
+7) 아래 주소로 접근한다. (로컬용)<br>
+http://127.0.0.1:47220<br>
 <br>
 8) 아래 기본 계정으로 로그인 한 후, 회원 관리에서 비밀번호를 변경하여 이용한다.<br>
 ID : test123<br>
 PW : 123456<br>
+<br>
+9) 외부에서 공인 IP 주소:PORT나 nginx의 프록시패스 등을 활용하여 도메인 등으로 접근되게 셋팅도 가능.
 <br>
 <br>
 
