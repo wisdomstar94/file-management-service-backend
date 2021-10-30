@@ -88,8 +88,8 @@ RUN mkdir /home2 && mkdir /home2/file-management-service
 
 # 파일 관리 서비스 git 내려받기
 WORKDIR /home2/file-management-service
-RUN /usr/local/git/bin/git clone https://github.com/shinjaehyeon/file-management-service-backend.git
-RUN /usr/local/git/bin/git clone https://github.com/shinjaehyeon/file-management-service-frontend.git
+RUN /usr/local/git/bin/git clone https://github.com/wisdomstar94/file-management-service-backend.git
+RUN /usr/local/git/bin/git clone https://github.com/wisdomstar94/file-management-service-frontend.git
 
 # .env.sample 파일을 /home2/file-management-service/file-management-service-backend/.env 파일로 복사
 COPY .env.sample /home2/file-management-service/file-management-service-backend/.env
