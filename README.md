@@ -57,7 +57,7 @@
 <br>
 
 # 프론트엔드 <br>
-https://github.com/shinjaehyeon/file-management-service-frontend
+https://github.com/wisdomstar94/file-management-service-frontend
 
 <br>
 <br>
