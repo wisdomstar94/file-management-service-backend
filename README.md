@@ -65,10 +65,10 @@ https://github.com/wisdomstar94/file-management-service-frontend
 # 기본 사용방법
 <br>
 1) 도커 이미지를 pull 받는다.<br>
-docker pull jwisedom/file-management-service-image:latest<br>
+docker pull wisdomstar94/file-management-service-image:latest<br>
 <br>
 2) 컨테이너를 생성한다. (이미 이용중인 포트라면 호스트의 다른 가용 포트를 연결하시면 됩니다.)<br>
-docker run -i -t -d --privileged -p 47220:47220 -p 47221:47221 --name 컨테이너명 jwisedom/file-management-service-image:latest<br>
+docker run -i -t -d --privileged -p 47220:47220 -p 47221:47221 --name 컨테이너명 wisdomstar94/file-management-service-image:latest<br>
 <br>
 3) 컨테이너를 실행한다.<br>
 docker exec -it 컨테이너명 bash<br>
@@ -112,7 +112,7 @@ PW : 123456<br>
 <br>
 5) 백엔드는 node (express), 프론트엔드는 angular 로 만들어져 있습니다.<br>
 <br>
-6) 버그나 기타 의견이 있으시면 jwisedom@gmail.com 으로 보내주시면 됩니다.<br>
+6) 버그나 기타 의견이 있으시면 wisdomstar94@gmail.com 으로 보내주시면 됩니다.<br>
 <br>
 <br>
 감사합니다.
