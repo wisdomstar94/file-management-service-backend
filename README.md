@@ -73,7 +73,7 @@ docker run -i -t -d --privileged -p 47220:47220 -p 47221:47221 --name 컨테이�
 3) 컨테이너를 실행한다.<br>
 docker exec -it 컨테이너명 bash<br>
 <br>
-4) /home2/file-management-service/file-management-service-backend/.env 파일에서 key 값을 변경한다 (원래 입력된 key의 자리수와 동일하게)<br>
+4) /home2/file-management-service/file-management-service-backend/.env 파일에서 아래에 명시된 key 값들을 변경한다. (원래 입력된 key의 자리수와 동일한 자리수로)<br>
 (ENCRYPT_KEY, ONE_ROOT_ENCRYPT_SALT, COOKIE_SECRET_KEY, JWT_SECRET, JWT_FILE_DOWNLOAD_URL_SECRET)<br>
 <br>
 5) /home2/file-management-service/file-management-service-backend 경로로 가서<br>
@@ -88,6 +88,8 @@ http://127.0.0.1:47220<br>
 8) 아래 기본 계정으로 로그인 한 후, 회원 관리에서 비밀번호를 변경하여 이용한다.<br>
 ID : test123<br>
 PW : 123456<br>
+(로그인은 30초에 최대 10번의 request 만 허용되므로, 만약 응답코드가 20067010 으로 표시된다면 30초 후에 다시 로그인을 시도해주세요.)
+
 <br>
 9) 외부에서 공인 IP 주소:PORT나 nginx의 프록시패스 등을 활용하여 도메인 등으로 접근되게 셋팅도 가능.
 <br>

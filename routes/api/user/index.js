@@ -20,10 +20,10 @@ const rateRedisLimiter = new RateLimit({
   store: new RateRedisStore({
     // see Configuration
     client: RedisClient,
-    expiry: 60, // 60초
+    expiry: 30, // 30초
   }),
   // windowMs: 1000,
-  max: 3, // 최대 3개 request
+  max: 10, // 최대 10개 request
   handler: function(req, res) {
     res.json({
       result: 'fail',
