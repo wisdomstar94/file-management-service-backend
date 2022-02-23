@@ -36,7 +36,8 @@ const setRequestInfoLogging = function(req, res, next) {
   // console.log('req.hostname', req.hostname);
   req.is_localling = false;
   req.front_base_url = '';
-  if (req.hostname === 'localhost') {
+  // if (req.hostname === 'localhost') {
+  if (process.env.NODE_ENV !== 'production') {
     req.is_localling = true;
     req.front_base_url = 'http://localhost:4200';
   }
