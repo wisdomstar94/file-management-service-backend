@@ -159,10 +159,11 @@ app.use('/api/download', corsMiddleware, apiDownloadRouter);
 
 // static path setup
 // app.use(express.static(path.join(__dirname, 'public')));
-app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
+// app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
 app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
 
 app.use('/file/download', csrfMiddleware, angularFrontRouter);
+app.use(express.static(path.join(__dirname, '/client/')));
 app.use('*', csrfMiddleware, checkIPPermission, angularFrontRouter);
 
 // catch 404 and forward to error handler
