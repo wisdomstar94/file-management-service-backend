@@ -6,7 +6,7 @@ import (
 )
 
 const initCheckFile string = "/golang/init_success.txt"
-const initRootPassword string = "112233!@#"
+const initRootPassword string = "112233abc"
 
 /*
 	커맨드로 mariadb 를 실행시키고 이후 설정해야 할 커맨드 추가 입력

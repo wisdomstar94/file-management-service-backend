@@ -70,7 +70,7 @@ RUN sed -i'' -r -e "/bind-address            = 127.0.0.1/a\bind-address         
 RUN apt install redis-server -y
 
 # Redis 비밀번호 설정
-RUN sed -i'' -r -e "/requirepass foobared/a\requirepass 112233\!\@\#" /etc/redis/redis.conf
+RUN sed -i'' -r -e "/requirepass foobared/a\requirepass 112233abc" /etc/redis/redis.conf
 
 # Redis 실행
 RUN service redis-server stop && service redis-server start
