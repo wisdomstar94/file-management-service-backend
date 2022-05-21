@@ -23,10 +23,9 @@ RUN apt-get install language-pack-ko -y
 RUN locale-gen ko_KR.UTF-8
 RUN update-locale LANG=ko_KR.UTF-8 LC_MESSAGES=POSIX
 RUN export LANG=ko_KR.UTF-8
-RUN sed -i'' -r -e "/this file has to be sourced in/a\export LANG=ko_KR.UTF-8" /etc/bash.bashrc
 
-# Node.js 14.x 설치
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
+# Node.js 16.x 설치
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -
 RUN apt-get install -y nodejs
 
 # git 2.30.x 설치
@@ -38,7 +37,6 @@ WORKDIR /usr/src/git-2.30.0
 RUN ./configure --prefix=/usr/local/git
 RUN make && make install
 RUN export PATH=\$PATH:/usr/local/git/bin
-RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\export PATH=\$PATH:/usr/local/git/bin" /etc/bash.bashrc
 
 # 필요한 npm 패키지 전역 설치
 RUN npm i -g pm2 @angular/core @angular/cli
@@ -49,9 +47,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 0xF1656F24
 RUN add-apt-repository 'deb [arch=amd64,arm64,ppc64el] http://mirror.lstn.net/mariadb/repo/10.5/ubuntu focal main'
 RUN apt update -y
 RUN apt install mariadb-server -y
-
-# RUN systemctl enable mariadb
-RUN sed -i'' -r -e "/\/usr\/local\/git\/bin/a\service mariadb start" /etc/bash.bashrc
 
 # MariaDB 기본 언어셋 UTF-8로 설정
 RUN sed -i'' -r -e "/\[mysql\]/a\default-character-set = utf8mb4" /etc/mysql/mariadb.conf.d/50-mysql-clients.cnf \
@@ -80,9 +75,6 @@ RUN sed -i'' -r -e "/requirepass foobared/a\requirepass 112233\!\@\#" /etc/redis
 # Redis 실행
 RUN service redis-server stop && service redis-server start
 
-# Redis 자동 실행 등록
-RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\service redis-server start" /etc/bash.bashrc
-
 # 파일 관리 서비스가 위치할 폴더 생성하기
 RUN mkdir /home2 && mkdir /home2/file-management-service
 
@@ -105,11 +97,6 @@ RUN npm i
 RUN npm run build
 
 # MariaDB 초기설정
-# RUN service mariadb start
-# COPY mariadb.sh /home2/file-management-service/file-management-service-backend/mariadb.sh
-# WORKDIR /home2/file-management-service/file-management-service-backend
-# RUN sed -i 's/\r$//' mariadb.sh
-# RUN sh mariadb.sh 
 RUN mkdir /golang-project
 COPY golang /golang-project/golang
 
@@ -124,26 +111,15 @@ WORKDIR /usr/src
 RUN wget https://golang.org/dl/go1.16.6.linux-amd64.tar.gz
 RUN tar -C /usr/local -xzf go1.16.6.linux-amd64.tar.gz
 RUN export PATH=$PATH:/usr/local/go/bin
-RUN sed -i'' -r -e "/export LANG=ko_KR.UTF-8/a\export PATH=\$PATH:/usr/local/go/bin" /etc/bash.bashrc
 
 # 필요한 golang package 설치
 WORKDIR /home2/file-management-service/file-management-service-backend
 RUN /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
 
-# db init
-# COPY db_init.go /home2/file-management-service/file-management-service-backend/db_init.go
-# COPY go.mod /home2/file-management-service/file-management-service-backend/go.mod
-# COPY go.sum /home2/file-management-service/file-management-service-backend/go.sum
-# WORKDIR /home2/file-management-service/file-management-service-backend
-
-# 컨테이너 실행시 npx sequelize db:migrate 실행되도록 설정
-RUN sed -i'' -r -e "/service mariadb start/a\pushd /home2/file-management-service/file-management-service-backend\nnpx sequelize db:migrate\npopd\n\# t20210812213400" /etc/bash.bashrc
-
-# 컨테이너 실행시 file-management-service 가 자동 실행되도록 설정
-RUN sed -i'' -r -e "/t20210812213400/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd\n\# t20220521145100" /etc/bash.bashrc
-
-# 컨테이너 실행시 /golang-project/golang/main.go 가 실행되도록 설정
-RUN sed -i'' -r -e "/t20220521145100/a\pushd /golang-project/golang\ngo run main.go\npopd" /etc/bash.bashrc
+# 컨테이너 구동시 /sh/start_init.sh 실행
+RUN mkdir /sh
+COPY start_init.sh /sh/start_init.sh
+RUN sed -i'' -r -e "/this file has to be sourced in/a\source /sh/start_init.sh" /etc/bash.bashrc
 
 # 루트 경로로 이동
 WORKDIR /
