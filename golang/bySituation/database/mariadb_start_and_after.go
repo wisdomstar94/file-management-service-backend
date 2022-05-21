@@ -51,7 +51,7 @@ func startInit() {
 	// }, ""))
 	// log.Println("result4", result4)
 
-	var result5 = common.Command("source", "/sh/db_init.sh", common.SumString([]string{
+	var result5 = common.Command("bash", "/sh/db_init.sh", common.SumString([]string{
 		initRootPassword,
 	}, ""))
 	log.Println("result5", result5)

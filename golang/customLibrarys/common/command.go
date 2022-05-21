@@ -17,9 +17,12 @@ func init() {
 */
 func Command(command string, arg ...string) string {
 	cmd := exec.Command(command, arg...)
-	output, err := cmd.Output()
+	output, err := cmd.CombinedOutput()
 	if err != nil {
 		log.Println("Command Error :", err)
+		log.Println("Error when running command.  Output:")
+		log.Println(string(output))
+		log.Printf("Got command status: %s\n", err.Error())
 		return "COMMAND_ERROR"
 	} else {
 		log.Println("Command Result", string(output))
