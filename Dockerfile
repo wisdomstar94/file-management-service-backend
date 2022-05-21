@@ -102,7 +102,7 @@ WORKDIR /home2/file-management-service/file-management-service-backend
 RUN npm i
 WORKDIR /home2/file-management-service/file-management-service-frontend
 RUN npm i
-RUN ng build --configuration production --deploy-url=sync/port/
+RUN npm run build
 
 # MariaDB 초기설정
 # RUN service mariadb start
