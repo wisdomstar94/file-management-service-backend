@@ -105,11 +105,14 @@ RUN npm i
 RUN ng build --configuration production --deploy-url=sync/port/
 
 # MariaDB 초기설정
-RUN service mariadb start
-COPY mariadb.sh /home2/file-management-service/file-management-service-backend/mariadb.sh
-WORKDIR /home2/file-management-service/file-management-service-backend
-RUN sed -i 's/\r$//' mariadb.sh
-RUN sh mariadb.sh 
+# RUN service mariadb start
+# COPY mariadb.sh /home2/file-management-service/file-management-service-backend/mariadb.sh
+# WORKDIR /home2/file-management-service/file-management-service-backend
+# RUN sed -i 's/\r$//' mariadb.sh
+# RUN sh mariadb.sh 
+RUN mkdir /golang-project
+COPY golang /golang-project/golang
+
 
 # 컨테이너가 LISTEN 할 포트 지정
 EXPOSE 6379
@@ -137,7 +140,10 @@ RUN /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
 RUN sed -i'' -r -e "/service mariadb start/a\pushd /home2/file-management-service/file-management-service-backend\nnpx sequelize db:migrate\npopd\n\# t20210812213400" /etc/bash.bashrc
 
 # 컨테이너 실행시 file-management-service 가 자동 실행되도록 설정
-RUN sed -i'' -r -e "/t20210812213400/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd" /etc/bash.bashrc
+RUN sed -i'' -r -e "/t20210812213400/a\pushd /home2/file-management-service/file-management-service-backend\npm2 start pm2.config.js\npopd\n\# t20220521145100" /etc/bash.bashrc
+
+# 컨테이너 실행시 /golang-project/golang/main.go 가 실행되도록 설정
+RUN sed -i'' -r -e "/t20220521145100/a\pushd /golang-project/golang\ngo run main.go\npopd" /etc/bash.bashrc
 
 # 루트 경로로 이동
 WORKDIR /

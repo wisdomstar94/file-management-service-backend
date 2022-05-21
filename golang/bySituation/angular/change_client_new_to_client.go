@@ -1,0 +1,11 @@
+package angular
+
+import "go-useful-project/customLibrarys/common"
+
+func ChangeClientNewToClient() {
+	// client-new 폴더가 존재하는지 체크
+	if common.IsFileOrFolderExist(clientNewPath) {
+		// client 폴더가 존재하면 client-old 로 폴더명 변경하기
+		common.ChangeFileOrFolderName(clientNewPath, clientPath)
+	}
+}
