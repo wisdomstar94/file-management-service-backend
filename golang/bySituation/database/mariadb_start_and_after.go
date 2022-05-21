@@ -39,6 +39,7 @@ func startInit() {
 	// mariadb 의 계정 추가
 	var result3 = common.Command("mysql", "-e", common.SumString([]string{
 		common.SumString([]string{"CREATE USER 'root'@'172.17.0.1' IDENTIFIED BY '", initRootPassword, "';"}, ""),
+		common.SumString([]string{"ALTER USER 'root'@'localhost' IDENTIFIED BY '", initRootPassword, "';"}, ""),
 		common.SumString([]string{"GRANT ALL PRIVILEGES ON *.* TO 'root'@'172.17.0.1' IDENTIFIED BY '", initRootPassword, "' WITH GRANT OPTION;"}, ""),
 		"FLUSH PRIVILEGES;",
 	}, ""))
