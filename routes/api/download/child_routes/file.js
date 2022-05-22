@@ -339,9 +339,10 @@ const file = wrapper(async(req, res, next) => {
   if (conditionFDUCT00000003.length > 0) {
     const passwordjwt = req.query.passwordjwt;
 
+    console.log('redirect', req.front_base_url + '/file/download/' + fileDownloadUrlKey);
+
     if (typeof passwordjwt !== 'string' || passwordjwt === '') {
       // 압호 임력 페이지로 리다이렉트 (프론트)
-      console.log('redirect', req.front_base_url + '/file/download/' + fileDownloadUrlKey);
       res.redirect(req.front_base_url + '/file/download/' + fileDownloadUrlKey);
       return;
     }

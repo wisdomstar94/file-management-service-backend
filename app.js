@@ -1,4 +1,5 @@
 (async() => {
+ 
   // npm modules
   const createError = require('http-errors');
   const express = require('express');
@@ -14,14 +15,27 @@
   const helmet = require('helmet');
   require('dotenv').config();
 
+  // my librarys
+  const myLogger = require('./routes/librarys/myLogger');
+
   const redis = require('redis');
   const RedisStore = require('connect-redis')(session);
   // const RedisClient = redis.createClient(process.env.MAIN_REDIS_PORT, process.env.MAIN_REDIS_IP);
   const RedisClient = redis.createClient({
     password: process.env.MAIN_REDIS_PW,
+    legacyMode: true,
+  });
+  RedisClient.on('error', () => {
+    console.log('@@@redis client error!');
+  });
+  RedisClient.on('connect', () => {
+    console.log('@@@redis client connect!');
   });
   await RedisClient.connect();
-  await RedisClient.auth({ password: process.env.MAIN_REDIS_PW }, (err) => {
+  // await RedisClient.auth({ password: process.env.MAIN_REDIS_PW }, (err) => {
+  //   console.log('err', err);
+  // });
+  await RedisClient.auth(process.env.MAIN_REDIS_PW, (err) => {
     console.log('err', err);
   });
 
@@ -30,9 +44,6 @@
     credentials: true,
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   };
-
-  // my librarys
-  const myLogger = require('./routes/librarys/myLogger');
 
   // my middlewares
   const setRequestUnique = require('./routes/middlewares/setRequestUnique');
@@ -108,9 +119,9 @@
     },
     store: new RedisStore({
       client: RedisClient,
-      host: process.env.MAIN_REDIS_IP,
-      port: process.env.MAIN_REDIS_PORT,
-      pass: process.env.MAIN_REDIS_PW,
+      // host: process.env.MAIN_REDIS_IP,
+      // port: process.env.MAIN_REDIS_PORT,
+      // pass: process.env.MAIN_REDIS_PW,
       logErrors: true,
     }),
   }))
