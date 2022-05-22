@@ -153,27 +153,29 @@
   app.use('/favicon.ico', express.static(path.join(__dirname, 'static', 'files', 'images', 'favicon/favicon.ico')));
 
   // router match
-  app.use('/api/code', corsMiddleware, apiCodeRouter);
-  app.use('/api/codeGroup', corsMiddleware, apiCodeGroupRouter);
-  app.use('/api/user', corsMiddleware, apiUserRouter);
-  app.use('/api/menuCategory', corsMiddleware, apiMenuCategoryRouter);
-  app.use('/api/menu', corsMiddleware, apiMenuRouter);
-  app.use('/api/permission', corsMiddleware, apiPermissionRouter);
-  app.use('/api/permissionGroup', corsMiddleware, apiPermissionGroupRouter);
-  app.use('/api/permissionGroupUpload', corsMiddleware, apiPermissionGroupUploadRouter);
-  app.use('/api/company', corsMiddleware, apiCompanyRouter);
-  app.use('/api/file', corsMiddleware, apiFileRouter);
-  app.use('/api/fileVersion', corsMiddleware, apiFileVersionRouter);
-  app.use('/api/fileDownloadUrl', corsMiddleware, apiFileDownloadUrlRouter);
-  app.use('/api/dashboard', corsMiddleware, apiDashboardRouter);
-  app.use('/api/download', corsMiddleware, apiDownloadRouter);
+  app.use('/api/code', checkIPPermission, corsMiddleware, apiCodeRouter);
+  app.use('/api/codeGroup', checkIPPermission, corsMiddleware, apiCodeGroupRouter);
+  app.use('/api/user', checkIPPermission, corsMiddleware, apiUserRouter);
+  app.use('/api/menuCategory', checkIPPermission, corsMiddleware, apiMenuCategoryRouter);
+  app.use('/api/menu', checkIPPermission, corsMiddleware, apiMenuRouter);
+  app.use('/api/permission', checkIPPermission, corsMiddleware, apiPermissionRouter);
+  app.use('/api/permissionGroup', checkIPPermission, corsMiddleware, apiPermissionGroupRouter);
+  app.use('/api/permissionGroupUpload', checkIPPermission, corsMiddleware, apiPermissionGroupUploadRouter);
+  app.use('/api/company', checkIPPermission, corsMiddleware, apiCompanyRouter);
+  app.use('/api/file', checkIPPermission, corsMiddleware, apiFileRouter);
+  app.use('/api/fileVersion', checkIPPermission, corsMiddleware, apiFileVersionRouter);
+  app.use('/api/fileDownloadUrl', checkIPPermission, corsMiddleware, apiFileDownloadUrlRouter);
+  app.use('/api/dashboard', checkIPPermission, corsMiddleware, apiDashboardRouter);
+  app.use('/api/download', checkIPPermission, corsMiddleware, apiDownloadRouter);
 
   // static path setup
   // app.use(express.static(path.join(__dirname, 'public')));
   // app.use('/sync/port', express.static(path.join(__dirname, '/client/')));
-  app.use('/file/image', express.static(path.join(__dirname, '..', '/filesImages/')));
+  app.use('/file/image', checkIPPermission, express.static(path.join(__dirname, '..', '/filesImages/')));
 
   app.use('/file/download', csrfMiddleware, angularFrontRouter);
+
+  app.use(checkIPPermission);
   app.use(express.static(path.join(__dirname, '/client/')));
   app.use('*', csrfMiddleware, checkIPPermission, angularFrontRouter);
 
