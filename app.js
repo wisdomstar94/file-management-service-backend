@@ -162,7 +162,7 @@
   app.use('/api/permissionGroup', checkIPPermission, corsMiddleware, apiPermissionGroupRouter);
   app.use('/api/permissionGroupUpload', checkIPPermission, corsMiddleware, apiPermissionGroupUploadRouter);
   app.use('/api/company', checkIPPermission, corsMiddleware, apiCompanyRouter);
-  app.use('/api/file', checkIPPermission, corsMiddleware, apiFileRouter);
+  app.use('/api/file', corsMiddleware, apiFileRouter);
   app.use('/api/fileVersion', checkIPPermission, corsMiddleware, apiFileVersionRouter);
   app.use('/api/fileDownloadUrl', checkIPPermission, corsMiddleware, apiFileDownloadUrlRouter);
   app.use('/api/dashboard', checkIPPermission, corsMiddleware, apiDashboardRouter);
