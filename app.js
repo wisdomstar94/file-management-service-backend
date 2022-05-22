@@ -175,7 +175,6 @@
 
   app.use('/file/download', csrfMiddleware, angularFrontRouter);
 
-  app.use(checkIPPermission);
   app.use(express.static(path.join(__dirname, '/client/')));
   app.use('*', csrfMiddleware, checkIPPermission, angularFrontRouter);
 
