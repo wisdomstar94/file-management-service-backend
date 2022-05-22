@@ -166,7 +166,7 @@
   app.use('/api/fileVersion', checkIPPermission, corsMiddleware, apiFileVersionRouter);
   app.use('/api/fileDownloadUrl', checkIPPermission, corsMiddleware, apiFileDownloadUrlRouter);
   app.use('/api/dashboard', checkIPPermission, corsMiddleware, apiDashboardRouter);
-  app.use('/api/download', checkIPPermission, corsMiddleware, apiDownloadRouter);
+  app.use('/api/download', corsMiddleware, apiDownloadRouter);
 
   // static path setup
   // app.use(express.static(path.join(__dirname, 'public')));
