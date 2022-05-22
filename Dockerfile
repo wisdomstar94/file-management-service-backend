@@ -117,7 +117,7 @@ RUN /usr/local/go/bin/go get -u github.com/go-sql-driver/mysql
 
 # 컨테이너 구동시 /sh/start_init.sh 실행
 RUN mkdir /sh
-COPY start_init.sh /sh/start_init.sh
+COPY sh/start_init.sh /sh/start_init.sh
 COPY sh/db_init.sh /sh/db_init.sh
 RUN sed -i'' -r -e "/this file has to be sourced in/a\source /sh/start_init.sh" /etc/bash.bashrc
 
